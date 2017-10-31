@@ -2,12 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>订单管理</title>
-        <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}" />
         <link rel="stylesheet" th:href="@{bootstrap/table/bootstrap-table.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/datetimepicker/css/bootstrap-datetimepicker.css}" />
         <script th:src="@{jquery.js}"></script>
         <script th:src="@{bootstrap/js/bootstrap.js}"></script>
         <script th:src="@{bootstrap/table/bootstrap-table.js}"></script>
         <script th:src="@{bootstrap/table/locale/bootstrap-table-zh-CN.js}"></script>
+        <script th:src="@{bootstrap/datetimepicker/js/bootstrap-datetimepicker.js}"></script>
+        <script th:src="@{bootstrap/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
         <script th:src="@{bootstrap/table/extensions/export/bootstrap-table-export.js}"></script>
         <script th:src="@{js/indexPage.js}"></script>
     <meta charset="utf-8" />
@@ -36,7 +39,7 @@
                 <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
             </div>
             <div class="form-group btn-right">
-                <button type="button" class="btn btn-primary" id="addBtn" onclick="addUser();">新增订单</button>
+                <button type="button" class="btn btn-primary " data-toggle="modal" onclick="add();" >新增订单</button>
             </div>
             <div class="form-group btn-right">
                 <button type="button" class="btn btn-primary" id="importBtn" onclick="addUser();">导入订单</button>
@@ -47,5 +50,77 @@
         <table id="result-table">
         </table>
     </div>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="editWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        订单编辑
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <input style="display: none;" id = "id1"/>
+                        <div class="form-group">
+                            <label for="courierNum1" class="col-sm-2 control-label">单号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="courierNum1"
+                                       placeholder="请输入单号"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name1" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name1"
+                                       placeholder="请输入姓名"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNum1" class="col-sm-2 control-label">手机</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="phoneNum1"
+                                       placeholder="请输入手机号"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="orderDate" class="col-sm-2 control-label">下单时间</label>
+                            <div class="col-sm-10">
+                                <div class="input-append date form_datetime" data-date="2013-02-21 15:25:00">
+                                    <input  type="text" class="form-control"  readonly="readonly" id = "orderDate"/>
+                                    <span class="add-on"><i class="icon-remove"></i></span>
+                                    <span class="add-on"><i class="icon-calendar"></i></span>
+                                </div>
+
+                                <script type="text/javascript">
+                                    $(".form_datetime").datetimepicker({
+                                        format: "yyyy-mm-dd hh:ii",
+                                        autoclose: true,
+                                        todayBtn: true,
+                                        language:"zh-CN",
+                                        startDate: "2013-02-14 10:00",
+                                        minuteStep: 10
+                                    });
+                                </script>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="save();">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
     </body>
  </html>

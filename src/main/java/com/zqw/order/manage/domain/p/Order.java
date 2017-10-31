@@ -53,7 +53,7 @@ public class Order extends BasePage implements Serializable {
     }
 
     public void setCourierNum(String courierNum) {
-        this.courierNum = courierNum;
+        this.courierNum = "".equals(courierNum) ? null :courierNum;
     }
 
     public String getPhoneNum() {
@@ -61,7 +61,7 @@ public class Order extends BasePage implements Serializable {
     }
 
     public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
+        this.phoneNum = "".equals(phoneNum) ? null :phoneNum;
     }
 
     public String getName() {
@@ -69,7 +69,7 @@ public class Order extends BasePage implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = "".equals(name) ? null :name;
     }
 
     public String getOrderDate() {
@@ -77,7 +77,7 @@ public class Order extends BasePage implements Serializable {
     }
 
     public void setOrderDate(String orderDate) {
-        this.orderDate = orderDate;
+        this.orderDate = "".equals(orderDate) ? null :orderDate;
     }
 
     public String getRecordDate() {
@@ -85,6 +85,6 @@ public class Order extends BasePage implements Serializable {
     }
 
     public void setRecordDate(String recordDate) {
-        this.recordDate = recordDate;
+        this.recordDate = "".equals(recordDate) ? null :recordDate;
     }
 }

@@ -11,6 +11,8 @@ function initTable(){
         contentType: "application/x-www-form-urlencoded",
         cache: false,
         striped: true,                              //是否显示行间隔色
+        sortName: "id",
+        sortOrder: "desc",
         sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
         url:url,
         height: $(window).height() - 110,
@@ -21,11 +23,14 @@ function initTable(){
         minimumCountColumns:2,
         pageNumber:1,                       //初始化加载第一页，默认第一页
         pageSize: 20,                       //每页的记录行数（*）
-        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+        pageList: [10, 20, 50, 100],        //可供选择的每页的行数（*）
         uniqueId: "id",                     //每一行的唯一标识，一般为主键列
         showExport: true,
         exportDataType: 'all',
         responseHandler: responseHandler,
+        onLoadSuccess: function(){
+
+        },
         columns: [
             {
                 field: '',
@@ -58,7 +63,8 @@ function initTable(){
                 field : 'orderDate',
                 title : '下单时间',
                 align : 'center',
-                valign : 'middle'
+                valign : 'middle',
+                sortable : true
                 // ,
                 // formatter : function (value, row, index){
                 //     return new Date(value).format('yyyy-MM-dd hh:mm:ss');
@@ -67,12 +73,27 @@ function initTable(){
                 field : 'recordDate',
                 title : '记录时间',
                 align : 'center',
-                valign : 'middle'
+                valign : 'middle',
+                sortable : true
                 // ,
                 // formatter : function (value, row, index){
                 //     return new Date(value).format('yyyy-MM-dd hh:mm:ss');
                 // }
-            }]
+            },{
+                field : '',
+                title : '操作',
+                align : 'center',
+                valign : 'middle'
+                ,
+                formatter : function (value, row, index){
+                    return "<a onclick='editData(this);' href='javascript:void(0);'><img " +
+                        "style='width:24px;height: 24px;' src='image/edit.png'/><span style='display: none;'>" + row.id + "</span> " +
+                        "<a href='javascript:void(0);' onclick='deleteData(this);'>" +
+                        "<img  style='width:24px;height: 24px;' src='image/delete.png'/>" +
+                        "<span style='display: none;'>" + row.id + "</span></a>";
+                }
+            }
+        ]
     });
 }
 
@@ -137,4 +158,85 @@ function responseHandler(res) {
             "total" : 0
         };
     }
+}
+
+function editData(node){
+    clearEditForm();
+    var idNode= $(node).find("span");
+    var id = idNode.text();
+    $.ajax({
+        url:"order/" + id,
+        type:"GET",
+        data: null,
+        success:function(result){
+
+            if(200 != result.status){
+                alert(result.info);
+            }else{
+                $("#orderDate").val(result.data.orderDate);
+                $("#name1").val(result.data.name);
+                $("#courierNum1").val(result.data.courierNum);
+                $("#phoneNum1").val(result.data.phoneNum);
+                $("#id1").val(result.data.id);
+                $("#editWindow").modal('show');
+            }
+        }
+    });
+
+}
+
+function clearEditForm(){
+    $("#orderDate").val(null);
+    $("#name1").val(null);
+    $("#courierNum1").val(null);
+    $("#phoneNum1").val(null);
+
+}
+function add() {
+    clearEditForm();
+    $("#editWindow").modal('show');
+}
+function save(){
+    var param = {
+        phoneNum : $("#phoneNum1").val() != "" ? $("#phoneNum1").val() : null,
+        courierNum : $("#courierNum1").val() != "" ? $("#courierNum1").val() : null,
+        orderDate : $("#orderDate").val() != "" ? $("#orderDate").val() : null,
+        name : $("#name1").val() != "" ? $("#name1").val() : null
+
+    }
+    if($("#id1").val() != null){
+        param.id = $("#id1").val();
+    }
+    // var array = new Array();
+    // array[0] = param;
+    $.ajax({
+        url:"order/save",
+        type:"POST",
+        data: param,
+        success:function(result){
+           if(200 != result.status){
+               alert(result.info);
+           }else{
+               $("#editWindow").modal('hide');
+               $('#result-table').bootstrapTable("refresh");
+           }
+        }
+    });
+}
+function deleteData(node){
+    var idNode= $(node).find("span");
+    var id = idNode.text();
+    $.ajax({
+        url:"order/delete/" + id,
+        type:"GET",
+        data: null,
+        success:function(result){
+
+            if(200 != result.status){
+                alert(result.info);
+            }else{
+                $('#result-table').bootstrapTable("refresh");
+            }
+        }
+    });
 }
