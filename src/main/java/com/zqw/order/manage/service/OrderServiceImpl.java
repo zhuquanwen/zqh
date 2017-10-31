@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order findOne(Integer id) {
-        return orderDao.findOne(id.longValue());
+    public Order findOne(Long id) {
+        return orderDao.findOne(id);
     }
 }

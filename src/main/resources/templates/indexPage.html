@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>订单管理</title>
+        <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/table/bootstrap-table.css}" />
+        <script th:src="@{jquery.js}"></script>
+        <script th:src="@{bootstrap/js/bootstrap.js}"></script>
+        <script th:src="@{bootstrap/table/bootstrap-table.js}"></script>
+        <script th:src="@{bootstrap/table/locale/bootstrap-table-zh-CN.js}"></script>
+        <script th:src="@{bootstrap/table/extensions/export/bootstrap-table-export.js}"></script>
+        <script th:src="@{js/indexPage.js}"></script>
+    <meta charset="utf-8" />
+    </head>
+    <body>
+    <div class="row base-margin" id="query" style="width: 95%">
+        <ol class="breadcrumb">
+            <li><strong><span style="color: #27a0d7;padding-left: 10px;">订单列表</span></strong></li>
+        </ol>
+        <form class="form-inline" role="form" style="float: left; width: 100%;padding-left: 35px;" method="post" id="queryForm">
+            <div class="form-group">
+                <label for="phoneNum">手机:</label>
+                <input type="text" class="form-control" name="phoneNum" id="phoneNum"  placeholder="请输入手机号码"/>
+            </div>
+            <div class="form-group">
+                <label for="courierNum">单号:</label>
+                <input type="text" class="form-control" name="courierNum" id="courierNum"  placeholder="请输入单号"/>
+            </div>
+            <div class="form-group">
+                <label >下单日期:</label>
+                <input placeholder="开始日期" class="form-control layer-date" id="startDate" name="startDate"/>
+                <input placeholder="结束日期" class="form-control layer-date" id="endDate" name="endDate"/>
+            </div>
+
+            <div class="form-group">
+                <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
+            </div>
+            <div class="form-group btn-right">
+                <button type="button" class="btn btn-primary" id="addBtn" onclick="addUser();">新增订单</button>
+            </div>
+            <div class="form-group btn-right">
+                <button type="button" class="btn btn-primary" id="importBtn" onclick="addUser();">导入订单</button>
+            </div>
+        </form>
+    </div>
+    <div class="container" style="width: 98%">
+        <table id="result-table">
+        </table>
+    </div>
+    </body>
+ </html>

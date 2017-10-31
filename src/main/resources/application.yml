@@ -9,6 +9,8 @@ server:
 #log
 logging.config: classpath:logback.xml  
 
+
+
 #应用实体类所在的位置
 entityLocation: com.zqw.order.manage.domain.s
   
@@ -28,6 +30,13 @@ spring:
   mvc:
     favicon:
       enabled: true
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
   
       
 ---

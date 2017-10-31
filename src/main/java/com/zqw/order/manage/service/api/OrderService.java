@@ -14,5 +14,5 @@ public interface OrderService {
     void delete(Order order);
     void deleteInBatch(List<Order> orders);
     Page<Order> findUsePage(Pageable pageable);
-    Order findOne(Integer id);
+    Order findOne(Long id);
 }

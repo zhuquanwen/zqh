@@ -55,8 +55,11 @@ public class BasePage implements Serializable {
     }
 
     public void setDirection(String direction) {
+        if(direction == null){
+            direction = "desc";
+        }
 
-        if("DESC".equals(direction)){
+        if("desc".equals(direction)){
             this.direction = Sort.Direction.DESC;
         }else {
             this.direction = Sort.Direction.ASC;

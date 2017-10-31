@@ -21,7 +21,7 @@ public class Order extends BasePage implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(unique = true,length = 32)
     private String courierNum;
@@ -40,11 +40,11 @@ public class Order extends BasePage implements Serializable {
     private Integer size;
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
