@@ -1,7 +1,51 @@
 $(function(){
     initTable();
     initDate();
+    initFileInput();
 });
+
+function initFileInput() {
+
+    var FileInput = function () {
+        var oFile = new Object();
+        //初始化fileinput控件（第一次初始化）
+        oFile.Init = function(ctrlName, uploadUrl) {
+            var control = $('#' + ctrlName);
+
+            //初始化上传控件的样式
+            control.fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: uploadUrl, //上传的地址
+                allowedFileExtensions: ['xls','xlsx'],//接收的文件后缀
+                uploadAsync: true, //默认异步上传
+                showUpload: true, //是否显示上传按钮
+
+                showRemove : true, //显示移除按钮
+                showPreview : true, //是否显示预览
+                showCaption: false,//是否显示标题
+                browseClass: "btn btn-primary", //按钮样式
+                dropZoneEnabled: false,//是否显示拖拽区域
+                maxFileCount: 1, //表示允许同时上传的最大文件个数
+                enctype: 'multipart/form-data',
+                validateInitialCount:true
+            });
+
+            //导入文件上传完成之后的事件
+            $("#txt_file").on("fileuploaded", function (event, data, previewId, index) {
+                var response = data.response;
+                console.log(response);
+                // //1.初始化表格
+                // var oTable = new TableInit();
+                // oTable.Init(data);
+                // $("#div_startimport").show();
+            });
+        }
+        return oFile;
+    };
+    //0.初始化fileinput
+    var oFileInput = new FileInput();
+    oFileInput.Init("txt_file", "importOrder");
+}
 
 function initTable(){
     var url = "order";
@@ -26,7 +70,7 @@ function initTable(){
         pageList: [10, 20, 50, 100],        //可供选择的每页的行数（*）
         uniqueId: "id",                     //每一行的唯一标识，一般为主键列
         showExport: true,
-        exportDataType: 'all',
+        // exportDataType: 'all',
         responseHandler: responseHandler,
         onLoadSuccess: function(){
 
@@ -98,35 +142,52 @@ function initTable(){
 }
 
 function initDate(){
-    var start = {
-        elem: '#startDate',
-        format: 'YYYY-MM-DD hh:mm:ss',
-        min: laydate.now(-7),
-        max: laydate.now(),
-        istime: true,
-        istoday: false,
-        choose: function (datas) {
-            end.min = datas; //开始日选好后，重置结束日的最小日期
-            end.start = datas //将结束日的初始值设定为开始日
+    $("#startDate").datetimepicker({
+        format: "yyyy-mm-dd hh:ii",
+        autoclose: true,
+        todayBtn: true,
+        language:"zh-CN",
+        startDate: "2013-02-14 10:00",
+        minuteStep: 10
+    }).on("changeDate",function(ev){
+        var startDate = $("#startDate").val();
+        $("#endDate").datetimepicker("setStartDate",startDate);
+        $("#startDate").datetimepicker("hide");
+    });
+
+    $("#endDate").datetimepicker({
+        format: "yyyy-mm-dd hh:ii",
+        autoclose: true,
+        todayBtn: true,
+        language:"zh-CN",
+        startDate: "2013-02-14 10:00",
+        minuteStep: 10
+    }).on("changeDate",function(ev){
+        var startDate = $("#startDate").val();
+        var endDate = $("#endDate").val();
+        if(startDate != "" && endDate !=""){
+            if(!checkEndTime(startDate,endDate)){
+                $("#endDate").val("");
+                alert("开始时间不能大于结束时间");
+                return;
+            }
         }
-    };
-    var end = {
-        elem: '#endDate',
-        format: 'YYYY-MM-DD hh:mm:ss',
-        min: laydate.now(-7),
-        max: laydate.now(),
-        istime: true, //是否开启时间选择
-        isclear: true, //是否显示清空
-        istoday: true, //是否显示今天
-        issure: true, //是否显示确认
-        choose: function (datas) {
-            start.max = datas; //结束日选好后，重置开始日的最大日期
-        }
-    };
-    laydate(start);
-    laydate(end);
+        $("#startDate").datetimepicker("setEndDate",endDate);
+        $("#endDate").datetimepicker("hide");
+    });
+    $("#startDate").datetimepicker("setEndDate",null);
+    $("#endDate").datetimepicker("setStartDate",null);
+    $("#startDate").val(null);
+    $("#endDate").val(null);
 }
 
+function checkEndTime(startDate,endDate){
+    if(startDate > endDate){
+        return false;
+    }else{
+        return true;
+    }
+}
 
 
 function queryParams(params) {
@@ -239,4 +300,38 @@ function deleteData(node){
             }
         }
     });
+}
+
+function getCurrentTime(){
+    Date.prototype.format = function(format) {
+        var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S+": this.getMilliseconds()
+        };
+        if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
+        for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                    ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+            }
+        }
+        return format;
+    }
+    var newDate = new Date();
+    return newDate.format('yyyy-MM-dd h:m:s');
+}
+
+function query(){
+    $('#result-table').bootstrapTable("refresh");
+}
+
+function importOrder(){
+    $("#importWindow").modal('show');
 }

@@ -34,11 +34,12 @@ public class Order extends BasePage implements Serializable {
     @Column
     private String recordDate;
 
-    @Transient
-    private Integer page;
-    @Transient
-    private Integer size;
 
+
+    @Transient
+    private String startDate;
+    @Transient
+    private String endDate;
 
     public Long getId() {
         return id;
@@ -86,5 +87,22 @@ public class Order extends BasePage implements Serializable {
 
     public void setRecordDate(String recordDate) {
         this.recordDate = "".equals(recordDate) ? null :recordDate;
+    }
+
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = "".equals(startDate) ? null : startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = "".equals(endDate) ? null : endDate;
     }
 }

@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>订单管理</title>
-        <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.css}" />
         <link rel="stylesheet" th:href="@{bootstrap/table/bootstrap-table.css}" />
         <link rel="stylesheet" th:href="@{bootstrap/datetimepicker/css/bootstrap-datetimepicker.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/fileinput/css/fileinput.css}" />
         <script th:src="@{jquery.js}"></script>
         <script th:src="@{bootstrap/js/bootstrap.js}"></script>
         <script th:src="@{bootstrap/table/bootstrap-table.js}"></script>
@@ -12,6 +13,8 @@
         <script th:src="@{bootstrap/datetimepicker/js/bootstrap-datetimepicker.js}"></script>
         <script th:src="@{bootstrap/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
         <script th:src="@{bootstrap/table/extensions/export/bootstrap-table-export.js}"></script>
+        <script th:src="@{bootstrap/fileinput/js/fileinput.js}"></script>
+        <script th:src="@{bootstrap/fileinput/js/locales/zh.js}"></script>
         <script th:src="@{js/indexPage.js}"></script>
     <meta charset="utf-8" />
     </head>
@@ -30,19 +33,31 @@
                 <input type="text" class="form-control" name="courierNum" id="courierNum"  placeholder="请输入单号"/>
             </div>
             <div class="form-group">
-                <label >下单日期:</label>
-                <input placeholder="开始日期" class="form-control layer-date" id="startDate" name="startDate"/>
-                <input placeholder="结束日期" class="form-control layer-date" id="endDate" name="endDate"/>
+
+                    <div class="input-append date form_datetime" data-date="2013-02-21 15:25:00" id = "startDiv">
+                        下单日期: <input  type="text" class="form-control"  readonly="readonly" id = "startDate"/>
+                        <span class="add-on"><i class="icon-remove"></i></span>
+                        <span class="add-on"><i class="icon-calendar"></i></span>
+                    </div>
+
+                <!--<input placeholder="结束日期" class="form-control layer-date" id="endDate" name="endDate"/>-->
+            </div>
+            <div class="form-group">
+                <div class="input-append date form_datetime" data-date="2013-02-21 15:25:00">
+                    <input  type="text" class="form-control"  readonly="readonly" id = "endDate"/>
+                    <span class="add-on"><i class="icon-remove"></i></span>
+                    <span class="add-on"><i class="icon-calendar"></i></span>
+                </div>
             </div>
 
             <div class="form-group">
-                <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
+                <button type="button" id="queryBtn" onclick="query();" class="btn btn-primary">查询</button>
             </div>
             <div class="form-group btn-right">
                 <button type="button" class="btn btn-primary " data-toggle="modal" onclick="add();" >新增订单</button>
             </div>
             <div class="form-group btn-right">
-                <button type="button" class="btn btn-primary" id="importBtn" onclick="addUser();">导入订单</button>
+                <button type="button" class="btn btn-primary" id="importBtn" onclick="importOrder();">导入订单</button>
             </div>
         </form>
     </div>
@@ -90,14 +105,14 @@
                         <div class="form-group">
                             <label for="orderDate" class="col-sm-2 control-label">下单时间</label>
                             <div class="col-sm-10">
-                                <div class="input-append date form_datetime" data-date="2013-02-21 15:25:00">
+                                <div id="orderDatePicker" class="input-append date form_datetime" data-date="2013-02-21 15:25:00">
                                     <input  type="text" class="form-control"  readonly="readonly" id = "orderDate"/>
                                     <span class="add-on"><i class="icon-remove"></i></span>
                                     <span class="add-on"><i class="icon-calendar"></i></span>
                                 </div>
 
                                 <script type="text/javascript">
-                                    $(".form_datetime").datetimepicker({
+                                    $("#orderDatePicker").datetimepicker({
                                         format: "yyyy-mm-dd hh:ii",
                                         autoclose: true,
                                         todayBtn: true,
@@ -122,5 +137,32 @@
         </div><!-- /.modal -->
     </div>
 
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="importWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel1">
+                        导入订单
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <a href="bb.xls" class="form-control" style="border:none;" target="_blank">下载导入模板</a>
+                    <input type="file" name="txt_file" id="txt_file" multiple="multiple" class="file-loading" />
+                </div>
+               <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="save();">
+                        提交
+                    </button>
+                </div>-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
     </body>
  </html>

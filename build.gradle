@@ -32,5 +32,12 @@ dependencies {
 //	compile group: 'org.webjars', name: 'jquery', version: '3.2.1'
 	compile "org.springframework.boot:spring-boot-starter-thymeleaf"
 
+	compile group: 'org.apache.poi', name: 'poi', version: '3.17'
+	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.9'
+	compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.6.0'
+	compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
+
+
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

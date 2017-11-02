@@ -3,6 +3,7 @@ package com.zqw.order.manage.controller;
 import com.zqw.order.manage.domain.p.Order;
 import com.zqw.order.manage.entity.BasePageResult;
 import com.zqw.order.manage.entity.ResponseEntity;
+import com.zqw.order.manage.service.ExcelReadService;
 import com.zqw.order.manage.service.api.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,14 +12,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @SuppressWarnings("Duplicates")
 @Controller
@@ -30,6 +34,31 @@ public class OrderController {
     public String index(){
         return "indexPage";
     }
+
+
+    //处理文件上传
+    @RequestMapping(value="/importOrder", method = RequestMethod.POST)
+    public @ResponseBody String uploadImg(HttpServletRequest request) throws Exception{
+        request.setCharacterEncoding("UTF-8");
+
+        Map<String, Object> json = new HashMap<String, Object>();
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+        /** 页面控件的文件流* */
+        MultipartFile multipartFile = null;
+        Map map =multipartRequest.getFileMap();
+        for (Iterator i = map.keySet().iterator(); i.hasNext();) {
+            Object obj = i.next();
+            multipartFile=(MultipartFile) map.get(obj);
+            /** 获取文件的后缀* */
+            String filename = multipartFile.getOriginalFilename();
+            System.out.println(filename);
+        }
+
+        //返回json
+        return "uploadimg success";
+    }
+
 
     @RequestMapping(value = "/order/save", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity saveOrder( Order  order){
@@ -88,7 +117,8 @@ public class OrderController {
             }
             Sort sort = new Sort(order.getDirection(), order.getField());
             Pageable pageable = new PageRequest(order.getPage(), order.getSize(), sort);
-            Page<Order> page = orderService.findUsePage(pageable);
+//            Page<Order> page = orderService.findUsePage(pageable);
+            Page<Order> page = orderService.findByPageAndParams(order,pageable);
            bpr.setResult(page.getContent());
            bpr.setTotalCount(page.getTotalElements());
 //        }catch (Exception e){
