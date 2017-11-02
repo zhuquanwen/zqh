@@ -12,23 +12,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @SuppressWarnings("Duplicates")
 @Controller
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ExcelReadService excelReadService;
 
     @RequestMapping(value ="/index")
     public String index(){
@@ -38,25 +40,56 @@ public class OrderController {
 
     //处理文件上传
     @RequestMapping(value="/importOrder", method = RequestMethod.POST)
-    public @ResponseBody String uploadImg(HttpServletRequest request) throws Exception{
-        request.setCharacterEncoding("UTF-8");
-
+    public @ResponseBody Map<String,Object> uploadImg(HttpServletRequest request) {
         Map<String, Object> json = new HashMap<String, Object>();
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
-        /** 页面控件的文件流* */
-        MultipartFile multipartFile = null;
-        Map map =multipartRequest.getFileMap();
-        for (Iterator i = map.keySet().iterator(); i.hasNext();) {
-            Object obj = i.next();
-            multipartFile=(MultipartFile) map.get(obj);
-            /** 获取文件的后缀* */
-            String filename = multipartFile.getOriginalFilename();
-            System.out.println(filename);
+
+        try{
+            request.setCharacterEncoding("UTF-8");
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+            /** 页面控件的文件流* */
+            MultipartFile multipartFile = null;
+            Map map =multipartRequest.getFileMap();
+            for (Iterator i = map.keySet().iterator(); i.hasNext();) {
+                Object obj = i.next();
+                multipartFile=(MultipartFile) map.get(obj);
+//                InputStream inputStream;
+//                String path = "";
+//                String newVersionName = "";
+//                String fileMd5 = "";
+//
+//                    String filename = multipartFile.getOriginalFilename();
+//                    inputStream = multipartFile.getInputStream();
+//                    File tmpFile = File.createTempFile(filename,
+//                            filename.substring(filename.lastIndexOf(".")));
+////                    fileMd5 = Files.hash(tmpFile, Hashing.md5()).toString();
+//                    FileUtils.copyInputStreamToFile(inputStream, tmpFile);
+////                    FileUpload.
+//
+//                    tmpFile.delete();
+
+                List<Order> orderList = excelReadService.readExcel(multipartFile);
+//                tmpFile.delete();
+                orderService.save(orderList);
+
+            }
+            json.put("newVersionName", null);
+            json.put("fileMd5", null);
+            json.put("message", "导入成功");
+            json.put("status", true);
+            json.put("filePath", null);
+            //返回json
+        }catch (Exception e){
+            e.printStackTrace();
+            json.put("newVersionName", null);
+            json.put("fileMd5", null);
+            json.put("message", "导入失败,请确保EXCEL数据格式正确，且单号与已录入的单号不重复");
+            json.put("status", false);
+            json.put("filePath", null);
         }
 
-        //返回json
-        return "uploadimg success";
+        return json;
     }
 
 

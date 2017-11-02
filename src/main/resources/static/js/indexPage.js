@@ -1,8 +1,15 @@
+var searchFlag = false;
 $(function(){
     initTable();
     initDate();
     initFileInput();
+    initImportModalHiden();
 });
+function initImportModalHiden(){
+    $('#importWindow').on('hidden.bs.modal', function () {
+        $('#result-table').bootstrapTable("refresh");
+    })
+}
 
 function initFileInput() {
 
@@ -24,8 +31,8 @@ function initFileInput() {
                 showPreview : true, //是否显示预览
                 showCaption: false,//是否显示标题
                 browseClass: "btn btn-primary", //按钮样式
-                dropZoneEnabled: false,//是否显示拖拽区域
-                maxFileCount: 1, //表示允许同时上传的最大文件个数
+                dropZoneEnabled: true,//是否显示拖拽区域
+                maxFileCount: 5, //表示允许同时上传的最大文件个数
                 enctype: 'multipart/form-data',
                 validateInitialCount:true
             });
@@ -33,7 +40,11 @@ function initFileInput() {
             //导入文件上传完成之后的事件
             $("#txt_file").on("fileuploaded", function (event, data, previewId, index) {
                 var response = data.response;
-                console.log(response);
+                if(!response.status){
+                    alert(response.message);
+                }else{
+
+                }
                 // //1.初始化表格
                 // var oTable = new TableInit();
                 // oTable.Init(data);
@@ -48,6 +59,7 @@ function initFileInput() {
 }
 
 function initTable(){
+
     var url = "order";
     $('#result-table').bootstrapTable({
         method:'POST',
@@ -190,7 +202,7 @@ function checkEndTime(startDate,endDate){
 }
 
 
-function queryParams(params) {
+function queryParams() {
     var param = {
         phoneNum : $("#phoneNum").val(),
         courierNum : $("#courierNum").val(),
@@ -203,7 +215,11 @@ function queryParams(params) {
         field :this.sortName,
         direction :this.sortOrder
     }
-
+    if(searchFlag){
+        param.page = 0;
+        this.pageNumber = 1;
+        searchFlag = false;
+    }
     return param;
 }
 
@@ -329,7 +345,11 @@ function getCurrentTime(){
 }
 
 function query(){
+    // $('#result-table').bootstrapTable('refreshOptions',{pageNumber:1});
+    searchFlag = true;
     $('#result-table').bootstrapTable("refresh");
+    searchFlag = false;
+
 }
 
 function importOrder(){

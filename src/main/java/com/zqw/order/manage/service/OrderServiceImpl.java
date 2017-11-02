@@ -65,11 +65,11 @@ public class OrderServiceImpl implements OrderService{
             Path<String> orderDate = root.get("orderDate");
             List<Predicate> pres = new ArrayList<Predicate>();
             if(!StringUtils.isEmpty(order.getPhoneNum())){
-                Predicate p1 = cb.like(phoneNum, order.getPhoneNum());
+                Predicate p1 = cb.like(phoneNum, "%" + order.getPhoneNum() + "%");
                 pres.add(p1);
             }
             if(!StringUtils.isEmpty(order.getCourierNum())){
-                Predicate p2 = cb.like(courierNum, order.getCourierNum());
+                Predicate p2 = cb.like(courierNum, "%" + order.getCourierNum() + "%");
                 pres.add(p2);
             }
             if(!StringUtils.isEmpty(order.getStartDate()) && !StringUtils.isEmpty(order.getEndDate())){
