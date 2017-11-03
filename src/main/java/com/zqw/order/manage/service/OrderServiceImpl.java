@@ -89,4 +89,9 @@ public class OrderServiceImpl implements OrderService{
         };
         return orderDao.findAll(spec, pageable);
     }
+
+    @Override
+    public List<Order> findByPhoneNum(String phoneNum) {
+        return orderDao.findByPhoneNum(phoneNum);
+    }
 }

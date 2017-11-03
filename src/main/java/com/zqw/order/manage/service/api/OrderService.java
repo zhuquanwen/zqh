@@ -16,4 +16,5 @@ public interface OrderService {
     Page<Order> findUsePage(Pageable pageable);
     Order findOne(Long id);
     Page<Order> findByPageAndParams(Order order,Pageable pageable);
+    List<Order> findByPhoneNum(String phoneNum);
 }

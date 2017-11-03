@@ -91,6 +91,11 @@ public class OrderController {
         return "login";
     }
 
+    @RequestMapping(value="/search")
+    public String search() throws PageException{
+        return "getCourier";
+    }
+
     @RequestMapping(value ="/index")
     public String index(HttpSession session) throws PageException{
         try{
@@ -269,6 +274,36 @@ public class OrderController {
         try{
            Order order = orderService.findOne(id);
            re.setData(order);
+        }catch (Exception e){
+            e.printStackTrace();
+            re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            re.setInfo("操作出错");
+        }
+        return re;
+    }
+
+    @RequestMapping(value = "/order/phoneNum/{phoneNum}", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity getOrderByPhoneNum(@PathVariable String phoneNum){
+        ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(),"操作成功");
+        try{
+            String data = "";
+            List<Order> orders = orderService.findByPhoneNum(phoneNum);
+            if(orders == null || orders.size() == 0){
+                data = "物流查询与官方数据延迟2-5天,请粉丝们耐心等待";
+            }else{
+                if(orders.size() == 1){
+                    data = "查询到的单号为:";
+                }else{
+                    data = "查询到" + orders.size() + "个单号,分别为:";
+                }
+                data += "<strong>";
+                for (Order order: orders) {
+                    data += order.getCourierNum() + ",";
+                }
+                data = data.substring(0,data.length()-1);
+                data += "</strong>";
+            }
+            re.setData(data);
         }catch (Exception e){
             e.printStackTrace();
             re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());

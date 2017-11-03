@@ -14,6 +14,6 @@ import java.util.List;
  * @desc:
  */
 public interface OrderDao extends JpaRepository<Order,Long>, JpaSpecificationExecutor<Order> {
-    List<Order> findOrderByPhoneNum(String phoneNum);
+    List<Order> findByPhoneNum(String phoneNum);
 
 }
