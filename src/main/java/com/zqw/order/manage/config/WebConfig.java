@@ -2,6 +2,7 @@ package com.zqw.order.manage.config;
 
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+
 import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,10 +24,10 @@ public class WebConfig {
             @Override
             public void customize(ConfigurableEmbeddedServletContainer container) {
 
-                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404");
-                ErrorPage error502Page = new ErrorPage(HttpStatus.BAD_GATEWAY, "/502");
-                ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500");
-                ErrorPage errorValidPage = new ErrorPage(HttpStatus.BAD_REQUEST,"/400");
+                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
+                ErrorPage error502Page = new ErrorPage(HttpStatus.BAD_GATEWAY, "/502.html");
+                ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
+                ErrorPage errorValidPage = new ErrorPage(HttpStatus.BAD_REQUEST,"/400.html");
                 container.addErrorPages(error404Page,error502Page,error500Page,errorValidPage);
 
             }

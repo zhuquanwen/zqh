@@ -43,4 +43,7 @@ public class JacksonUtils {
     public static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
         return om.getTypeFactory().constructParametricType(collectionClass, elementClasses);
         }
+    public static void main(String[] args){
+        System.out.print(11111);
+    }
 }

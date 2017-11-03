@@ -1,10 +1,64 @@
 var searchFlag = false;
 $(function(){
     initTable();
-    initDate();
+    // initDate();
     initFileInput();
     initImportModalHiden();
+    initValidator();
 });
+function initValidator(){
+
+    $('#editForm').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            name1: {
+                message: '用户名验证失败',
+                validators: {
+                    stringLength: {
+                        min: 2,
+                        max: 15,
+                        message: '用户名长度必须在2到15位之间'
+                    }
+                }
+            },
+            courierNum1: {
+                validators: {
+                    notEmpty: {
+                        message: '单号不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]*$/,
+                        message: '单号必须为数字组成'
+                    }
+                }
+            },
+            phoneNum1: {
+                validators: {
+                    notEmpty: {
+                        message: '手机号码不能为空'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 11,
+                        message: '手机号码必须在6到11位之间'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]*$/,
+                        message: '手机号码必须为数字组成'
+                    }
+                }
+            }
+
+        }
+        });
+
+}
+
 function initImportModalHiden(){
     $('#importWindow').on('hidden.bs.modal', function () {
         $('#result-table').bootstrapTable("refresh");
@@ -81,13 +135,21 @@ function initTable(){
         pageSize: 20,                       //每页的记录行数（*）
         pageList: [10, 20, 50, 100],        //可供选择的每页的行数（*）
         uniqueId: "id",                     //每一行的唯一标识，一般为主键列
-        showExport: true,
+        // showExport: true,
         // exportDataType: 'all',
         responseHandler: responseHandler,
+        showRefresh: true,                  //是否显示刷新按钮
         onLoadSuccess: function(){
 
         },
+        onLoadError: function(status){  //加载失败时执行
+
+            alert("加载数据出错!");
+        },
         columns: [
+            {
+                field:"checkbox",checkbox: true,title:"选择",class:"tablebody",align:"center",valign:"middle",
+            },
             {
                 field: '',
                 title: '序号',
@@ -274,6 +336,11 @@ function add() {
     $("#editWindow").modal('show');
 }
 function save(){
+    var validate = $('#editForm').bootstrapValidator('validate');
+    var isValid = $("#editForm").data('bootstrapValidator').isValid();
+    if(!isValid){
+        return;
+    }
     var param = {
         phoneNum : $("#phoneNum1").val() != "" ? $("#phoneNum1").val() : null,
         courierNum : $("#courierNum1").val() != "" ? $("#courierNum1").val() : null,
@@ -354,4 +421,35 @@ function query(){
 
 function importOrder(){
     $("#importWindow").modal('show');
+}
+
+function deleteInBatch(){
+    var a= $("#result-table").bootstrapTable('getSelections');
+    if(a.length<=0){
+        alert("请选中一个复选框再进行删除操作");
+    }else{
+       $.each(a,function(index,data){
+           console.log(data);
+           delete data.checkbox;
+       })
+        console.log(a);
+        var json=JSON.stringify(a);
+        var url="order/deleteInBatch";
+        $.ajax({
+            dataType: "json",
+            traditional:true,//这使json格式的字符不会被转码
+            data: {"orderList": json},
+            type: "post",
+            url: url,
+            success : function (data) {
+                // alert(data.info);
+                searchFlag = true;
+                $('#result-table').bootstrapTable("refresh");
+                searchFlag = false;
+            },
+            error : function (data){
+                alert("删除出错!");
+            }
+        });
+    }
 }

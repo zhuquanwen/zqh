@@ -9,7 +9,8 @@ server:
 #log
 logging.config: classpath:logback.xml  
 
-
+#管理员用户名密码
+usr_pwd: zqh,zqh;admin,admin
 
 #应用实体类所在的位置
 entityLocation: com.zqw.order.manage.domain.s

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>登录</title>
+    <link rel="icon" type="image/x-icon" th:href="@{favicon.ico}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{css/common.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{plugin/css/style.css}"/>
+    <script type="text/javascript" th:src="@{jquery.js}"></script>
+    <script type="text/javascript" th:src="@{jquery-cookie.js}"></script>
+
+
+    <script type="text/javascript" th:src="@{js/login.js}"></script>
+
+    <script >
+
+
+
+        //onload = prepareLoginForm;
+    </script>
+</head>
+<body
+        style="background-color:#1c77ac; background-image:url('image/light.png'); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
+
+<div class="logintop">
+    <span>欢迎登录</span>
+    <ul>
+
+        <li><a href="#">帮助</a>
+        </li>
+        <li><a href="#">关于</a>
+        </li>
+
+    </ul>
+</div>
+<div class="loginbody">
+    <span class="systemlogo"></span>
+    <div class="loginbox">
+        <form id="myLoginForm" method="post" action="" th:action="turnIndex" onsubmit="return beforeLogin();">
+            <ul>
+                <li><input name="username" type="text" class="loginuser" value=""
+                           onclick="JavaScript:this.value=''" />
+                </li>
+                <li style = "margin-bottom:10px;">
+                    <input name="password" type="password" class="loginpwd" value=""
+                           onclick="JavaScript:this.value=''" />
+                </li>
+
+                <li><input name="submit" type="submit" class="loginbtn" value="登录"/><label>
+                    <input id="checkbox" name="" type="checkbox" value="" checked="checked" />记住账号</label>
+                    <!-- <label><a href="#">用户注册</a>
+            </label>-->
+                    <span style="color:red;font-size:14px;" id = "errorSpan"></span>
+                </li>
+
+
+            </ul>
+        </form>
+
+    </div>
+</div>
+<div class="loginbm">
+    版权所有 2015
+</div>
+
+
+</body>
+</html>

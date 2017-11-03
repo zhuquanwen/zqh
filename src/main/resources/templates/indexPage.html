@@ -4,17 +4,20 @@
         <title>订单管理</title>
         <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.css}" />
         <link rel="stylesheet" th:href="@{bootstrap/table/bootstrap-table.css}" />
-        <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap-datetimepicker.css}" />
-        <link rel="stylesheet" th:href="@{bootstrap/css/fileinput.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/datetimepicker/css/bootstrap-datetimepicker.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/fileinput/css/fileinput.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/viladator/css/bootstrapValidator.css}" />
         <script th:src="@{jquery.js}"></script>
         <script th:src="@{bootstrap/js/bootstrap.js}"></script>
         <script th:src="@{bootstrap/table/bootstrap-table.js}"></script>
         <script th:src="@{bootstrap/table/locale/bootstrap-table-zh-CN.js}"></script>
-        <script th:src="@{bootstrap/js/bootstrap-datetimepicker.js}"></script>
-        <script th:src="@{bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+        <script th:src="@{bootstrap/datetimepicker/js/bootstrap-datetimepicker.js}"></script>
+        <script th:src="@{bootstrap/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
         <script th:src="@{bootstrap/table/extensions/export/bootstrap-table-export.js}"></script>
-        <script th:src="@{bootstrap/js/fileinput.js}"></script>
-        <script th:src="@{bootstrap/js/locales/zh.js}"></script>
+        <script th:src="@{bootstrap/fileinput/js/fileinput.js}"></script>
+        <script th:src="@{bootstrap/fileinput/js/locales/zh.js}"></script>
+        <script th:src="@{bootstrap/viladator/js/bootstrapValidator.js}"></script>
+        <script th:src="@{bootstrap/viladator/js/language/zh_CN.js}"></script>
         <script th:src="@{js/indexPage.js}"></script>
     <meta charset="utf-8" />
     </head>
@@ -95,6 +98,10 @@
             <div class="form-group btn-right">
                 <button type="button" class="btn btn-primary" id="importBtn" onclick="importOrder();">导入订单</button>
             </div>
+
+            <div class="form-group btn-right">
+                <button type="button" class="btn btn-warning" id="batchDelete" onclick="deleteInBatch();">批量删除</button>
+            </div>
         </form>
     </div>
     <div class="container" style="width: 98%">
@@ -115,26 +122,26 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" role="form">
+                    <form class="form-horizontal" role="form" id = "editForm">
                         <input style="display: none;" id = "id1"/>
                         <div class="form-group">
                             <label for="courierNum1" class="col-sm-2 control-label">单号</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="courierNum1"
+                                <input type="text" class="form-control" id="courierNum1" name="courierNum1"
                                        placeholder="请输入单号"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="name1" class="col-sm-2 control-label">姓名</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name1"
+                                <input type="text" class="form-control" id="name1" name="name1"
                                        placeholder="请输入姓名"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="phoneNum1" class="col-sm-2 control-label">手机</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="phoneNum1"
+                                <input type="text" class="form-control" id="phoneNum1" name="phoneNum1"
                                        placeholder="请输入手机号"/>
                             </div>
                         </div>
@@ -147,7 +154,7 @@
                                     <span class="add-on"><i class="icon-calendar"></i></span>
                                 </div>-->
                                 <div id = "orderDateDiv" class="input-group date form_datetime " data-date="2020-01-01 00:00:00" data-date-format="yyyy-mm-dd hh:ii" data-link-field="endDate">
-                                    <input class="form-control" size="20" type="text" value="" readonly="readonly"/>
+                                    <input class="form-control" size="20" type="text" value="" readonly="readonly" name="orderDate"/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
@@ -194,7 +201,7 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <a href="bb.xls" class="form-control" style="border:none;" target="_blank">下载导入模板</a>
+                    <a href="模板.xls" class="form-control" style="border:none;" target="_blank">下载导入模板</a>
                     <input type="file" name="txt_file" id="txt_file" multiple="multiple" class="file-loading" />
                 </div>
                <!-- <div class="modal-footer">
