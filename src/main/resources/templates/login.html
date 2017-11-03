@@ -51,10 +51,10 @@
                     <input id="checkbox" name="" type="checkbox" value="" checked="checked" />记住账号</label>
                     <!-- <label><a href="#">用户注册</a>
             </label>-->
-                    <span style="color:red;font-size:14px;" id = "errorSpan"></span>
+
+                    <span style="color:#ff2215;font-size:14px;" id = "errorSpan" th:text="${session.LOGIN_MESSAGE}"></span>
+
                 </li>
-
-
             </ul>
         </form>
 

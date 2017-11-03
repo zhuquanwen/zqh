@@ -42,10 +42,12 @@ public class OrderController {
 
     private static String encodeKey = "zhuquanhong";
     private static String USER_SESSION = "USER_SESSION";
+    private static String LOGIN_MESSAGE = "LOGIN_MESSAGE";
 
     @RequestMapping("/turnIndex")
     public ModelAndView turnIndex(HttpSession session,String username, String password){
         ModelAndView mav = new ModelAndView();
+        String message = "0";
         try{
             if(usrPwdMap.size() == 0){
                 String[] strs = usrPwd.split(";");
@@ -57,26 +59,30 @@ public class OrderController {
                 }
             }
             if(usrPwdMap.get(username) == null){
+                message= "1";
+                message = "用户不存在";
                 mav.setViewName("login");
-                mav.addObject("没有此用户!");
             }else{
                 Map<String, String> map = usrPwdMap.get(username);
                 String pwd = map.get("password");
                 if(! pwd.equals(password)){
+                    message= "2";
+                    message = "密码错误";
                     mav.setViewName("login");
-                    mav.addObject("密码错误!");
                 }else{
                     //记录session
                     session.setAttribute(USER_SESSION, EncodeUtils.aesEncrypt(username,encodeKey));
                     mav.setViewName("redirect:/index");
-                    mav.addObject("登录出错!");
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
+            message= "3";
+            message = "登录出错";
             mav.setViewName("login");
-            mav.addObject("登录出错!");
+
         }
+        session.setAttribute(LOGIN_MESSAGE, message);
         return mav;
     }
 

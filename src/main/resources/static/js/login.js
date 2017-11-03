@@ -8,6 +8,8 @@ function GetQueryString(name)
      if(r!=null)return  unescape(r[2]); return null;
 }
 
+
+
 $(function() {
 	$('.loginbox').css({
 		'position' : 'absolute',
@@ -23,7 +25,9 @@ $(function() {
 		
 	});
 	readAccountInCookie();
+	initErrorSpan();
 });
+
 
 
 
