@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>阿迪2017明星同款套装免费送</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <link type="text/css" rel="stylesheet" th:href="@{shopping/base.css}"/>
+    <link rel="stylesheet" th:href="@{shopping/swiper.min.css}"/>
+    <script type="text/javascript" th:src="@{shopping/jquery-1.11.3.js}"></script>
+    <script type="text/javascript" th:src="@{shopping/jquery.SuperSlide.2.1.1.js}"></script>
+    <script type="text/javascript" th:src="@{shopping/getarea.js}"></script>
+    <script th:src="@{shopping/swiper.min.js}"></script>
+
+</head>
+
+<body >
+
+<div id="page">
+
+    <div class="pt-22">
+
+        <div class="top">
+            <p>阿迪2017明星同款套装免费送</p>
+            <img th:src="@{shopping/1508331001.jpg}"/>
+            <img th:src="@{shopping/1508326972.jpg}"/>
+            <img th:src="@{shopping/1508333142.jpg}"/>
+            <img th:src="@{shopping/1508328458.jpg}"/>
+            <img th:src="@{shopping/1508327331.jpg}"/>
+            <img th:src="@{shopping/1508323877.jpg}"/>
+            <img th:src="@{shopping/1508328648.jpg}"/>
+            <img th:src="@{shopping/1508330630.jpg}"/>
+            <img th:src="@{shopping/1508332512.jpg}"/>
+            <img th:src="@{shopping/1508329145.jpg}"/>
+        </div>
+
+        <div class="btn">
+
+            <div class="sp" style="display: none;">
+                <!--                     <p>请选择产品</p> -->
+                <div class="quan">
+
+                    <div class="sp1">
+                        <img th:src="@{shopping/1508243862.jpg}"/>
+                        <div>
+                            <input type="radio" name="shangpin" value="商品名"/>
+                            <span>阿迪2017明星同款套装免费送</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="b1">
+                <p>姓名&nbsp;<span style="color:#F00;">*</span></p>
+                <div class="tu1">
+                    <img th:src="@{shopping/wo.png}"/>
+                    <input type="text" name="name" id="name" value=""/>
+                </div>
+            </div>
+
+            <div class="b1">
+                <p>手机 务必填写正确手机号&nbsp;<span style="color:#F00;">*</span></p>
+                <div class="tu1">
+                    <img th:src="@{shopping/515151.png}"/>
+                    <input type="text" name="tel" id="tel" value=""/>
+                </div>
+            </div>
+            <div class="b1">
+                <p>电话卡充值类型</p>
+                <div class="niu">
+                    <p><input type="radio" name="teltype" value="联通充值卡"/>联通充值卡</p>
+                    <p><input type="radio" name="teltype" value="移动充值卡"/>移动充值卡</p>
+                    <p><input type="radio" name="teltype" value="电信充值卡"/>电信充值卡</p>
+
+                </div>
+            </div>
+            <div class="b1">
+                <p>地址 务必填写正确的收货地址如有缺少不予发货&nbsp;<span style="color:#F00;">*</span></p>
+                <div class="add">
+                    <div>
+                        <select size="1" name="postarea_prov" id="postarea_prov" onchange="">
+                            <option value="-1">-省/自治区/直辖市-</option>
+                            <option value="1000">北京市</option><option value="1500">天津市</option><option value="2000">河北省</option><option value="2500">山西省</option><option value="3000">内蒙古自治区</option><option value="3500">辽宁省</option><option value="4000">吉林省</option><option value="4500">黑龙江省</option><option value="5000">上海市</option><option value="5500">江苏省</option><option value="6000">浙江省</option><option value="6500">安徽省</option><option value="7000">福建省</option><option value="7500">江西省</option><option value="8000">山东省</option><option value="8500">河南省</option><option value="9000">湖北省</option><option value="9500">湖南省</option><option value="10000">广东省</option><option value="10500">广西壮族自治区</option><option value="11000">海南省</option><option value="11500">重庆市</option><option value="12000">四川省</option><option value="12500">贵州省</option><option value="13000">云南省</option><option value="13500">西藏自治区</option><option value="14000">陕西省</option><option value="14500">甘肃省</option><option value="15000">青海省</option><option value="15500">宁夏回族自治区</option><option value="16000">新疆维吾尔自治区</option><option value="16500">台湾省</option><option value="17000">香港特别行政区</option><option value="17500">澳门特别行政区</option>
+                        </select>
+                        <select size="1" name="postarea_city" id="postarea_city" onchange="">
+                            <option value="-1">-市-</option>
+
+                        </select>
+                    </div>
+                    <select size="1" name="postarea_country" id="postarea_country">
+                        <option>-区/县-</option>
+                    </select>
+                    <input type="text" name="address" class="input" id="address" placeholder="详细地址"/>
+
+                </div>
+
+            </div>
+            <div class="b1 gai">
+                <p class="xiug">选择款式 <span style="color:#F00;">*</span> </p>
+                <input type="hidden" class="attid" value="41"/>
+                <select size="1" name="attr[41]" class="attr">
+                    <option value="">-请选择-</option>
+
+                    <option value="男款-黑色">男款-黑色</option>
+
+                    <option value="男款-白色">男款-白色</option>
+
+                    <option value="女款-黑色">女款-黑色</option>
+
+                    <option value="女款-白色">女款-白色</option>
+                </select>
+
+            </div>
+            <div class="b1 gai">
+                <p class="xiug">选择尺码 <span style="color:#F00;">*</span> </p>
+                <input type="hidden" class="attid" value="42"/>
+                <select size="1" name="attr[42]" class="attr">
+                    <option value="">-请选择-</option>
+
+                    <option value="S">S</option>
+
+                    <option value="M">M</option>
+
+                    <option value="L">L</option>
+
+                    <option value="XL">XL</option>
+
+                    <option value="XXL">XXL</option>
+
+                    <option value="XXXL">XXXL</option>
+
+                    <option value="XXXXL">XXXXL</option>
+                </select>
+
+            </div>
+            <div class="b1">
+                <p>邮费自理&nbsp;<span style="color:#F00;">*</span></p>
+                <div class="niu">
+                    <p><input type="radio" name="items" value="1"/> <strong>请接受运费自理（运费在19-29元之间，收到货支付给快递员即可，超过29元可拒收，不接受运费不予发货！）</strong></p>
+                </div>
+            </div>
+
+            <div class="tishi">
+                <h2>温馨提示:</h2>
+                <p><span style="color:#E53333;font-size:14px;"><strong>签收后拍照反馈，好评宣传我们会以红包形式给您全额报销运费的！为确保宝贝准确到达您手中，请认真填写您的真实信息。支持7天无理由退货！下单72小时内会以短信形式下发单号，请注意查收！</strong></span><br/>
+                </p><div>
+                <br/>
+            </div><p></p>
+            </div>
+
+            <input type="hidden" name="id" id="id" value="3"/>
+            <input type="hidden" name="typeid" id="typeid" value="1"/>
+            <input type="hidden" name="xs" id="xs" value="J140"/>
+            <div class="number">
+                <p style="text-align:center;">
+                    <span style="font-size:14px;color:#E53333;"><strong>地址填写提交一次即可 &nbsp;，切勿重复填写，影响发货速度或漏发！</strong></span><span style="font-size:14px;color:#E53333;"><strong></strong></span>
+                </p>
+                <p style="text-align:center;">
+                    <span style="font-size:16px;">客服微信：ksn778866</span>
+                </p>                    </div>
+            <button id="tijiao">提交</button>
+
+            <div class="jubao"><a href="http://rushi365.cn/jubao.php?id=.3&amp;typeid=1&amp;xs=J140">举报</a></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="page2" style="display: none;">
+    <div class="song">
+        <h1>阿迪2017明星同款套装免费送</h1>
+
+        <h2 style="text-align:center;">
+            <span style="color:#E53333;font-size:24px;">点击右上角分享至自己的朋友圈中后即可提交成功！</span>
+        </h2>
+        <p style="text-align:center;">
+            <span style="font-size:18px;">72小时内单号会以短信的形式下发至您的手机，请注意查收！</span><span style="color:#E53333;font-size:14px;"></span>
+        </p>
+        <h2>
+            <br/>
+        </h2>    </div>
+
+</div>
+
+
+
+
+
+
+
+</body></html>
