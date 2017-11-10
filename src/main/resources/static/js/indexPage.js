@@ -5,9 +5,18 @@ $(function(){
     initFileInput();
     initImportModalHiden();
     initValidator();
+    $('#editWindow').on('hidden.bs.modal', function() {
+        $("#editForm").data('bootstrapValidator').destroy();
+        $('#editForm').data('bootstrapValidator', null);
+        initValidator();
+    });
 });
+
+
+
 function initValidator(){
 
+    // $("#editForm").data('bootstrapValidator').resetForm();
     $('#editForm').bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
@@ -138,7 +147,13 @@ function initTable(){
         // showExport: true,
         // exportDataType: 'all',
         responseHandler: responseHandler,
-        showRefresh: true,                  //是否显示刷新按钮
+        showRefresh: true,
+        //是否显示刷新按钮
+        // onRefresh: function(){
+        //     $("#editForm").data('bootstrapValidator').destroy();
+        //     $('#editForm').data('bootstrapValidator', null);
+        //
+        // },
         onLoadSuccess: function(){
 
         },
@@ -301,6 +316,7 @@ function responseHandler(res) {
 
 function editData(node){
     clearEditForm();
+    initValidator();
     var idNode= $(node).find("span");
     var id = idNode.text();
     $.ajax({
@@ -312,6 +328,7 @@ function editData(node){
             if(200 != result.status){
                 alert(result.info);
             }else{
+                $("#orderDate1").val(result.data.orderDate);
                 $("#orderDate").val(result.data.orderDate);
                 $("#name1").val(result.data.name);
                 $("#courierNum1").val(result.data.courierNum);
@@ -326,6 +343,7 @@ function editData(node){
 
 function clearEditForm(){
     $("#orderDate").val(null);
+    $("#orderDate1").val(null);
     $("#name1").val(null);
     $("#courierNum1").val(null);
     $("#phoneNum1").val(null);
@@ -333,6 +351,7 @@ function clearEditForm(){
 }
 function add() {
     clearEditForm();
+    initValidator();
     $("#editWindow").modal('show');
 }
 function save(){
@@ -362,6 +381,16 @@ function save(){
                alert(result.info);
            }else{
                $("#editWindow").modal('hide');
+               // $("#queryForm")[0].reset();
+               $("#name1").val("");
+               $("#courierNum1").val("");
+               $("#phoneNum1").val("");
+
+               $("#startDate").val("");
+               $("#endDate").val("");
+               $("#endDate1").val("");
+               $("#startDate1").val("");
+
                $('#result-table').bootstrapTable("refresh");
            }
         }
@@ -379,6 +408,14 @@ function deleteData(node){
             if(200 != result.status){
                 alert(result.info);
             }else{
+                // $("#queryForm")[0].reset();
+                $("#startDate").val("");
+                $("#endDate").val("");
+                $("#endDate1").val("");
+                $("#startDate1").val("");
+                $("#name1").val("");
+                $("#courierNum1").val("");
+                $("#phoneNum1").val("");
                 $('#result-table').bootstrapTable("refresh");
             }
         }
