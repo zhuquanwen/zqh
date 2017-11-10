@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <title>阿迪2017明星同款套装免费送</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
-    <link type="text/css" rel="stylesheet" th:href="@{shopping/base.css}"/>
-    <link rel="stylesheet" th:href="@{shopping/swiper.min.css}"/>
-    <script type="text/javascript" th:src="@{shopping/jquery-1.11.3.js}"></script>
-    <script type="text/javascript" th:src="@{shopping/jquery.SuperSlide.2.1.1.js}"></script>
-    <script type="text/javascript" th:src="@{shopping/getarea.js}"></script>
-    <script th:src="@{shopping/swiper.min.js}"></script>
-
+    <link type="text/css" rel="stylesheet" th:href="@{/shopping/base.css}"/>
+    <link rel="stylesheet" th:href="@{/shopping/swiper.min.css}"/>
+    <script type="text/javascript" th:src="@{/shopping/jquery-1.11.3.js}"></script>
+    <script type="text/javascript" th:src="@{/shopping/jquery.SuperSlide.2.1.1.js}"></script>
+    <script type="text/javascript" th:src="@{/shopping/getarea.js}"></script>
+    <script th:src="@{/shopping/swiper.min.js}"></script>
+    <script th:src="@{/shopping/jsAddress.js}"></script>
+    <script th:src="@{/shopping/shopping.js}"></script>
 </head>
 
 <body >
@@ -23,16 +24,16 @@
 
         <div class="top">
             <p>阿迪2017明星同款套装免费送</p>
-            <img th:src="@{shopping/1508331001.jpg}"/>
-            <img th:src="@{shopping/1508326972.jpg}"/>
-            <img th:src="@{shopping/1508333142.jpg}"/>
-            <img th:src="@{shopping/1508328458.jpg}"/>
-            <img th:src="@{shopping/1508327331.jpg}"/>
-            <img th:src="@{shopping/1508323877.jpg}"/>
-            <img th:src="@{shopping/1508328648.jpg}"/>
-            <img th:src="@{shopping/1508330630.jpg}"/>
-            <img th:src="@{shopping/1508332512.jpg}"/>
-            <img th:src="@{shopping/1508329145.jpg}"/>
+            <img th:src="@{/shopping/1508331001.jpg}"/>
+            <img th:src="@{/shopping/1508326972.jpg}"/>
+            <img th:src="@{/shopping/1508333142.jpg}"/>
+            <img th:src="@{/shopping/1508328458.jpg}"/>
+            <img th:src="@{/shopping/1508327331.jpg}"/>
+            <img th:src="@{/shopping/1508323877.jpg}"/>
+            <img th:src="@{/shopping/1508328648.jpg}"/>
+            <img th:src="@{/shopping/1508330630.jpg}"/>
+            <img th:src="@{/shopping/1508332512.jpg}"/>
+            <img th:src="@{/shopping/1508329145.jpg}"/>
         </div>
 
         <div class="btn">
@@ -42,7 +43,7 @@
                 <div class="quan">
 
                     <div class="sp1">
-                        <img th:src="@{shopping/1508243862.jpg}"/>
+                        <img th:src="@{/shopping/1508243862.jpg}"/>
                         <div>
                             <input type="radio" name="shangpin" value="商品名"/>
                             <span>阿迪2017明星同款套装免费送</span>
@@ -54,7 +55,7 @@
             <div class="b1">
                 <p>姓名&nbsp;<span style="color:#F00;">*</span></p>
                 <div class="tu1">
-                    <img th:src="@{shopping/wo.png}"/>
+                    <img th:src="@{/shopping/wo.png}"/>
                     <input type="text" name="name" id="name" value=""/>
                 </div>
             </div>
@@ -62,16 +63,16 @@
             <div class="b1">
                 <p>手机 务必填写正确手机号&nbsp;<span style="color:#F00;">*</span></p>
                 <div class="tu1">
-                    <img th:src="@{shopping/515151.png}"/>
-                    <input type="text" name="tel" id="tel" value=""/>
+                    <img th:src="@{/shopping/515151.png}"/>
+                    <input type="text" name="phoneNum" id="phoneNum" value=""/>
                 </div>
             </div>
             <div class="b1">
                 <p>电话卡充值类型</p>
                 <div class="niu">
-                    <p><input type="radio" name="teltype" value="联通充值卡"/>联通充值卡</p>
-                    <p><input type="radio" name="teltype" value="移动充值卡"/>移动充值卡</p>
-                    <p><input type="radio" name="teltype" value="电信充值卡"/>电信充值卡</p>
+                    <p><input type="radio" name="cardType" value="2"></input>联通充值卡</p>
+                    <p><input type="radio" name="cardType" value="1" checked="checked"></input>移动充值卡</p>
+                    <p><input type="radio" name="cardType" value="3"></input>电信充值卡</p>
 
                 </div>
             </div>
@@ -79,18 +80,32 @@
                 <p>地址 务必填写正确的收货地址如有缺少不予发货&nbsp;<span style="color:#F00;">*</span></p>
                 <div class="add">
                     <div>
-                        <select size="1" name="postarea_prov" id="postarea_prov" onchange="">
+                        <select id="cmbProvince" name="cmbProvince">
+                            <!--<option value="-1">-省/自治区/直辖市-</option>-->
+                        </select>
+                        <select id="cmbCity" name="cmbCity">
+                            <!--<option value="-1">-市-</option>-->
+                        </select>
+
+
+                        <!--<select size="1" name="postarea_prov" id="postarea_prov" onchange="">
                             <option value="-1">-省/自治区/直辖市-</option>
                             <option value="1000">北京市</option><option value="1500">天津市</option><option value="2000">河北省</option><option value="2500">山西省</option><option value="3000">内蒙古自治区</option><option value="3500">辽宁省</option><option value="4000">吉林省</option><option value="4500">黑龙江省</option><option value="5000">上海市</option><option value="5500">江苏省</option><option value="6000">浙江省</option><option value="6500">安徽省</option><option value="7000">福建省</option><option value="7500">江西省</option><option value="8000">山东省</option><option value="8500">河南省</option><option value="9000">湖北省</option><option value="9500">湖南省</option><option value="10000">广东省</option><option value="10500">广西壮族自治区</option><option value="11000">海南省</option><option value="11500">重庆市</option><option value="12000">四川省</option><option value="12500">贵州省</option><option value="13000">云南省</option><option value="13500">西藏自治区</option><option value="14000">陕西省</option><option value="14500">甘肃省</option><option value="15000">青海省</option><option value="15500">宁夏回族自治区</option><option value="16000">新疆维吾尔自治区</option><option value="16500">台湾省</option><option value="17000">香港特别行政区</option><option value="17500">澳门特别行政区</option>
                         </select>
                         <select size="1" name="postarea_city" id="postarea_city" onchange="">
                             <option value="-1">-市-</option>
 
-                        </select>
+                        </select>-->
                     </div>
-                    <select size="1" name="postarea_country" id="postarea_country">
+                    <!--<select size="1" name="postarea_country" id="postarea_country">
                         <option>-区/县-</option>
+                    </select>-->
+                    <select id="cmbArea" name="cmbArea">
+                        <!--<option>-区/县-</option>-->
                     </select>
+                    <script type="text/javascript">
+                        addressInit('cmbProvince', 'cmbCity', 'cmbArea');
+                    </script>
                     <input type="text" name="address" class="input" id="address" placeholder="详细地址"/>
 
                 </div>
@@ -99,7 +114,7 @@
             <div class="b1 gai">
                 <p class="xiug">选择款式 <span style="color:#F00;">*</span> </p>
                 <input type="hidden" class="attid" value="41"/>
-                <select size="1" name="attr[41]" class="attr">
+                <select size="1" name="attr[41]" class="attr" id = "style">
                     <option value="">-请选择-</option>
 
                     <option value="男款-黑色">男款-黑色</option>
@@ -115,7 +130,7 @@
             <div class="b1 gai">
                 <p class="xiug">选择尺码 <span style="color:#F00;">*</span> </p>
                 <input type="hidden" class="attid" value="42"/>
-                <select size="1" name="attr[42]" class="attr">
+                <select size="1" name="attr[42]" class="attr" id="clothSize">
                     <option value="">-请选择-</option>
 
                     <option value="S">S</option>
@@ -161,7 +176,7 @@
                 </p>                    </div>
             <button id="tijiao">提交</button>
 
-            <div class="jubao"><a href="http://rushi365.cn/jubao.php?id=.3&amp;typeid=1&amp;xs=J140">举报</a></div>
+            <!--<div class="jubao"><a href="http://rushi365.cn/jubao.php?id=.3&amp;typeid=1&amp;xs=J140">举报</a></div>-->
 
         </div>
     </div>
@@ -193,3 +208,6 @@
 
 
 </body></html>
+
+<!--
+$('#wrap input[name="payMethod"]:checked ').val();-->

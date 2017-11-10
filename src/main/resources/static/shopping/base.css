@@ -339,7 +339,7 @@ button{
 	
 	
 input[type=radio]:checked::after {
-        content:url(../images/xuan.png);
+        content:url(xuan.png);
         display: block; 
 		width: 16px;
         height: 16px;
