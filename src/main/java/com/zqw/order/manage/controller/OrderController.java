@@ -31,7 +31,7 @@ import java.util.*;
 
 @SuppressWarnings("Duplicates")
 @Controller
-public class OrderController {
+public class OrderController extends BaseController {
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -43,6 +43,10 @@ public class OrderController {
     private static String encodeKey = "zhuquanhong";
     private static String USER_SESSION = "USER_SESSION";
     private static String LOGIN_MESSAGE = "LOGIN_MESSAGE";
+
+    @GetMapping("/index")
+
+
 
     @RequestMapping("/turnIndex")
     public ModelAndView turnIndex(HttpSession session,String username, String password){
@@ -96,7 +100,7 @@ public class OrderController {
         return "getCourier";
     }
 
-    @RequestMapping(value ="/index")
+    @RequestMapping(value ="/order")
     public String index(HttpSession session) throws PageException{
         try{
             String desUsername = (String) session.getAttribute(USER_SESSION);
@@ -111,7 +115,7 @@ public class OrderController {
             e.printStackTrace();
             throw new PageException();
         }
-        return "indexPage";
+        return "orderPage";
     }
 
 

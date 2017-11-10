@@ -14,7 +14,7 @@ import java.util.Map;
  * @desc:
  */
 @Controller
-public class ShoppingController {
+public class ShoppingController extends BaseController {
 //    @GetMapping(value={"/toShopping"})
 //    public String toShopping(@PathVariable String userInfo){
 //        System.out.println(userInfo);
