@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @desc:
  */
 public interface ClothSizeDao extends JpaRepository<ClothSize, Long>, JpaSpecificationExecutor<ClothSize> {
+    ClothSize findByName(String name);
 }

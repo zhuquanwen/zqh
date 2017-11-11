@@ -26,15 +26,15 @@ function initValidator(){
         },
         fields: {
             name1: {
-                message: '款式名称验证失败',
+                message: '尺码名称验证失败',
                 validators: {
                     notEmpty: {
-                        message: '款式名称不能为空'
+                        message: '尺码名称不能为空'
                     },
                     stringLength: {
                         min: 2,
                         max: 20,
-                        message: '款式名称长度必须在2到20位之间'
+                        message: '尺码名称长度必须在2到20位之间'
                     }
                 }
             }
@@ -99,7 +99,7 @@ function initFileInput() {
 
 function initTable(){
 
-    var url = "style";
+    var url = "clothSize";
     $('#result-table').bootstrapTable({
         method:'POST',
         dataType:'json',
@@ -152,7 +152,7 @@ function initTable(){
             },
             {
                 field : 'name',
-                title : '款式名称',
+                title : '尺码名称',
                 align : 'center',
                 valign : 'middle',
                 sortable : true
@@ -261,7 +261,7 @@ function editData(node){
     var idNode= $(node).find("span");
     var id = idNode.text();
     $.ajax({
-        url:"style/" + id,
+        url:"clothSize/" + id,
         type:"GET",
         data: null,
         success:function(result){
@@ -270,7 +270,7 @@ function editData(node){
                 alert(result.info);
             }else{
                 if("默认" == result.data.name){
-                    alert("默认的款式不允许编辑");
+                    alert("默认的尺码不允许编辑");
                     return;
                 }
                 $("#name1").val(result.data.name);
@@ -307,7 +307,7 @@ function save(){
     // var array = new Array();
     // array[0] = param;
     $.ajax({
-        url:"style/save",
+        url:"clothSize/save",
         type:"POST",
         data: param,
         success:function(result){
@@ -328,7 +328,7 @@ function deleteData(node){
     var idNode= $(node).find("span");
     var id = idNode.text();
     $.ajax({
-        url:"style/delete/" + id,
+        url:"clothSize/delete/" + id,
         type:"GET",
         data: null,
         success:function(result){

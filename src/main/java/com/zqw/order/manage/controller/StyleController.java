@@ -6,6 +6,7 @@ import com.zqw.order.manage.entity.AjaxException;
 import com.zqw.order.manage.entity.BasePageResult;
 import com.zqw.order.manage.entity.PageException;
 import com.zqw.order.manage.entity.ResponseEntity;
+import com.zqw.order.manage.service.api.ClothSizeService;
 import com.zqw.order.manage.service.api.StyleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,17 +21,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class StyleController extends BaseController {
+
+    @Autowired
+    private ClothSizeService clothSizeService;
     @Autowired
     private StyleService styleService;
 
     @GetMapping("/style")
-    public ModelAndView turnGoods(HttpSession session) throws PageException {
+    public ModelAndView turnGoods(HttpServletRequest request , HttpSession session) throws PageException {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName(this.validateSession(session,"stylePage"));
+        mav.setViewName(this.validateSession(request, session,"stylePage",clothSizeService,styleService));
         mav.addObject(HIDDEN_FLAG, "style");
         return mav;
     }
@@ -91,6 +98,12 @@ public class StyleController extends BaseController {
     public @ResponseBody ResponseEntity deleteOrder(@PathVariable Long id){
         ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(),"操作成功");
         try{
+            Style style1 = styleService.findOne(id);
+            if(style1 != null && "默认".equals(style1.getName())){
+                re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                re.setInfo("默认款式不允许删除");
+                return re;
+            }
             Style style = new Style();
             style.setId(id);
             styleService.delete(style);
@@ -99,6 +112,22 @@ public class StyleController extends BaseController {
             e.printStackTrace();
             re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             re.setInfo("操作出错");
+        }
+        return re;
+    }
+    @PostMapping(value = "/styleAll")
+    @ResponseBody
+    public ResponseEntity<List<Style>> styleAll() /*throws AjaxException*/ {
+        ResponseEntity<List<Style>> re = new ResponseEntity<List<Style>>(HttpStatus.OK.value(),"操作成功");
+        List<Style> styleList = new ArrayList<Style>();
+        try {
+            styleList = styleService.findAll();
+            re.setData(styleList);
+        }catch (Exception e){
+            e.printStackTrace();
+//            throw new AjaxException();
+            re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            re.setInfo("查询款式列表出错");
         }
         return re;
     }

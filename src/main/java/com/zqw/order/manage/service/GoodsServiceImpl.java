@@ -53,6 +53,16 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public Goods findByName(String name) {
+        return goodsDao.findByName(name);
+    }
+
+    @Override
+    public List<Goods> findAll() {
+        return goodsDao.findAll();
+    }
+
+    @Override
     public List<Goods> save(List<Goods> t) {
         return goodsDao.save(t);
     }

@@ -1,12 +1,11 @@
 package com.zqw.order.manage.controller;
 
-import com.zqw.order.manage.domain.p.Goods;
+import com.zqw.order.manage.domain.p.ClothSize;
 import com.zqw.order.manage.entity.AjaxException;
 import com.zqw.order.manage.entity.BasePageResult;
 import com.zqw.order.manage.entity.PageException;
 import com.zqw.order.manage.entity.ResponseEntity;
 import com.zqw.order.manage.service.api.ClothSizeService;
-import com.zqw.order.manage.service.api.GoodsService;
 import com.zqw.order.manage.service.api.StyleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,54 +26,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class GoodsController extends BaseController {
-    @Autowired
-    private GoodsService goodsService;
+public class ClothSizeController extends BaseController {
     @Autowired
     private ClothSizeService clothSizeService;
     @Autowired
     private StyleService styleService;
-    @GetMapping("/goods")
-    public ModelAndView turnGoods(HttpServletRequest request, HttpSession session) throws PageException {
+    @GetMapping("/clothSize")
+    public ModelAndView turnGoods(HttpSession session, HttpServletRequest request) throws PageException {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName(this.validateSession(request,session,"goodsPage",clothSizeService,styleService));
-        mav.addObject(HIDDEN_FLAG, "goods");
+        mav.setViewName(this.validateSession(request,session,"clothSizePage",clothSizeService,styleService));
+        mav.addObject(HIDDEN_FLAG, "clothSize");
         return mav;
     }
-
-    @PostMapping(value = "/goodsAll")
+    @PostMapping(value = "/clothSize")
     @ResponseBody
-    public ResponseEntity<List<Goods>> goodsAll() /*throws AjaxException*/ {
-        ResponseEntity<List<Goods>> re = new ResponseEntity<List<Goods>>(HttpStatus.OK.value(),"操作成功");
-        List<Goods> goodsList = new ArrayList<Goods>();
-        try {
-            goodsList = goodsService.findAll();
-            re.setData(goodsList);
-        }catch (Exception e){
-            e.printStackTrace();
-//            throw new AjaxException();
-            re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            re.setInfo("查询商品列表出错");
-        }
-       return re;
-    }
-
-    @PostMapping(value = "/goods")
-    @ResponseBody
-    public BasePageResult<Goods> goods(HttpSession session, Goods goods) throws AjaxException {
+    public BasePageResult<ClothSize> goods(HttpSession session, ClothSize clothSize) throws AjaxException {
         BasePageResult bpr = new BasePageResult();
         try {
 
-            if (goods.getDirection() == null) {
-                goods.setDirection("asc");
+            if (clothSize.getDirection() == null) {
+                clothSize.setDirection("asc");
             }
-            if (goods.getField() == null) {
-                goods.setField("id");
+            if (clothSize.getField() == null) {
+                clothSize.setField("id");
             }
-            Sort sort = new Sort(goods.getDirection(), goods.getField());
-            Pageable pageable = new PageRequest(goods.getPage(), goods.getSize(), sort);
+            Sort sort = new Sort(clothSize.getDirection(), clothSize.getField());
+            Pageable pageable = new PageRequest(clothSize.getPage(), clothSize.getSize(), sort);
 
-            Page<Goods> page = goodsService.findByPageAndParams(goods, pageable);
+            Page<ClothSize> page = clothSizeService.findByPageAndParams(clothSize, pageable);
             bpr.setResult(page.getContent());
             bpr.setTotalCount(page.getTotalElements());
         }catch (Exception e){
@@ -84,12 +63,13 @@ public class GoodsController extends BaseController {
         return bpr;
     }
 
-    @PostMapping(value = "/goods/save")
-    public @ResponseBody ResponseEntity saveOrder(Goods goods){
+    @PostMapping(value = "/clothSize/save")
+    public @ResponseBody
+    ResponseEntity saveOrder(ClothSize clothSize){
         ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(),"操作成功");
         try{
-            goods = goodsService.save(goods);
-            re.setData(goods);
+            clothSize = clothSizeService.save(clothSize);
+            re.setData(clothSize);
         }catch (Exception e){
             e.printStackTrace();
             re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -98,12 +78,12 @@ public class GoodsController extends BaseController {
         return re;
     }
 
-    @GetMapping(value = "/goods/{id}")
+    @GetMapping(value = "/clothSize/{id}")
     public @ResponseBody ResponseEntity getOrderById(@PathVariable Long id){
         ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(),"操作成功");
         try{
-            Goods goods = goodsService.findOne(id);
-            re.setData(goods);
+            ClothSize clothSize = clothSizeService.findOne(id);
+            re.setData(clothSize);
         }catch (Exception e){
             e.printStackTrace();
             re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -111,18 +91,42 @@ public class GoodsController extends BaseController {
         }
         return re;
     }
-    @GetMapping(value = "/goods/delete/{id}")
+    @GetMapping(value = "/clothSize/delete/{id}")
     public @ResponseBody ResponseEntity deleteOrder(@PathVariable Long id){
         ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(),"操作成功");
         try{
-            Goods goods = new Goods();
-            goods.setId(id);
-            goodsService.delete(goods);
+
+            ClothSize clothSize1 = clothSizeService.findOne(id);
+            if(clothSize1 != null && "默认".equals(clothSize1.getName())){
+                re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                re.setInfo("默认尺码不允许删除");
+                return re;
+            }
+
+            ClothSize clothSize = new ClothSize();
+            clothSize.setId(id);
+            clothSizeService.delete(clothSize);
             re.setData(null);
         }catch (Exception e){
             e.printStackTrace();
             re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             re.setInfo("操作出错");
+        }
+        return re;
+    }
+    @PostMapping(value = "/clothSizeAll")
+    @ResponseBody
+    public ResponseEntity<List<ClothSize>> clothSizeAll() /*throws AjaxException*/ {
+        ResponseEntity<List<ClothSize>> re = new ResponseEntity<List<ClothSize>>(HttpStatus.OK.value(),"操作成功");
+        List<ClothSize> clothSizeList = new ArrayList<ClothSize>();
+        try {
+            clothSizeList = clothSizeService.findAll();
+            re.setData(clothSizeList);
+        }catch (Exception e){
+            e.printStackTrace();
+//            throw new AjaxException();
+            re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            re.setInfo("查询尺码列表出错");
         }
         return re;
     }

@@ -1,5 +1,6 @@
 package com.zqw.order.manage.domain.p;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -19,9 +20,10 @@ public class ClothSize extends BasePage implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 20)
+    @Column(length = 20,unique = true)
     private String name;
 
+    @JsonIgnore
     @OneToMany(targetEntity = Stock.class, mappedBy = "clothSize", fetch= FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Stock> stockList;
     public Long getId() {

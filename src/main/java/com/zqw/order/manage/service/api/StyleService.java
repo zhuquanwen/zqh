@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface StyleService extends BaseService<Style> {
     Page<Style> findByPageAndParams(Style style, Pageable pageable);
+    Style findByName(String name);
 }

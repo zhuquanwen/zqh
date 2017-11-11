@@ -34,6 +34,21 @@ public class Stock extends BasePage implements Serializable {
     @Column
     private Long sum; //库存
 
+    @Transient
+    private String goodsName;
+    @Transient
+    private String clothSizeName;
+    @Transient
+    private String styleName;
+
+    @Transient
+    private Long goodsId;
+    @Transient
+    private Long clothSizeId;
+    @Transient
+    private Long styleId;
+
+
     public Long getId() {
         return id;
     }
@@ -72,5 +87,53 @@ public class Stock extends BasePage implements Serializable {
 
     public void setSum(Long sum) {
         this.sum = sum;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    public String getClothSizeName() {
+        return clothSizeName;
+    }
+
+    public void setClothSizeName(String clothSizeName) {
+        this.clothSizeName = clothSizeName;
+    }
+
+    public String getStyleName() {
+        return styleName;
+    }
+
+    public void setStyleName(String styleName) {
+        this.styleName = styleName;
+    }
+
+    public Long getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public Long getClothSizeId() {
+        return clothSizeId;
+    }
+
+    public void setClothSizeId(Long clothSizeId) {
+        this.clothSizeId = clothSizeId;
+    }
+
+    public Long getStyleId() {
+        return styleId;
+    }
+
+    public void setStyleId(Long styleId) {
+        this.styleId = styleId;
     }
 }

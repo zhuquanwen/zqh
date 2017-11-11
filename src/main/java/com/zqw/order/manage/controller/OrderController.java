@@ -6,7 +6,9 @@ import com.zqw.order.manage.entity.BasePageResult;
 import com.zqw.order.manage.entity.PageException;
 import com.zqw.order.manage.entity.ResponseEntity;
 import com.zqw.order.manage.service.ExcelReadService;
+import com.zqw.order.manage.service.api.ClothSizeService;
 import com.zqw.order.manage.service.api.OrderService;
+import com.zqw.order.manage.service.api.StyleService;
 import com.zqw.order.manage.util.EncodeUtils;
 import com.zqw.order.manage.util.JacksonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,10 @@ import java.util.*;
 public class OrderController extends BaseController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ClothSizeService clothSizeService;
+    @Autowired
+    private StyleService styleService;
     @Autowired
     private ExcelReadService excelReadService;
     @Value("${usr_pwd}")
@@ -68,7 +74,14 @@ public class OrderController extends BaseController {
                 }else{
                     //记录session
                     session.setAttribute(USER_SESSION, EncodeUtils.aesEncrypt(username,encodeKey));
-                    mav.setViewName("redirect:/order");
+
+                    //跳转到刚才点击的页面上去
+                    String uri = (String) session.getAttribute(TARGET_URL);
+                    if(uri == null){
+                        mav.setViewName("redirect:/order");
+                    }else{
+                        mav.setViewName("redirect:" + uri);
+                    }
                 }
             }
         }catch (Exception e){
@@ -95,7 +108,7 @@ public class OrderController extends BaseController {
     @RequestMapping(value ="/order")
     public ModelAndView index(HttpSession session,HttpServletRequest request) throws PageException{
         ModelAndView mav = new ModelAndView();
-        mav.setViewName(this.validateSession(session,"orderPage"));
+        mav.setViewName(this.validateSession(request,session,"orderPage", clothSizeService, styleService));
         mav.addObject(HIDDEN_FLAG, "order");
         return mav;
 

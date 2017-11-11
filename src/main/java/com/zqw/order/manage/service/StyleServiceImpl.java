@@ -50,6 +50,12 @@ public class StyleServiceImpl implements StyleService {
     }
 
     @Override
+    public List<Style> findAll() {
+        return styleDao.findAll();
+    }
+
+    @Transactional
+    @Override
     public Page<Style> findByPageAndParams(Style style, Pageable pageable) {
         Specification<Style> spec = new Specification<Style>() {        //查询条件构造
             @Override
@@ -68,5 +74,10 @@ public class StyleServiceImpl implements StyleService {
             }
         };
         return styleDao.findAll(spec, pageable);
+    }
+    @Transactional
+    @Override
+    public Style findByName(String name) {
+        return styleDao.findByName(name);
     }
 }

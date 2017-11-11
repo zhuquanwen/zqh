@@ -25,16 +25,14 @@ function initValidator(){
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            name1: {
-                message: '款式名称验证失败',
+            sum: {
                 validators: {
                     notEmpty: {
-                        message: '款式名称不能为空'
+                        message: '库存不能为空'
                     },
-                    stringLength: {
-                        min: 2,
-                        max: 20,
-                        message: '款式名称长度必须在2到20位之间'
+                    regexp: {
+                        regexp: /^[0-9]*$/,
+                        message: '库存必须为数字组成'
                     }
                 }
             }
@@ -99,7 +97,7 @@ function initFileInput() {
 
 function initTable(){
 
-    var url = "style";
+    var url = "stock";
     $('#result-table').bootstrapTable({
         method:'POST',
         dataType:'json',
@@ -151,8 +149,26 @@ function initTable(){
                 }
             },
             {
-                field : 'name',
+                field : 'goodsName',
+                title : '商品名称',
+                align : 'center',
+                valign : 'middle',
+                sortable : false
+            },{
+                field : 'styleName',
                 title : '款式名称',
+                align : 'center',
+                valign : 'middle',
+                sortable : false
+            },{
+                field : 'clothSizeName',
+                title : '尺码名称',
+                align : 'center',
+                valign : 'middle',
+                sortable : false
+            },{
+                field : 'sum',
+                title : '库存',
                 align : 'center',
                 valign : 'middle',
                 sortable : true
@@ -225,7 +241,7 @@ function checkEndTime(startDate,endDate){
 
 function queryParams() {
     var param = {
-        name : $("#name").val(),
+        goodsName : $("#goodsName").val(),
         limit : this.limit, // 页面大小
         offset : this.offset, // 页码
         page : this.pageNumber - 1,
@@ -257,11 +273,12 @@ function responseHandler(res) {
 
 function editData(node){
     clearEditForm();
+    initCombobox();
     initValidator();
     var idNode= $(node).find("span");
     var id = idNode.text();
     $.ajax({
-        url:"style/" + id,
+        url:"stock/" + id,
         type:"GET",
         data: null,
         success:function(result){
@@ -269,12 +286,15 @@ function editData(node){
             if(200 != result.status){
                 alert(result.info);
             }else{
-                if("默认" == result.data.name){
-                    alert("默认的款式不允许编辑");
-                    return;
-                }
-                $("#name1").val(result.data.name);
                 $("#id1").val(result.data.id);
+                $("#goodsId").val(result.data.goods.id);
+                $("#styleId").val(result.data.style.id);
+                $("#clothSizeId").val(result.data.clothSize.id);
+                $("#sum").val(result.data.sum);
+                $("#clothSizeId").attr("disabled", true);
+                $("#styleId").attr("disabled", true);
+                $("#goodsId").attr("disabled", true);
+
                 $("#editWindow").modal('show');
             }
         }
@@ -283,14 +303,87 @@ function editData(node){
 }
 
 function clearEditForm(){
-    $("#name1").val(null);
+    $("#goodsName1").val(null);
+    $("#sum").val(null);
+    $("#styleName").val(null);
+    $("#clothSizeName").val(null);
     $("#id1").val(null);
 }
 function add() {
     clearEditForm();
+    initCombobox();
     initValidator();
     $("#editWindow").modal('show');
 }
+function initCombobox() {
+    $.ajax({
+        url:"goodsAll" ,
+        type:"post",
+        data: null,
+        success:function(result){
+
+            if(200 != result.status){
+                alert(result.info);
+            }else{
+                var data = result.data;
+                var html = ""
+                $.each(data,function(index,goods){
+                    var id = goods.id;
+                    var name = goods.name;
+                    html += "<option value='" + id + "'>";
+                    html += name;
+                    html += "</option>";
+                })
+                $("#goodsId").html(html);
+            }
+        }
+    });
+    $.ajax({
+        url:"styleAll" ,
+        type:"post",
+        data: null,
+        success:function(result){
+
+            if(200 != result.status){
+                alert(result.info);
+            }else{
+                var data = result.data;
+                var html = ""
+                $.each(data,function(index,style){
+                    var id = style.id;
+                    var name = style.name;
+                    html += "<option value='" + id + "'>";
+                    html += name;
+                    html += "</option>";
+                })
+                $("#styleId").html(html);
+            }
+        }
+    });
+    $.ajax({
+        url:"clothSizeAll" ,
+        type:"post",
+        data: null,
+        success:function(result){
+
+            if(200 != result.status){
+                alert(result.info);
+            }else{
+                var data = result.data;
+                var html = ""
+                $.each(data,function(index,clothSize){
+                    var id = clothSize.id;
+                    var name = clothSize.name;
+                    html += "<option value='" + id + "'>";
+                    html += name;
+                    html += "</option>";
+                })
+                $("#clothSizeId").html(html);
+            }
+        }
+    });
+}
+
 function save(){
     var validate = $('#editForm').bootstrapValidator('validate');
     var isValid = $("#editForm").data('bootstrapValidator').isValid();
@@ -298,8 +391,10 @@ function save(){
         return;
     }
     var param = {
-        name : $("#name1").val() != "" ? $("#name1").val() : null
-
+        sum : $("#sum").val() != "" ? $("#sum").val() : null,
+        goodsId : $("#goodsId").val(),
+        clothSizeId : $("#clothSizeId").val(),
+        styleId : $("#styleId").val()
     }
     if($("#id1").val() != null && $("#id1").val() != ""){
         param.id = $("#id1").val();
@@ -307,7 +402,7 @@ function save(){
     // var array = new Array();
     // array[0] = param;
     $.ajax({
-        url:"style/save",
+        url:"stock/save",
         type:"POST",
         data: param,
         success:function(result){
@@ -316,9 +411,16 @@ function save(){
            }else{
                $("#editWindow").modal('hide');
                // $("#queryForm")[0].reset();
-               $("#name1").val("");
-               $("#name").val("");
-               $("#descriptor").val("");
+               $("#goodsName").val("");
+               $("#goodsId").val("");
+               $("#clothSizeId").val("");
+               $("#styleId").val("");
+               $("#goodsId").attr("disabled", false);
+
+               $("#styleId").attr("disabled", false);
+
+               $("#clothSizeId").attr("disabled", false);
+
                $('#result-table').bootstrapTable("refresh");
            }
         }
@@ -328,7 +430,7 @@ function deleteData(node){
     var idNode= $(node).find("span");
     var id = idNode.text();
     $.ajax({
-        url:"style/delete/" + id,
+        url:"stock/delete/" + id,
         type:"GET",
         data: null,
         success:function(result){
@@ -337,8 +439,15 @@ function deleteData(node){
                 alert(result.info);
             }else{
                 // $("#queryForm")[0].reset();
-                $("#name").val("");
-                $("#name1").val("");
+                $("#goodsName").val("");
+                $("#goodsId").val("");
+                $("#clothSizeId").val("");
+                $("#styleId").val("");
+                $("#goodsId").attr("disabled", false);
+
+                $("#styleId").attr("disabled", false);
+
+                $("#clothSizeId").attr("disabled", false);
                 $('#result-table').bootstrapTable("refresh");
             }
         }

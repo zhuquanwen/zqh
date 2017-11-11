@@ -56,6 +56,11 @@ public class OrderServiceImpl implements OrderService{
         return orderDao.findOne(id);
     }
 
+    @Override
+    public List<Order> findAll() {
+        return orderDao.findAll();
+    }
+
 
     @Override
     @Transactional

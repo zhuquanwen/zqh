@@ -12,5 +12,6 @@ public interface BaseService<T> {
     void deleteInBatch(List<T> ts);
     Page<T> findUsePage(Pageable pageable);
     T findOne(Long id);
+    List<T> findAll();
 
 }

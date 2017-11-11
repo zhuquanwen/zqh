@@ -1,5 +1,6 @@
 package com.zqw.order.manage.domain.p;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class Goods extends BasePage implements Serializable {
 
     @Column(length = 80)
     private String descriptor; //商品描述
-
+    @JsonIgnore
     @OneToMany(targetEntity = Stock.class, mappedBy = "goods", fetch= FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Stock> stockList; //商品库存
 
