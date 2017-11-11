@@ -18,16 +18,16 @@ public class Goods extends BasePage implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; //自增id
 
     @Column(length = 50,unique = true)
-    private String name;
+    private String name; //商品名称
 
     @Column(length = 80)
-    private String descriptor;
+    private String descriptor; //商品描述
 
     @OneToMany(targetEntity = Stock.class, mappedBy = "goods", fetch= FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Stock> stockList;
+    private List<Stock> stockList; //商品库存
 
     public Long getId() {
         return id;

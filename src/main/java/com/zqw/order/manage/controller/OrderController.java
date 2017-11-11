@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -39,13 +38,6 @@ public class OrderController extends BaseController {
     @Value("${usr_pwd}")
     private String usrPwd;
     private Map<String,Map<String,String>> usrPwdMap = new HashMap<String,Map<String,String>>();
-
-    private static String encodeKey = "zhuquanhong";
-    private static String USER_SESSION = "USER_SESSION";
-    private static String LOGIN_MESSAGE = "LOGIN_MESSAGE";
-
-    @GetMapping("/index")
-
 
 
     @RequestMapping("/turnIndex")
@@ -76,7 +68,7 @@ public class OrderController extends BaseController {
                 }else{
                     //记录session
                     session.setAttribute(USER_SESSION, EncodeUtils.aesEncrypt(username,encodeKey));
-                    mav.setViewName("redirect:/index");
+                    mav.setViewName("redirect:/order");
                 }
             }
         }catch (Exception e){
@@ -101,21 +93,12 @@ public class OrderController extends BaseController {
     }
 
     @RequestMapping(value ="/order")
-    public String index(HttpSession session) throws PageException{
-        try{
-            String desUsername = (String) session.getAttribute(USER_SESSION);
-            if(desUsername == null){
-                return "redirect:login";
-            }
-            String username = EncodeUtils.aesDecrypt(desUsername, encodeKey);
-            if(username == null){
-                return "redirect:login";
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new PageException();
-        }
-        return "orderPage";
+    public ModelAndView index(HttpSession session,HttpServletRequest request) throws PageException{
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName(this.validateSession(session,"orderPage"));
+        mav.addObject(HIDDEN_FLAG, "order");
+        return mav;
+
     }
 
 

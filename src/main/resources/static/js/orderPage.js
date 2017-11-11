@@ -347,6 +347,7 @@ function clearEditForm(){
     $("#name1").val(null);
     $("#courierNum1").val(null);
     $("#phoneNum1").val(null);
+    $("#id1").val(null);
 
 }
 function add() {
@@ -367,7 +368,7 @@ function save(){
         name : $("#name1").val() != "" ? $("#name1").val() : null
 
     }
-    if($("#id1").val() != null){
+    if($("#id1").val() != null && $("#id1").val() != ""){
         param.id = $("#id1").val();
     }
     // var array = new Array();
@@ -383,9 +384,11 @@ function save(){
                $("#editWindow").modal('hide');
                // $("#queryForm")[0].reset();
                $("#name1").val("");
+               $("#courierNum").val("");
+               $("#phoneNum").val("");
+               $("#name").val("");
                $("#courierNum1").val("");
                $("#phoneNum1").val("");
-
                $("#startDate").val("");
                $("#endDate").val("");
                $("#endDate1").val("");
@@ -400,7 +403,7 @@ function deleteData(node){
     var idNode= $(node).find("span");
     var id = idNode.text();
     $.ajax({
-        url:"order/delete/" + id,
+        url:"goods/delete/" + id,
         type:"GET",
         data: null,
         success:function(result){
@@ -414,6 +417,8 @@ function deleteData(node){
                 $("#endDate1").val("");
                 $("#startDate1").val("");
                 $("#name1").val("");
+                $("#courierNum").val("");
+                $("#phoneNum").val("");
                 $("#courierNum1").val("");
                 $("#phoneNum1").val("");
                 $('#result-table').bootstrapTable("refresh");
@@ -481,6 +486,15 @@ function deleteInBatch(){
             success : function (data) {
                 // alert(data.info);
                 searchFlag = true;
+                $("#startDate").val("");
+                $("#endDate").val("");
+                $("#endDate1").val("");
+                $("#startDate1").val("");
+                $("#name1").val("");
+                $("#courierNum").val("");
+                $("#phoneNum").val("");
+                $("#courierNum1").val("");
+                $("#phoneNum1").val("");
                 $('#result-table').bootstrapTable("refresh");
                 searchFlag = false;
             },

@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface OrderService {
+public interface OrderService extends BaseService<Order> {
     Order save(Order order);
     List<Order> save(List<Order> orderList);
     void delete(Order order);

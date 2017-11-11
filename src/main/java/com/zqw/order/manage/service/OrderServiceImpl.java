@@ -33,16 +33,17 @@ public class OrderServiceImpl implements OrderService{
     public List<Order> save(List<Order> orderList) {
         return orderDao.save(orderList);
     }
-
+    @Transactional
     @Override
     public void delete(Order order) {
         orderDao.delete(order);
     }
+    @Transactional
     @Override
     public void deleteInBatch(List<Order> orders) {
         orderDao.deleteInBatch(orders);
     }
-
+    @Transactional
     @Override
     public Page<Order> findUsePage(Pageable pageable) {
         Page<Order> page = orderDao.findAll(pageable);
@@ -50,12 +51,14 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    @Transactional
     public Order findOne(Long id) {
         return orderDao.findOne(id);
     }
 
 
     @Override
+    @Transactional
     public Page<Order> findByPageAndParams(Order order, Pageable pageable) {
         Specification<Order> spec = new Specification<Order>() {        //查询条件构造
             @Override
@@ -91,6 +94,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    @Transactional
     public List<Order> findByPhoneNum(String phoneNum) {
         return orderDao.findByPhoneNum(phoneNum);
     }

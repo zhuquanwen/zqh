@@ -25,7 +25,7 @@ $(function() {
 		
 	});
 	readAccountInCookie();
-	initErrorSpan();
+	// initErrorSpan();
 });
 
 

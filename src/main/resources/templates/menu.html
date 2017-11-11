@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript">
+        function turnPage(location){
+            window.location.href = location;
+        }
+        window.onload = function () {
+            $(".breadcrumb").find("button").css("color","#27a0d7");
+            var id = document.getElementById("hiddenFlag").innerHTML;
+            document.getElementById(id).style.color = "#18D72D";
+        }
+    </script>
+</head>
+<body>
+<ol class="breadcrumb" style="padding-left: 40px;">
+    <li><strong><button id="order" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('order')">订单管理</button></strong></li>
+    <li><strong><button style="color: #27a0d7;padding-left: 10px;">人员管理</button></strong></li>
+    <li><strong><button id="goods" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('goods')">商品管理</button></strong></li>
+    <li><strong><button id="style" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('style')">款式管理</button></strong></li>
+
+    <li><strong><button style="color: #27a0d7;padding-left: 10px;">尺码管理</button></strong></li>
+    <li><strong><button style="color: #27a0d7;padding-left: 10px;">库存管理</button></strong></li>
+</ol>
+<span style="visibility: hidden" id="hiddenFlag" th:text="${HIDDEN_FLAG}"></span>
+</body>
+</html>
