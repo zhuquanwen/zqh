@@ -11,18 +11,29 @@
             $(".breadcrumb").find("button").css("color","#27a0d7");
             var id = document.getElementById("hiddenFlag").innerHTML;
             document.getElementById(id).style.color = "#18D72D";
+            var val = $("#adminFlag").html();
+            if(val == null || "" == val){
+                $("#orderLi").css("display","none");
+                $("#employeeLi").css("display","none");
+                $("#goodsLi").css("display","none");
+                $("#styleLi").css("display","none");
+                $("#clothSizeLi").css("display","none");
+                $("#stockLi").css("display","none");
+            }
         }
     </script>
 </head>
 <body>
 <ol class="breadcrumb" style="padding-left: 40px;">
-    <li><strong><button id="order" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('order')">订单管理</button></strong></li>
-    <li><strong><button id="employee" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('employee')">人员管理</button></strong></li>
-    <li><strong><button id="goods" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('goods')">商品管理</button></strong></li>
-    <li><strong><button id="style" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('style')">款式管理</button></strong></li>
-    <li><strong><button id="clothSize" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('clothSize')">尺码管理</button></strong></li>
-    <li><strong><button id="stock" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('stock')">库存管理</button></strong></li>
+    <li id="orderLi"><strong><button id="order" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('order')">订单管理</button></strong></li>
+    <li id="employeeLi"><strong><button id="employee" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('employee')">人员管理</button></strong></li>
+    <li id="goodsLi"><strong><button id="goods" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('goods')">商品管理</button></strong></li>
+    <li id="styleLi"><strong><button id="style" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('style')">款式管理</button></strong></li>
+    <li id="clothSizeLi"><strong><button id="clothSize" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('clothSize')">尺码管理</button></strong></li>
+    <li id="stockLi"><strong><button id="stock" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('stock')">库存管理</button></strong></li>
+    <li id="spreadLi"><strong><button id="spread" style="color: #27a0d7;padding-left: 10px;" onclick="turnPage('spread')">推广地址查询</button></strong></li>
 </ol>
 <span style="visibility: hidden" id="hiddenFlag" th:text="${HIDDEN_FLAG}"></span>
+<span style="visibility: hidden" id="adminFlag" th:text="${session.ADMIN_FLAG}"></span>
 </body>
 </html>

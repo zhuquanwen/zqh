@@ -25,6 +25,7 @@ public class BaseController {
     protected  String LOGIN_MESSAGE = "LOGIN_MESSAGE";
     protected  String HIDDEN_FLAG = "HIDDEN_FLAG";
     private  String DEFAULT_RECORD = "DEFAULT_RECORD";
+    private String ADMIN_FLAG = "ADMIN_FLAG";
     protected String validateSession(HttpServletRequest request, HttpSession session, String page, ClothSizeService clothSizeService,
                                      StyleService styleService) throws PageException{
 
@@ -63,6 +64,7 @@ public class BaseController {
             e.printStackTrace();
             throw new PageException();
         }
+        session.setAttribute(ADMIN_FLAG,"yes");
         return page;
     }
 }
