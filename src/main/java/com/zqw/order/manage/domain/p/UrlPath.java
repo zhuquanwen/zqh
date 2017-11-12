@@ -24,7 +24,7 @@ public class UrlPath extends BasePage implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 32)
+    @Column(length = 80)
     private String path;
 
     @Column(length = 1)
@@ -32,6 +32,7 @@ public class UrlPath extends BasePage implements Serializable {
 
     @ManyToOne(cascade={CascadeType.REFRESH})
     @JoinColumn(name = "employee_id")
+    @JsonIgnore
     private Employee employee;
 
     @OneToMany(targetEntity = Shopping.class, mappedBy = "urlPath", fetch= FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE})

@@ -30,6 +30,9 @@ public class Goods extends BasePage implements Serializable {
     @OneToMany(targetEntity = Stock.class, mappedBy = "goods", fetch= FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Stock> stockList; //商品库存
 
+    @Transient
+    private Long stockSum;
+
     public Long getId() {
         return id;
     }
@@ -60,5 +63,13 @@ public class Goods extends BasePage implements Serializable {
 
     public void setStockList(List<Stock> stockList) {
         this.stockList = stockList;
+    }
+
+    public Long getStockSum() {
+        return stockSum;
+    }
+
+    public void setStockSum(Long stockSum) {
+        this.stockSum = stockSum;
     }
 }

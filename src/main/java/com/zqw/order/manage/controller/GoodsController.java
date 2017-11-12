@@ -1,6 +1,7 @@
 package com.zqw.order.manage.controller;
 
 import com.zqw.order.manage.domain.p.Goods;
+import com.zqw.order.manage.domain.p.Stock;
 import com.zqw.order.manage.entity.AjaxException;
 import com.zqw.order.manage.entity.BasePageResult;
 import com.zqw.order.manage.entity.PageException;
@@ -75,6 +76,18 @@ public class GoodsController extends BaseController {
             Pageable pageable = new PageRequest(goods.getPage(), goods.getSize(), sort);
 
             Page<Goods> page = goodsService.findByPageAndParams(goods, pageable);
+            List<Goods> goodsList = page.getContent();
+            goodsList.forEach(goods1 -> {
+                List<Stock> stockList = goods1.getStockList();
+                Long sum = 0L;
+                for (Stock stock: stockList) {
+                    Long sum1 = stock.getSum();
+                    if(sum1 != null){
+                        sum += sum1;
+                    }
+                }
+                goods1.setStockSum(sum);
+            });
             bpr.setResult(page.getContent());
             bpr.setTotalCount(page.getTotalElements());
         }catch (Exception e){

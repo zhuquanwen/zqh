@@ -129,7 +129,7 @@ function initTable(){
         queryParams : queryParams,
         minimumCountColumns:2,
         pageNumber:1,                       //初始化加载第一页，默认第一页
-        pageSize: 20,                       //每页的记录行数（*）
+        pageSize: 10,                       //每页的记录行数（*）
         pageList: [10, 20, 50, 100],        //可供选择的每页的行数（*）
         uniqueId: "id",                     //每一行的唯一标识，一般为主键列
         // showExport: true,
@@ -174,6 +174,12 @@ function initTable(){
                 align : 'center',
                 valign : 'middle',
                 sortable : true
+            },{
+                field : 'stockSum',
+                title : '库存',
+                align : 'center',
+                valign : 'middle',
+                sortable : false
             },{
                 field : '',
                 title : '操作',

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>人员管理</title>
+        <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/table/bootstrap-table.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/datetimepicker/css/bootstrap-datetimepicker.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/fileinput/css/fileinput.css}" />
+        <link rel="stylesheet" th:href="@{bootstrap/viladator/css/bootstrapValidator.css}" />
+        <script th:src="@{jquery.js}"></script>
+        <script th:src="@{bootstrap/js/bootstrap.js}"></script>
+        <script th:src="@{bootstrap/table/bootstrap-table.js}"></script>
+        <script th:src="@{bootstrap/table/locale/bootstrap-table-zh-CN.js}"></script>
+        <script th:src="@{bootstrap/datetimepicker/js/bootstrap-datetimepicker.js}"></script>
+        <script th:src="@{bootstrap/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+        <script th:src="@{bootstrap/table/extensions/export/bootstrap-table-export.js}"></script>
+        <script th:src="@{bootstrap/fileinput/js/fileinput.js}"></script>
+        <script th:src="@{bootstrap/fileinput/js/locales/zh.js}"></script>
+        <script th:src="@{bootstrap/viladator/js/bootstrapValidator.js}"></script>
+        <script th:src="@{bootstrap/viladator/js/language/zh_CN.js}"></script>
+        <script th:src="@{js/employeePage.js}"></script>
+    <meta charset="utf-8" />
+    </head>
+    <body style="overflow:hidden;">
+
+    <div class="row base-margin" id="query" style="width: 95%">
+        <div th:include="menu :: html">
+
+        </div>
+        <form class="form-inline" role="form" style="float: left; width: 100%;padding-left: 35px;" method="post" id="queryForm">
+            <div class="form-group">
+                <label for="name">用户名:</label>
+                <input type="text" class="form-control" name="name" id="name"  placeholder="请输入用户名称"/>
+            </div>
+
+
+            <div class="form-group">
+                <button type="button" id="queryBtn" onclick="query();" class="btn btn-primary">查询</button>
+            </div>
+            <div class="form-group btn-right">
+                <button type="button" class="btn btn-primary " data-toggle="modal" onclick="add();" >新增</button>
+            </div>
+
+        </form>
+    </div>
+    <div class="container" style="width: 98%;">
+        <table id="result-table">
+        </table>
+    </div>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="editWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        人员编辑
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" id = "editForm">
+                        <input style="display: none;" id = "id1"/>
+                        <div class="form-group">
+                            <label for="name1" class="col-sm-2 control-label">用户名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name1" name="name1"
+                                       placeholder="请输入用户名"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="realName" class="col-sm-2 control-label">真实姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="realName" name="realName"
+                                       placeholder="请输入真实姓名"/>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="save();">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="editAddressWindow" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="addressModalLabel">
+                        人员推广地址编辑
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <ul class="list-group" id = "addressUL">
+                        <!--<li class="list-group-item">免费域名注册</li>
+                        <li class="list-group-item">免费 Window 空间托管</li>
+                        <li class="list-group-item">图像的数量</li>
+                        <li class="list-group-item">24*7 支持</li>
+                        <li class="list-group-item">每年更新成本</li>-->
+                    </ul>
+
+                </div>
+                <div class="modal-footer">
+
+                    <span id = "span2" style="display: none;"></span>
+                    <button type="button" class="btn btn-primary" onclick="addAddress();">
+                        新增地址
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    </body>
+ </html>

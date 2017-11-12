@@ -28,9 +28,12 @@ public class Employee extends BasePage implements Serializable{
     @Column(length = 32)
     private String realName;
 
+    @Transient
+    private String urlPath;
 
-    @OneToMany(targetEntity = UrlPath.class, mappedBy = "employee", fetch= FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Employee> employeeList;
+
+    @OneToMany(targetEntity = UrlPath.class, mappedBy = "employee", fetch= FetchType.LAZY,cascade={CascadeType.ALL})
+    private List<UrlPath> urlPathList;
 
     public Long getId() {
         return id;
@@ -56,11 +59,20 @@ public class Employee extends BasePage implements Serializable{
         this.realName = realName;
     }
 
-    public List<Employee> getEmployeeList() {
-        return employeeList;
+    public List<UrlPath> getUrlPathList() {
+        return urlPathList;
     }
 
-    public void setEmployeeList(List<Employee> employeeList) {
-        this.employeeList = employeeList;
+    public String getUrlPath() {
+        return urlPath;
+    }
+
+    public void setUrlPath(String urlPath) {
+        this.urlPath = urlPath;
+    }
+
+    public void setUrlPathList(List<UrlPath> urlPathList) {
+        this.urlPathList = urlPathList;
+
     }
 }
