@@ -19,6 +19,7 @@
         <script th:src="@{bootstrap/fileinput/js/locales/zh.js}"></script>
         <script th:src="@{bootstrap/viladator/js/bootstrapValidator.js}"></script>
         <script th:src="@{bootstrap/viladator/js/language/zh_CN.js}"></script>
+        <script type="text/javascript" th:src="@{js/clipboard.min.js}"></script>
         <script th:src="@{js/spreadPage.js}"></script>
     <meta charset="utf-8" />
     </head>
@@ -37,6 +38,7 @@
             <div class="form-group">
                 <label for="goodsName">商品:</label>
                 <select class="form-control" name="goodsName" id="goodsName">
+                    <option value="-1">--请选择一个商品--</option>
                 </select>
 
             </div>

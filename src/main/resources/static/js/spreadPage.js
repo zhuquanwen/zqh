@@ -22,7 +22,7 @@ function initGoods(){
             if(200 != result.status){
                 alert(result.info);
             }else{
-               var html = "";
+               var html = "<option value='-1'>--请选择一个商品--</option>";
                var goodsList = result.data;
                $.each(goodsList,function (index,goods) {
                    var goodsId = goods.id;
@@ -166,16 +166,27 @@ function initTable(){
         //
         // },
         onLoadSuccess: function(){
-
+            $.each($("img"),function (index, node) {
+                console.log(node.id);
+                var clipboard = new Clipboard(node);
+                clipboard.on('success', function(e) {
+                    console.log(e);
+                    alert("推广地址已经复制到剪切板！")
+                });
+                clipboard.on('error', function(e) {
+                    console.log(e);
+                    alert("推广地址复制失败，请手动复制")
+                });
+            });
         },
         onLoadError: function(status){  //加载失败时执行
 
             alert("加载数据出错!");
         },
         columns: [
-            {
+           /* {
                 field:"checkbox",checkbox: true,title:"选择",class:"tablebody",align:"center",valign:"middle",
-            },
+            },*/
             {
                 field: '',
                 title: '序号',
@@ -198,16 +209,31 @@ function initTable(){
                 valign : 'middle',
                 sortable : false
             },{
-                field : 'spreadAddress',
+                field : 'url',
                 title : '推广地址',
                 align : 'center',
                 valign : 'middle',
                 sortable : false
+            },{
+                field : '',
+                title : '操作',
+                align : 'center',
+                valign : 'middle'
+                ,
+                formatter : function (value, row, index){
+                    return "<img  " +
+                        "style='width:24px;height: 24px;' src='image/copy.png' " +
+                        "data-clipboard-text='"+row.url+"'></img>" +
+                        "<span style='display: none;' >" + row.url + "</span> ";
+                }
             }
         ]
     });
 }
 
+function copyUrl() {
+    
+}
 
 
 function queryParams() {

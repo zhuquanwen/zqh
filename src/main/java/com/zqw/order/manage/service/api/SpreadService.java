@@ -1,9 +1,7 @@
 package com.zqw.order.manage.service.api;
 
-import com.zqw.order.manage.entity.AjaxException;
+import com.zqw.order.manage.entity.BasePageResult;
 import com.zqw.order.manage.model.Spread;
-
-import java.util.List;
 
 /**
  * @author: zhuquanwen
@@ -11,5 +9,5 @@ import java.util.List;
  * @desc:
  */
 public interface SpreadService {
-    List<Spread> getSpread(Spread spread) throws AjaxException;
+    BasePageResult getSpread(Spread spread) throws Exception;
 }
