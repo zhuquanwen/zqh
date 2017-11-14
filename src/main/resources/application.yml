@@ -3,14 +3,16 @@ server:
     context-path: /manage/
     session:
       timeout: 3600
-    #tomcat:
-     # max-threads: 800
-     # uri-encoding: UTF-8
+    tomcat:
+      max-threads: 800
+      uri-encoding: UTF-8
 #log
 logging.config: classpath:logback.xml  
 
 #管理员用户名密码
 usr_pwd: zqh,zqh;admin,admin
+#对外发布地址
+publish_url: http://localhost:8888/manage
 
 #应用实体类所在的位置
 entityLocation: com.zqw.order.manage.domain.s
@@ -27,7 +29,7 @@ multipart.maxRequestSize: 20MB
 
 spring:
   profiles:
-    active: dev
+    active: prod
   mvc:
     favicon:
       enabled: true
@@ -42,7 +44,7 @@ spring:
       
 ---
 spring: 
-  profiles: dev
+  profiles: prod
   datasource:
     permission:
       type: com.alibaba.druid.pool.DruidDataSource
@@ -108,7 +110,7 @@ spring:
 ---
   
 spring: 
-  profiles: prod
+  profiles: dev
   datasource:
     permission:
       driver-class-name: com.mysql.jdbc.Driver
