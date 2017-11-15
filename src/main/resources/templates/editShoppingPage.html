@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title th:text="${topTitle}">waa</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/shopping/base.css}"/>
+    <link rel="stylesheet" th:href="@{/shopping/swiper.min.css}"/>
+    <script type="text/javascript" th:src="@{/shopping/jquery-1.11.3.js}"></script>
+    <script type="text/javascript" th:src="@{/shopping/jquery.SuperSlide.2.1.1.js}"></script>
+    <script type="text/javascript" th:src="@{/shopping/getarea.js}"></script>
+    <script th:src="@{/shopping/swiper.min.js}"></script>
+    <script th:src="@{/shopping/jsAddress.js}"></script>
+
+    <!--<link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{bootstrap/fileinput/css/fileinput.css}" />
+    <script th:src="@{bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{bootstrap/fileinput/js/fileinput.js}"></script>
+    <script th:src="@{bootstrap/fileinput/js/locales/zh.js}"></script>-->
+    <script>
+
+    </script>
+
+</head>
+
+<body >
+
+<div id="page">
+
+    <div class="pt-22">
+
+        <div class="top">
+            <p th:text="${topTitle}"></p>
+            <form th:action="${action}" method="post" enctype="multipart/form-data" >
+                <img style="width:576px;" th:src="${img1}" id="img1"/><input type="file" name="fileInput1" id="fileInput1"  />
+                <img style="width:576px;" th:src="${img2}" id="img2"/><input type="file" name="fileInput2" id="fileInput2" />
+                <img style="width:576px;" th:src="${img3}" id="img3"/><input type="file" name="fileInput3" id="fileInput3"  />
+                <img style="width:576px;" th:src="${img4}" id="img4"/><input type="file" name="fileInput4" id="fileInput4"  />
+                <img style="width:576px;" th:src="${img5}" id="img5"/><input type="file" name="fileInput5" id="fileInput5"  />
+                <img style="width:576px;" th:src="${img6}" id="img6"/><input type="file" name="fileInput6" id="fileInput6"  />
+                <img style="width:576px;" th:src="${img7}" id="img7"/><input type="file" name="fileInput7" id="fileInput7" />
+                <img style="width:576px;" th:src="${img8}" id="img8"/><input type="file" name="fileInput8" id="fileInput8"  />
+                <img style="width:576px;" th:src="${img9}" id="img9"/><input type="file" name="fileInput9" id="fileInput9"  />
+                <img style="width:576px;" th:src="${img10}" id="img10"/><input type="file" name="fileInput10" id="fileInput10"  />
+                <br/>
+                <span style="color:red;">*请确保上传图片格式为jpg格式，图片宽度最好为576px</span>
+                <input type="submit" value="提交" style="color:blue;"/>
+            </form>
+
+            <!--<img th:src="@{/shopping/1508326972.jpg}"/>
+            <img th:src="@{/shopping/1508333142.jpg}"/>
+            <img th:src="@{/shopping/1508328458.jpg}"/>
+            <img th:src="@{/shopping/1508327331.jpg}"/>
+            <img th:src="@{/shopping/1508323877.jpg}"/>
+            <img th:src="@{/shopping/1508328648.jpg}"/>
+            <img th:src="@{/shopping/1508330630.jpg}"/>
+            <img th:src="@{/shopping/1508332512.jpg}"/>
+            <img th:src="@{/shopping/1508329145.jpg}"/>-->
+        </div>
+
+    </div>
+</div>
+
+
+</body></html>
+
+<!--
+$('#wrap input[name="payMethod"]:checked ').val();-->

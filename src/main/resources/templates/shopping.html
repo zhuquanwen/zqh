@@ -25,8 +25,11 @@
 
         <div class="top">
             <p th:text="${topTitle}"></p>
-            <img th:src="@{/shopping/1508331001.jpg}"/>
-            <img th:src="@{/shopping/1508326972.jpg}"/>
+            <div th:each="src : ${VIEW_IMGS}">
+                <img th:src="@{${src}}"/>
+            </div>
+
+           <!-- <img th:src="@{/shopping/1508326972.jpg}"/>
             <img th:src="@{/shopping/1508333142.jpg}"/>
             <img th:src="@{/shopping/1508328458.jpg}"/>
             <img th:src="@{/shopping/1508327331.jpg}"/>
@@ -34,7 +37,7 @@
             <img th:src="@{/shopping/1508328648.jpg}"/>
             <img th:src="@{/shopping/1508330630.jpg}"/>
             <img th:src="@{/shopping/1508332512.jpg}"/>
-            <img th:src="@{/shopping/1508329145.jpg}"/>
+            <img th:src="@{/shopping/1508329145.jpg}"/>-->
         </div>
 
         <div class="btn">

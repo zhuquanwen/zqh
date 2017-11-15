@@ -30,6 +30,8 @@ public class SpreadController extends BaseController {
         mav.addObject(HIDDEN_FLAG, "spread");
         return mav;
     }
+
+
     @PostMapping(value = "/spread")
     @ResponseBody
     public BasePageResult<List<Spread>> spread(HttpSession session, Spread spread) throws AjaxException {

@@ -13,6 +13,8 @@ logging.config: classpath:logback.xml
 usr_pwd: zqh,zqh;admin,admin
 #对外发布地址
 publish_url: http://localhost:8888/manage
+#图片保存地址，暂时不做分布式，保存在服务本地
+pic_address: D:/managePic
 
 #应用实体类所在的位置
 entityLocation: com.zqw.order.manage.domain.s

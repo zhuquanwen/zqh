@@ -189,6 +189,9 @@ function initTable(){
                 formatter : function (value, row, index){
                     return "<a onclick='editData(this);' href='javascript:void(0);'><img " +
                         "style='width:24px;height: 24px;' src='image/edit.png'/><span style='display: none;'>" + row.id + "</span> " +
+                        "<a href='javascript:void(0);' onclick='editSpread(this);'>" +
+                        "<img  style='width:24px;height: 24px;' src='image/spread.png'/>" +
+                        "<span style='display: none;'>" + row.id + "</span></a>" +
                         "<a href='javascript:void(0);' onclick='deleteData(this);'>" +
                         "<img  style='width:24px;height: 24px;' src='image/delete.png'/>" +
                         "<span style='display: none;'>" + row.id + "</span></a>";
@@ -277,6 +280,13 @@ function responseHandler(res) {
             "total" : 0
         };
     }
+}
+
+function editSpread(node){
+    var idNode= $(node).find("span");
+    var id = idNode.text();
+    window.open("shoppingEdit?id=" + id);
+
 }
 
 function editData(node){

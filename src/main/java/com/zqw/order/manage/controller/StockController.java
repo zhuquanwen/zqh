@@ -126,9 +126,14 @@ public class StockController extends BaseController {
             if(id == null){
                 stock = stockService.save(stock);
                 String key = "stockKey" + stock.getId();
-                sc.setAttribute(key, new Stock());
+                sc.setAttribute(key, key);
             }else{
-                synchronized (sc.getAttribute("stockKey" + id)){
+                String key = (String) sc.getAttribute("stockKey" + id);
+                if(key == null){
+                    key = "stockKey" + id;
+                    sc.setAttribute(key, key);
+                }
+                synchronized (key){
                     stock = stockService.save(stock);
                 }
             }
@@ -162,7 +167,12 @@ public class StockController extends BaseController {
         try{
             Stock stock = stockService.findOne(id);
 //            stock.setId(id);
-            synchronized (sc.getAttribute("stockKey" + id)){
+            String key = (String) sc.getAttribute("stockKey" + id);
+            if(key == null){
+                key = "stockKey" + id;
+                sc.setAttribute(key, key);
+            }
+            synchronized (key){
                 stockService.delete(stock);
                 sc.removeAttribute("stockKey" + id);
             }
