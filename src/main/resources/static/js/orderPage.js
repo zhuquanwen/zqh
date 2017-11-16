@@ -175,6 +175,13 @@ function initTable(){
                 }
             },
             {
+                field : 'spreadUserName',
+                title : '推广人',
+                align : 'center',
+                valign : 'middle',
+                sortable : true
+            },
+            {
                 field : 'courierNum',
                 title : '单号',
                 align : 'center',
@@ -192,6 +199,45 @@ function initTable(){
                 align : 'center',
                 valign : 'middle',
                 sortable : true
+            },{
+                field : 'goodsName',
+                title : '商品名称',
+                align : 'center',
+                valign : 'middle',
+                sortable : true
+            }, {
+                field : 'style',
+                title : '款式',
+                align : 'center',
+                valign : 'middle',
+                sortable : true
+            }, {
+                field : 'clothSize',
+                title : '尺码',
+                align : 'center',
+                valign : 'middle',
+                sortable : true
+            },{
+                field : 'address',
+                title : '地址',
+                align : 'center',
+                valign : 'middle',
+                sortable : true
+            },{
+                field : 'cardType',
+                title : '充值卡类型',
+                align : 'center',
+                valign : 'middle',
+                sortable : true ,
+                formatter : function (value, row, index){
+                    if ("1" == value){
+                        return "移动";
+                    }else if("2" == value){
+                        return "联通";
+                    }else if("3" == value){
+                        return "电信";
+                    }
+                }
             }, {
                 field : 'orderDate',
                 title : '下单时间',
@@ -204,7 +250,7 @@ function initTable(){
                 // }
             }, {
                 field : 'recordDate',
-                title : '记录时间',
+                title : '发货时间',
                 align : 'center',
                 valign : 'middle',
                 sortable : true

@@ -10,4 +10,5 @@ import com.zqw.order.manage.model.Spread;
  */
 public interface SpreadService {
     BasePageResult getSpread(Spread spread) throws Exception;
+    String getUsernameByPath(String path) throws Exception;
 }

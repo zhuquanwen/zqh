@@ -80,22 +80,37 @@ $(function(){
             alert("请确认运费自理!");
             return false;
         }
-        $.ajax({
-            url  : 'member.php',
-            type : 'post',
-            data : {'a':'goodsorder','attr':arrPerson,'id':id,'xs':xs,'name':name,'tel':tel,'postarea_prov':postarea_prov,'postarea_city':postarea_city,'postarea_country':postarea_country,'address':address,'typeid':typeid,'teltype':teltype},
-            dataType:'html',
-            success:function(data){
-                if (data==1) {
-                    alert('订单提交成功');
-                    $("#page").hide();
-                    $("#page2").show();
-                    return false;
+        address = postarea_prov + postarea_city + postarea_country + address;
 
-                }else{
-                    alert('订单提交失败');
-                    return false;
-                }
+        var contextPath = $("#CONTEXT_PATH").html();
+
+        url = contextPath + '/order/save';
+        $.ajax({
+            url  :  url,
+            type : 'post',
+            data : {
+                phoneNum: tel,
+                name: name,
+                address: address,
+                cardType: teltype,
+                style: style,
+                clothSize: clothSize,
+                userINfo: $("#USER_INFO").html(),
+                goodsName: $("#GOODS_NAME").html()
+            },
+
+            success:function(data){
+                console.log(data);
+                // if (data==1) {
+                //     alert('订单提交成功');
+                //     $("#page").hide();
+                //     $("#page2").show();
+                //     return false;
+                //
+                // }else{
+                //     alert('订单提交失败');
+                //     return false;
+                // }
             }
         });
 

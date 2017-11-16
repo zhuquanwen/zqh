@@ -1,6 +1,8 @@
 package com.zqw.order.manage.controller;
 
+import com.zqw.order.manage.domain.p.ClothSize;
 import com.zqw.order.manage.domain.p.Goods;
+import com.zqw.order.manage.domain.p.Style;
 import com.zqw.order.manage.entity.PageException;
 import com.zqw.order.manage.service.api.ClothSizeService;
 import com.zqw.order.manage.service.api.GoodsService;
@@ -36,7 +38,11 @@ public class ShoppingController extends BaseController {
     private static String GOODS_DESCRIPTOR = "GOODS_DESCRIPTOR";
     private static String USER_INFO = "USER_INFO";
     private static String GOODS_ID = "GOODS_ID";
+    private static String GOODS_NAME = "GOODS_NAME";
     private static String VIEW_IMGS = "VIEW_IMGS";
+    private static String CLOTH_SIZE_COMBOBOX = "CLOTH_SIZE_COMBOBOX";
+    private static String STYLE_COMBOBOX = "STYLE_COMBOBOX";
+    private static String CONTEXT_PATH = "CONTEXT_PATH";
     @Autowired
     private GoodsService goodsService;
     @Autowired
@@ -48,12 +54,12 @@ public class ShoppingController extends BaseController {
 //        System.out.println(userInfo);
 //        return "shopping";
 //    }
-
     @GetMapping(value={"/toShopping/{userInfo}/{id}"})
     public ModelAndView toShoppingUserInfo(HttpServletRequest request,
                                            @PathVariable String userInfo, @PathVariable Long id) throws PageException{
         //通过ID获得图片信息，库存信息等。
         ModelAndView mav = new ModelAndView("shopping");
+        String contextPath = request.getContextPath();
         try {
             Map<String, Object> map = new HashMap<String, Object>();
 
@@ -85,9 +91,14 @@ public class ShoppingController extends BaseController {
                 }
             }
             mav.addObject(VIEW_IMGS, imgs);
-            mav.addObject(GOODS_ID, id);
+            mav.addObject(GOODS_NAME, goods.getName());
             mav.addObject(USER_INFO, userInfo);
+            List<ClothSize> clothSizeList = clothSizeService.findAll();
+            List<Style> styleList = styleService.findAll();
+            mav.addObject(CLOTH_SIZE_COMBOBOX, clothSizeList);
+            mav.addObject(STYLE_COMBOBOX, styleList);
             mav.addObject("topTitle", goods.getDescriptor());
+            mav.addObject(CONTEXT_PATH, contextPath);
         }catch (Exception e){
             e.printStackTrace();
             throw new PageException();

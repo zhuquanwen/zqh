@@ -68,6 +68,11 @@ public class ClothSizeController extends BaseController {
     ResponseEntity saveOrder(ClothSize clothSize){
         ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(),"操作成功");
         try{
+            if("默认".equals(clothSize.getName())){
+                re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                re.setInfo("默认款式不允许新增");
+                return re;
+            }
             clothSize = clothSizeService.save(clothSize);
             re.setData(clothSize);
         }catch (Exception e){

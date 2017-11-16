@@ -118,7 +118,10 @@
             <div class="b1 gai">
                 <p class="xiug">选择款式 <span style="color:#F00;">*</span> </p>
                 <input type="hidden" class="attid" value="41"/>
-                <select size="1" name="attr[41]" class="attr" id = "style">
+                <select size="1" class="attr" id="style" th:each="style : ${STYLE_COMBOBOX}">
+                    <option th:value="${style.name}" th:text="${style.name}"></option>
+                </select>
+                <!--<select size="1" name="attr[41]" class="attr" id = "style">
                     <option value="">-请选择-</option>
 
                     <option value="男款-黑色">男款-黑色</option>
@@ -128,13 +131,16 @@
                     <option value="女款-黑色">女款-黑色</option>
 
                     <option value="女款-白色">女款-白色</option>
-                </select>
+                </select>-->
 
             </div>
             <div class="b1 gai">
                 <p class="xiug">选择尺码 <span style="color:#F00;">*</span> </p>
                 <input type="hidden" class="attid" value="42"/>
-                <select size="1" name="attr[42]" class="attr" id="clothSize">
+                <select size="1" name="clothSize" class="attr" id="clothSize" th:each="clothSize : ${CLOTH_SIZE_COMBOBOX}">
+                    <option th:value="${clothSize.name}" th:text="${clothSize.name}"></option>
+                </select>
+             <!--   <select size="1" name="attr[42]" class="attr" id="clothSize">
                     <option value="">-请选择-</option>
 
                     <option value="S">S</option>
@@ -150,7 +156,7 @@
                     <option value="XXXL">XXXL</option>
 
                     <option value="XXXXL">XXXXL</option>
-                </select>
+                </select>-->
 
             </div>
             <div class="b1">
@@ -176,12 +182,13 @@
                     <span style="font-size:14px;color:#E53333;"><strong>地址填写提交一次即可 &nbsp;，切勿重复填写，影响发货速度或漏发！</strong></span><span style="font-size:14px;color:#E53333;"><strong></strong></span>
                 </p>
                 <p style="text-align:center;">
-                    <span style="font-size:16px;">客服微信：ksn778866</span>
+                    <span style="font-size:16px;">客服微信：xxxxxx</span>
                 </p>                    </div>
             <button id="tijiao">提交</button>
-
+            <span  style="display: none;" id="GOODS_NAME" th:text="${GOODS_NAME}"></span>
+            <span  style="display: none;" id="USER_INFO" th:text="${USER_INFO}"></span>
             <!--<div class="jubao"><a href="http://rushi365.cn/jubao.php?id=.3&amp;typeid=1&amp;xs=J140">举报</a></div>-->
-
+            <span th:text="${CONTEXT_PATH}" style="display: none;" id="CONTEXT_PATH"></span>
         </div>
     </div>
 </div>

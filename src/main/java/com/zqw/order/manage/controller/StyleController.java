@@ -71,6 +71,11 @@ public class StyleController extends BaseController {
     ResponseEntity saveOrder(Style style){
         ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(),"操作成功");
         try{
+            if("默认".equals(style.getName())){
+                re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                re.setInfo("默认款式不允许新增");
+                return re;
+            }
             style = styleService.save(style);
             re.setData(style);
         }catch (Exception e){

@@ -34,7 +34,20 @@ public class Order extends BasePage implements Serializable {
     @Column
     private String recordDate;
 
-
+    @Column(length = 100)
+    private String address;
+    @Column(length = 32)
+    private String cardType = "1"; //1 移动;2 联通；3电信
+    @Column(length = 32)
+    private String style; //款式
+    @Column(length = 32)
+    private String clothSize; //尺码
+    @Column(length = 32)
+    private String spreadUserName;
+    @Transient
+    private String userINfo;
+    @Column
+    private String goodsName;
 
     @Transient
     private String startDate;
@@ -104,5 +117,60 @@ public class Order extends BasePage implements Serializable {
 
     public void setEndDate(String endDate) {
         this.endDate = "".equals(endDate) ? null : endDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public String getClothSize() {
+        return clothSize;
+    }
+
+    public void setClothSize(String clothSize) {
+        this.clothSize = clothSize;
+    }
+
+    public String getSpreadUserName() {
+        return spreadUserName;
+    }
+    public void setSpreadUserName(String spreadUserName) {
+        this.spreadUserName = spreadUserName;
+    }
+
+    public String getUserINfo() {
+        return userINfo;
+    }
+
+    public void setUserINfo(String userINfo) {
+        this.userINfo = userINfo;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 }

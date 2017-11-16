@@ -76,4 +76,17 @@ public class SpreadServiceImpl extends SpecialServiceImpl implements SpreadServi
         return bpr;
     }
 
+    @Override
+    public String getUsernameByPath(String path) throws Exception {
+        String username = null;
+        String sql ="select t2.name as username from t_url_path t1 left join t_employee t2 on t1.employee_id" +
+                "=t2.id where t1.path = '@path'";
+        sql = sql.replace("@path", path);
+        List<Map> maps = this.nativeQueryToMapList(sql);
+        if (maps != null && maps.size() > 0) {
+            username = (String) maps.get(0).get("username");
+        }
+        return username;
+    }
+
 }

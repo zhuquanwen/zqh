@@ -8,6 +8,7 @@ import com.zqw.order.manage.entity.ResponseEntity;
 import com.zqw.order.manage.service.ExcelReadService;
 import com.zqw.order.manage.service.api.ClothSizeService;
 import com.zqw.order.manage.service.api.OrderService;
+import com.zqw.order.manage.service.api.SpreadService;
 import com.zqw.order.manage.service.api.StyleService;
 import com.zqw.order.manage.util.EncodeUtils;
 import com.zqw.order.manage.util.JacksonUtils;
@@ -41,6 +42,8 @@ public class OrderController extends BaseController {
     private StyleService styleService;
     @Autowired
     private ExcelReadService excelReadService;
+    @Autowired
+    private SpreadService spreadService;
     @Value("${usr_pwd}")
     private String usrPwd;
     private Map<String,Map<String,String>> usrPwdMap = new HashMap<String,Map<String,String>>();
@@ -178,7 +181,11 @@ public class OrderController extends BaseController {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             String recordDate = df.format(date);
 
-            order.setRecordDate(recordDate);
+            order.setOrderDate(recordDate);
+            //处理推广人
+            String userInfo = order.getUserINfo();
+            String spreadUserName = spreadService.getUsernameByPath(userInfo);
+            order.setSpreadUserName(spreadUserName);
             order = orderService.save(order);
             re.setData(order);
         }catch (Exception e){
