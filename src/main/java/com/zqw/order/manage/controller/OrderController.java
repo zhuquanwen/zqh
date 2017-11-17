@@ -25,7 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -121,8 +123,6 @@ public class OrderController extends BaseController {
     @RequestMapping(value="/importOrder", method = RequestMethod.POST)
     public @ResponseBody Map<String,Object> uploadImg(HttpServletRequest request) {
         Map<String, Object> json = new HashMap<String, Object>();
-
-
         try{
             request.setCharacterEncoding("UTF-8");
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -173,7 +173,7 @@ public class OrderController extends BaseController {
 
 
     @RequestMapping(value = "/order/save", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity saveOrder( Order  order){
+    public @ResponseBody ResponseEntity saveOrder(HttpServletResponse response, Order  order){
         ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(),"操作成功");
         try{
 //            List<Order> orders = JacksonUtils.parseList(data, Order.class);
@@ -188,6 +188,10 @@ public class OrderController extends BaseController {
             order.setSpreadUserName(spreadUserName);
             order = orderService.save(order);
             re.setData(order);
+            Cookie cookie = new Cookie("shopping", "shopping");
+            cookie.setMaxAge(60*60*24*15);
+            cookie.setPath("/");
+            response.addCookie(cookie);
         }catch (Exception e){
             e.printStackTrace();
             re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());

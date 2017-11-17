@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -35,6 +36,8 @@ import java.util.*;
 public class ShoppingController extends BaseController {
     @Value("${pic_address}")
     private String picAddress;
+    @Value("${server.context-path")
+    private String contextPath;
     private static String GOODS_DESCRIPTOR = "GOODS_DESCRIPTOR";
     private static String USER_INFO = "USER_INFO";
     private static String GOODS_ID = "GOODS_ID";
@@ -61,6 +64,21 @@ public class ShoppingController extends BaseController {
         ModelAndView mav = new ModelAndView("shopping");
         String contextPath = request.getContextPath();
         try {
+            Cookie[] cookies = request.getCookies();
+            if(cookies != null){
+                for (Cookie cookie:
+                     cookies) {
+                    String name = cookie.getName();
+                    if("shopping".equals(name)){
+                        if("shopping".equals(cookie.getValue())){
+                            String redirect = "redirect:" + "/search";
+                            mav.setViewName(redirect);
+                            return mav;
+                        }
+                    }
+
+                }
+            }
             Map<String, Object> map = new HashMap<String, Object>();
 
 //        map.put("title","阿迪2017明星同款套装免费送");

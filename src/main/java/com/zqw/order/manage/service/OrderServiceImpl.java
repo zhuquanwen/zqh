@@ -71,6 +71,8 @@ public class OrderServiceImpl implements OrderService{
             Path<String> phoneNum = root.get("phoneNum");
             Path<String> courierNum = root.get("courierNum");
             Path<String> orderDate = root.get("orderDate");
+            Path<String> spreadUserName = root.get("spreadUserName");
+            Path<String> goodsName = root.get("goodsName");
             List<Predicate> pres = new ArrayList<Predicate>();
             if(!StringUtils.isEmpty(order.getPhoneNum())){
                 Predicate p1 = cb.like(phoneNum, "%" + order.getPhoneNum() + "%");
@@ -80,6 +82,15 @@ public class OrderServiceImpl implements OrderService{
                 Predicate p2 = cb.like(courierNum, "%" + order.getCourierNum() + "%");
                 pres.add(p2);
             }
+            if(!StringUtils.isEmpty(order.getSpreadUserName())){
+                Predicate p = cb.like(spreadUserName, "%" + order.getSpreadUserName() + "%");
+                pres.add(p);
+            }
+            if(!StringUtils.isEmpty(order.getGoodsName())){
+                Predicate p = cb.like(goodsName, "%" + order.getGoodsName() + "%");
+                pres.add(p);
+            }
+
             if(!StringUtils.isEmpty(order.getStartDate()) && !StringUtils.isEmpty(order.getEndDate())){
                 Predicate p3 = cb.between(orderDate, order.getStartDate(),order.getEndDate());
                 pres.add(p3);

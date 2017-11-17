@@ -100,6 +100,13 @@ $(function(){
             },
 
             success:function(data){
+                if(200 == data.status){
+                    alert("提交成功，将跳转至订单查询页面");
+                    window.location.href = contextPath + "/search";
+                }else{
+                    alert(data.info);
+                }
+
                 console.log(data);
                 // if (data==1) {
                 //     alert('订单提交成功');
@@ -111,6 +118,9 @@ $(function(){
                 //     alert('订单提交失败');
                 //     return false;
                 // }
+            },
+            error: function () {
+                alert("提交出错");
             }
         });
 

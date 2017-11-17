@@ -331,6 +331,8 @@ function queryParams() {
         courierNum : $("#courierNum").val(),
         startDate : $("#startDate").val(),
         endDate : $("#endDate").val(),
+        spreadUserName: $("#spreadUserName").val(),
+        goodsName: $("#goodsName").val(),
         limit : this.limit, // 页面大小
         offset : this.offset, // 页码
         page : this.pageNumber - 1,
