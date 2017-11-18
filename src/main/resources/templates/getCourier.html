@@ -16,7 +16,7 @@
 
     <div class="signin">
         <div class="signin-head"><img th:src="@{mobile/images/test/head_120.png}" alt="" class="img-circle"/></div>
-        <form class="form-signin" role="form" action="#">
+        <form class="form-signin" role="form" action="#" onkeydown="if(event.keyCode==13){return false;}">
             <input type="text" id="phoneNum" class="form-control" placeholder="手机号码" required="required" autofocus="autofocus" />
             <button type="button" id="queryBtn" onclick="searchCourier();" class="btn btn-lg btn-warning btn-block">查询</button>
             <!--<button class="btn btn-lg btn-warning btn-block"  onclick="searchCourier();">查询</button>-->
@@ -25,7 +25,8 @@
     </div>
 
     <div style="text-align:center;margin:100px 0; font:normal 14px/24px 'MicroSoft YaHei';">
-        <strong>声明:</strong><p>此平台仅提供物流信息查询,复制查询结果在圆通官网查询物流详细信息</p>
+        <strong>声明:</strong><p>此平台仅提供物流信息查询,复制查询结果在圆通官网查询物流详细信息<br/>
+                                    物流信息与发货时间可能会有2天的延迟</p>
     </div>
 </body>
 </html>

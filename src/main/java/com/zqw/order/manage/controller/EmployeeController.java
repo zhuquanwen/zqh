@@ -94,16 +94,23 @@ public class EmployeeController extends BaseController {
         ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(),"操作成功");
         try{
             //生成一个地址标识
-            UrlPath urlPath = new UrlPath();
-            urlPath.setPath(UrlPathUtils.createNewPath(employee.getName()));
-            urlPath.setUseFlag("1");
+            if(employee.getId() == null){
+                UrlPath urlPath = new UrlPath();
+                urlPath.setPath(UrlPathUtils.createNewPath(employee.getName()));
+                urlPath.setUseFlag("1");
+                List<UrlPath> urlPathList = new ArrayList<UrlPath>();
+                urlPathList.add(urlPath);
+                employee.setUrlPathList(urlPathList);
+                employee = employeeService.save(employee);
+                urlPath.setEmployee(employee);
+                urlPathService.save(urlPath);
+            }else{
+                employee = employeeService.save(employee);
+            }
+
 //            urlPath.setEmployee(employee);
-            List<UrlPath> urlPathList = new ArrayList<UrlPath>();
-            urlPathList.add(urlPath);
-            employee.setUrlPathList(urlPathList);
-            employee = employeeService.save(employee);
-            urlPath.setEmployee(employee);
-            urlPathService.save(urlPath);
+
+
             re.setData(employee);
         }catch (Exception e){
             e.printStackTrace();

@@ -101,8 +101,10 @@ $(function(){
 
             success:function(data){
                 if(200 == data.status){
-                    alert("提交成功，将跳转至订单查询页面");
-                    window.location.href = contextPath + "/search";
+                    alert("提交成功");
+                    /*window.location.href = contextPath + "/search";*/
+                    $("#page").css("display","none");
+                    $("#page2").css("display","block");
                 }else{
                     alert(data.info);
                 }

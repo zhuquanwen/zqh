@@ -1,5 +1,5 @@
 server:
-    port: 8889
+    port: 80
     context-path: /manage/
     session:
       timeout: 3600
@@ -15,6 +15,8 @@ usr_pwd: zqh,zqh;admin,admin
 publish_url: http://localhost:8888/manage
 #图片保存地址，暂时不做分布式，保存在服务本地
 pic_address: D:/managePic
+#cookie保存时间 天
+cookie_timeout: 15
 
 #应用实体类所在的位置
 entityLocation: com.zqw.order.manage.domain.s

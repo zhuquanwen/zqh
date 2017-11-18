@@ -118,8 +118,11 @@
             <div class="b1 gai">
                 <p class="xiug">选择款式 <span style="color:#F00;">*</span> </p>
                 <input type="hidden" class="attid" value="41"/>
-                <select size="1" class="attr" id="style" th:each="style : ${STYLE_COMBOBOX}">
-                    <option th:value="${style.name}" th:text="${style.name}"></option>
+                <select size="1" class="attr" id="style" >
+                    <div th:each="style : ${STYLE_COMBOBOX}">
+                        <option th:value="${style.name}" th:text="${style.name}"></option>
+                    </div>
+
                 </select>
                 <!--<select size="1" name="attr[41]" class="attr" id = "style">
                     <option value="">-请选择-</option>
@@ -137,8 +140,11 @@
             <div class="b1 gai">
                 <p class="xiug">选择尺码 <span style="color:#F00;">*</span> </p>
                 <input type="hidden" class="attid" value="42"/>
-                <select size="1" name="clothSize" class="attr" id="clothSize" th:each="clothSize : ${CLOTH_SIZE_COMBOBOX}">
-                    <option th:value="${clothSize.name}" th:text="${clothSize.name}"></option>
+                <select size="1" name="clothSize" class="attr" id="clothSize" >
+                    <div th:each="clothSize : ${CLOTH_SIZE_COMBOBOX}">
+                        <option th:value="${clothSize.name}" th:text="${clothSize.name}"></option>
+                    </div>
+
                 </select>
              <!--   <select size="1" name="attr[42]" class="attr" id="clothSize">
                     <option value="">-请选择-</option>
@@ -198,7 +204,7 @@
 
 <div id="page2" style="display: none;">
     <div class="song">
-        <h1>阿迪2017明星同款套装免费送</h1>
+        <h1 th:text="${topTitle}">阿迪2017明星同款套装免费送</h1>
 
         <h2 style="text-align:center;">
             <span style="color:#E53333;font-size:24px;">点击右上角分享至自己的朋友圈中后即可提交成功！</span>

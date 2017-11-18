@@ -5,17 +5,17 @@ package com.zqw.order.manage.util;
  * @date: 2017/11/3 14:33
  * @desc:
  */
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.SecureRandom;
+import com.alibaba.druid.filter.config.ConfigTools;
+import org.springframework.util.StringUtils;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
-
-import org.springframework.util.StringUtils;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 
 
 
@@ -48,6 +48,8 @@ public class EncodeUtils {
 
         String decrypt = aesDecrypt(encrypt, key);
         System.out.println("解密后：" + decrypt);
+
+        System.out.println(ConfigTools.encrypt("ROOT"));
     }
 
     /**

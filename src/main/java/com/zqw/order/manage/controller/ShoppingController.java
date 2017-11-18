@@ -4,6 +4,7 @@ import com.zqw.order.manage.domain.p.ClothSize;
 import com.zqw.order.manage.domain.p.Goods;
 import com.zqw.order.manage.domain.p.Style;
 import com.zqw.order.manage.entity.PageException;
+import com.zqw.order.manage.service.SpecialServiceImpl;
 import com.zqw.order.manage.service.api.ClothSizeService;
 import com.zqw.order.manage.service.api.GoodsService;
 import com.zqw.order.manage.service.api.StyleService;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -52,6 +54,8 @@ public class ShoppingController extends BaseController {
     private ClothSizeService clothSizeService;
     @Autowired
     private StyleService styleService;
+    @Autowired
+    private SpecialServiceImpl specialServiceImpl;
 //    @GetMapping(value={"/toShopping"})
 //    public String toShopping(@PathVariable String userInfo){
 //        System.out.println(userInfo);
@@ -111,8 +115,45 @@ public class ShoppingController extends BaseController {
             mav.addObject(VIEW_IMGS, imgs);
             mav.addObject(GOODS_NAME, goods.getName());
             mav.addObject(USER_INFO, userInfo);
-            List<ClothSize> clothSizeList = clothSizeService.findAll();
-            List<Style> styleList = styleService.findAll();
+//            List<ClothSize> clothSizeList = clothSizeService.findAll();
+            String sql = "select t1.sum,t1.goods_id,t4.name,t2.name as clothSize,t2.id  from t_stock t1,t_cloth_size t2,t_goods t4 where t1.cloth_size_id =" +
+                    "  t2.id  and t1.goods_id = t4.id and t4.id= @id";
+            sql = sql.replace("@id" , id.toString());
+            List<Map> maps = specialServiceImpl.nativeQueryToMapList(sql);
+            List<ClothSize> clothSizeList = new ArrayList<ClothSize>();
+            Map mapx = new HashMap();
+            if(maps != null){
+                for (int i = maps.size()-1; i >= 0 ; i--) {
+                    ClothSize style = new ClothSize();
+                    BigInteger bi = (BigInteger) maps.get(i).get("id");
+                    if(mapx.get(bi) == null){
+                        style.setId(bi.longValue() );
+                        style.setName((String) maps.get(i).get("clothSize"));
+                        clothSizeList.add(style);
+                        mapx.put(bi,"xcc");
+                    }
+                }
+
+            }
+//            List<Style> styleList = styleService.findAll();
+            String sqlx = "select t1.sum,t1.goods_id,t4.name,t2.name as style,t2.id  from t_stock t1,t_style t2,t_goods t4 where t1.style_id =" +
+                    "  t2.id  and t1.goods_id = t4.id and t4.id= @id";
+            sqlx = sqlx.replace("@id" , id.toString());
+            List<Style> styleList = new ArrayList<Style>();
+            List<Map> maps1 = specialServiceImpl.nativeQueryToMapList(sqlx);
+            Map mapy = new HashMap();
+            if(maps1 != null){
+                for (int i = maps1.size()-1; i >= 0 ; i--) {
+                    Style style = new Style();
+                    BigInteger bi = (BigInteger) maps1.get(i).get("id");
+                    if(mapy.get(bi) == null){
+                        style.setId(bi.longValue());
+                        style.setName((String) maps1.get(i).get("style"));
+                        styleList.add(style);
+                        mapy.put(bi,"erer");
+                    }
+                }
+            }
             mav.addObject(CLOTH_SIZE_COMBOBOX, clothSizeList);
             mav.addObject(STYLE_COMBOBOX, styleList);
             mav.addObject("topTitle", goods.getDescriptor());

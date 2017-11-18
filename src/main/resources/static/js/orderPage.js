@@ -34,18 +34,20 @@ function initValidator(){
                         message: '用户名长度必须在2到15位之间'
                     }
                 }
-            },
-            courierNum1: {
-                validators: {
-                    notEmpty: {
-                        message: '单号不能为空'
-                    },
-                    regexp: {
-                        regexp: /^[0-9]*$/,
-                        message: '单号必须为数字组成'
-                    }
-                }
-            },
+            }
+                // ,
+            // courierNum1: {
+            //     validators: {
+            //         notEmpty: {
+            //             message: '单号不能为空'
+            //         },
+            //         regexp: {
+            //             regexp: /^[0-9]*$/,
+            //             message: '单号必须为数字组成'
+            //         }
+            //     }
+            // }
+            ,
             phoneNum1: {
                 validators: {
                     notEmpty: {
@@ -59,6 +61,66 @@ function initValidator(){
                     regexp: {
                         regexp: /^[0-9]*$/,
                         message: '手机号码必须为数字组成'
+                    }
+                }
+            },
+            goodsName1: {
+                validators: {
+                    notEmpty: {
+                        message: '商品名称不能为空'
+                    },
+                    stringLength: {
+                        min: 2,
+                            max: 30,
+                            message: '商品名称必须在2到30位之间'
+                    }
+                }
+            },
+            style1: {
+                validators: {
+                    notEmpty: {
+                        message: '款式不能为空'
+                    },
+                    stringLength: {
+                        min: 2,
+                            max: 30,
+                            message: '款式名称必须在2到30位之间'
+                    }
+                }
+            },
+            clothSize1: {
+                validators: {
+                    notEmpty: {
+                        message: '尺码不能为空'
+                    },
+                    stringLength: {
+                        min: 1,
+                        max: 30,
+                        message: '尺码名称必须在1到30位之间'
+                    }
+                }
+            },
+            address1: {
+                validators: {
+                    notEmpty: {
+                        message: '地址不能为空'
+                    },
+                    stringLength: {
+                        min: 2,
+                        max: 70,
+                        message: '地址名称必须在2到70位之间'
+                    }
+                }
+            },
+            spreadUserName1: {
+                validators: {
+                    notEmpty: {
+                        message: '推广人不能为空'
+                    },
+                    stringLength: {
+                        min: 2,
+                        max: 20,
+                        message: '推广人名称必须在2到70位之间'
                     }
                 }
             }
@@ -362,6 +424,8 @@ function responseHandler(res) {
     }
 }
 
+
+
 function editData(node){
     clearEditForm();
     initValidator();
@@ -382,6 +446,14 @@ function editData(node){
                 $("#courierNum1").val(result.data.courierNum);
                 $("#phoneNum1").val(result.data.phoneNum);
                 $("#id1").val(result.data.id);
+                $("#goodsName1").val(result.data.goodsName);
+                $("#style1").val(result.data.style);
+                $("#clothSize1").val(result.data.clothSize);
+                $("#address1").val(result.data.address);
+                $("#cardType1").val(result.data.cardType);
+                $("#spreadUserName1").val(result.data.spreadUserName);
+                $("#recordDate1").val(result.data.recordDate);
+                $("#recordDate").val(result.data.recordDate);
                 $("#editWindow").modal('show');
             }
         }
@@ -396,6 +468,14 @@ function clearEditForm(){
     $("#courierNum1").val(null);
     $("#phoneNum1").val(null);
     $("#id1").val(null);
+    $("#goodsName1").val(null);
+    $("#style1").val(null);
+    $("#clothSize1").val(null);
+    $("#address1").val(null);
+    $("#cardType1").val(null);
+    $("#spreadUserName1").val(null);
+    $("#recordDate1").val(null);
+    $("#recordDate").val(null);
 
 }
 function add() {
@@ -409,11 +489,19 @@ function save(){
     if(!isValid){
         return;
     }
+
     var param = {
         phoneNum : $("#phoneNum1").val() != "" ? $("#phoneNum1").val() : null,
         courierNum : $("#courierNum1").val() != "" ? $("#courierNum1").val() : null,
         orderDate : $("#orderDate").val() != "" ? $("#orderDate").val() : null,
-        name : $("#name1").val() != "" ? $("#name1").val() : null
+        name : $("#name1").val() != "" ? $("#name1").val() : null,
+        goodsName : $("#goodsName1").val != "" ? $("#goodsName1").val() : null,
+        style :  $("#style1").val() != "" ?  $("#style1").val() : null,
+        clothSize : $("#clothSize1").val() != "" ? $("#clothSize1").val() : null,
+        address : $("#address1").val() != "" ? $("#address1").val() : null,
+        cardType : $("#cardType1").val() != "" ? $("#cardType1").val() : null,
+        recordDate :  $("#recordDate1").val() != "" ?  $("#recordDate1").val() : null,
+        spreadUserName : $("#spreadUserName1").val() != "" ?  $("#spreadUserName1").val() : null
 
     }
     if($("#id1").val() != null && $("#id1").val() != ""){
@@ -441,6 +529,14 @@ function save(){
                $("#endDate").val("");
                $("#endDate1").val("");
                $("#startDate1").val("");
+               $("#goodsName1").val("");
+               $("#style1").val("");
+               $("#clothSize1").val("");
+               $("#address1").val("");
+               $("#cardType1").val("");
+               $("#spreadUserName1").val("");
+               $("#recordDate1").val("");
+               $("#recordDate").val("");
 
                $('#result-table').bootstrapTable("refresh");
            }
@@ -448,10 +544,14 @@ function save(){
     });
 }
 function deleteData(node){
+    var r=confirm("删除不可恢复,确定删除?")
+    if (r!=true){
+        return;
+    }
     var idNode= $(node).find("span");
     var id = idNode.text();
     $.ajax({
-        url:"goods/delete/" + id,
+        url:"order/delete/" + id,
         type:"GET",
         data: null,
         success:function(result){
@@ -469,6 +569,14 @@ function deleteData(node){
                 $("#phoneNum").val("");
                 $("#courierNum1").val("");
                 $("#phoneNum1").val("");
+                $("#goodsName1").val("");
+                $("#style1").val("");
+                $("#clothSize1").val("");
+                $("#address1").val("");
+                $("#cardType1").val("");
+                $("#spreadUserName1").val("");
+                $("#recordDate1").val("");
+                $("#recordDate").val("");
                 $('#result-table').bootstrapTable("refresh");
             }
         }
@@ -512,6 +620,28 @@ function query(){
 function importOrder(){
     $("#importWindow").modal('show');
 }
+function exportOrder(){
+    var query = queryParams();
+    var url = "orderExport?phoneNum=" + query.phoneNum
+        +"&courierNum=" + query.courierNum + "&startDate=" + query.startDate
+        +"&endDate=" + query.endDate + "&spreadUserName=" + query.spreadUserName
+        +"&goodsName=" + query.goodsName + "&page=0&size=3";
+    window.open(url);
+    // $.ajax({
+    //     dataType: "json",
+    //     traditional:true,//这使json格式的字符不会被转码
+    //     data: {"order":JSON.stringify(query)},
+    //     type: "POST",
+    //     url: url,
+    //     success : function (data) {
+    //
+    //     },
+    //     error : function (data){
+    //         alert("导出出错!");
+    //     }
+    // });
+
+}
 
 function deleteInBatch(){
     var a= $("#result-table").bootstrapTable('getSelections');
@@ -543,6 +673,14 @@ function deleteInBatch(){
                 $("#phoneNum").val("");
                 $("#courierNum1").val("");
                 $("#phoneNum1").val("");
+                $("#goodsName1").val("");
+                $("#style1").val("");
+                $("#clothSize1").val("");
+                $("#address1").val("");
+                $("#cardType1").val("");
+                $("#spreadUserName1").val("");
+                $("#recordDate1").val("");
+                $("#recordDate").val("");
                 $('#result-table').bootstrapTable("refresh");
                 searchFlag = false;
             },

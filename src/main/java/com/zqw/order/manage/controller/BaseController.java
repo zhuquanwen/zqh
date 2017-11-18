@@ -6,6 +6,7 @@ import com.zqw.order.manage.entity.PageException;
 import com.zqw.order.manage.service.api.ClothSizeService;
 import com.zqw.order.manage.service.api.StyleService;
 import com.zqw.order.manage.util.EncodeUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,10 @@ public class BaseController {
 
         try{
             String url = request.getRequestURL().toString();
+            String queryString = request.getQueryString();
+            if(!StringUtils.isEmpty(queryString)){
+                url = url + "?" + queryString;
+            }
             //验证一下application中有没有款式和尺码默认信息，如果没有就插入，
             ServletContext sc = session.getServletContext();
             String defaultRecord = (String) sc.getAttribute(DEFAULT_RECORD);

@@ -57,10 +57,10 @@ public class ExcelReadService {
         return null;
     }
 
-    public static void main(String[] args){
-        File file = new File("C:/Users/gmh/Desktop/aaa.xlsx");
-        new ExcelReadService().readXlsxByFile(file);
-    }
+//    public static void main(String[] args){
+//        File file = new File("C:/Users/gmh/Desktop/模板.xlsx");
+//        new ExcelReadService().readXlsxByFile(file);
+//    }
 
     public List<Order> readXlsxByFile(File file){
         List<Order> list = new ArrayList<Order>();
@@ -98,7 +98,32 @@ public class ExcelReadService {
                                 order.setPhoneNum(cell != null ? cell.toString() : null);
                             }else if (c == 3){
                                 order.setOrderDate(cell != null ? cell.toString() : null);
+                            }else if (c == 4){
+                                order.setGoodsName(cell != null ? cell.toString() : null);
+                            }else if (c == 5){
+                                order.setStyle(cell != null ? cell.toString() : null);
+                            }else if (c == 6){
+                                order.setClothSize(cell != null ? cell.toString() : null);
+                            }else if (c == 7){
+                                order.setAddress(cell != null ? cell.toString() : null);
+                            }else if (c == 8){
+                                String cartType = null;
+                                if("移动".equals(cell.toString())){
+                                    cartType = "1";
+                                }else  if("联通".equals(cell.toString())){
+                                    cartType = "2";
+                                }else  if("电信".equals(cell.toString())){
+                                    cartType = "3";
+                                }
+                                order.setCardType(cartType);
+                            }else if (c == 9){
+                                order.setSpreadUserName(cell != null ? cell.toString() : null);
+                            }else if (c == 10){
+                                order.setRecordDate(cell != null ? cell.toString() : null);
+                            }else if (c == 11){
+                                order.setId(cell != null ? Long.parseLong(cell.toString()): null);
                             }
+
                         }
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         order.setRecordDate(df.format(new Date()));
@@ -157,7 +182,32 @@ public class ExcelReadService {
                                 order.setPhoneNum(cell != null ? cell.toString() : null);
                             }else if (c == 3){
                                 order.setOrderDate(cell != null ? cell.toString() : null);
+                            }else if (c == 4){
+                                order.setGoodsName(cell != null ? cell.toString() : null);
+                            }else if (c == 5){
+                                order.setStyle(cell != null ? cell.toString() : null);
+                            }else if (c == 6){
+                                order.setClothSize(cell != null ? cell.toString() : null);
+                            }else if (c == 7){
+                                order.setAddress(cell != null ? cell.toString() : null);
+                            }else if (c == 8){
+                                String cartType = null;
+                                if("移动".equals(cell.toString())){
+                                    cartType = "1";
+                                }else  if("联通".equals(cell.toString())){
+                                    cartType = "2";
+                                }else  if("电信".equals(cell.toString())){
+                                    cartType = "3";
+                                }
+                                order.setCardType(cartType);
+                            }else if (c == 9){
+                                order.setSpreadUserName(cell != null ? cell.toString() : null);
+                            }else if (c == 10){
+                                order.setRecordDate(cell != null ? cell.toString() : null);
+                            }else if (c == 11){
+                                order.setId(cell != null ? Long.parseLong(cell.toString()): null);
                             }
+
                         }
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         order.setRecordDate(df.format(new Date()));
@@ -215,6 +265,30 @@ public class ExcelReadService {
                                 order.setPhoneNum(cell != null ? cell.toString() : null);
                             }else if (c == 3){
                                 order.setOrderDate(cell != null ? cell.toString() : null);
+                            }else if (c == 4){
+                                order.setGoodsName(cell != null ? cell.toString() : null);
+                            }else if (c == 5){
+                                order.setStyle(cell != null ? cell.toString() : null);
+                            }else if (c == 6){
+                                order.setClothSize(cell != null ? cell.toString() : null);
+                            }else if (c == 7){
+                                order.setAddress(cell != null ? cell.toString() : null);
+                            }else if (c == 8){
+                                String cartType = null;
+                                if("移动".equals(cell.toString())){
+                                    cartType = "1";
+                                }else  if("联通".equals(cell.toString())){
+                                    cartType = "2";
+                                }else  if("电信".equals(cell.toString())){
+                                    cartType = "3";
+                                }
+                                order.setCardType(cartType);
+                            }else if (c == 9){
+                                order.setSpreadUserName(cell != null ? cell.toString() : null);
+                            }else if (c == 10){
+                                order.setRecordDate(cell != null ? cell.toString() : null);
+                            }else if (c == 11){
+                                order.setId(cell != null ? Long.parseLong(cell.toString()): null);
                             }
 
 //                            rowList.add(ExcelUtils.getHValue(cell).trim());

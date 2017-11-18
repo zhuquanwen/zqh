@@ -410,6 +410,10 @@ function save(){
     });
 }
 function deleteData(node){
+    var r=confirm("删除不可恢复,确定删除?")
+    if (r!=true){
+        return;
+    }
     var idNode= $(node).find("span");
     var id = idNode.text();
     $.ajax({

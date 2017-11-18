@@ -83,7 +83,8 @@ public class OrderServiceImpl implements OrderService{
                 pres.add(p2);
             }
             if(!StringUtils.isEmpty(order.getSpreadUserName())){
-                Predicate p = cb.like(spreadUserName, "%" + order.getSpreadUserName() + "%");
+                Predicate p = cb.equal(spreadUserName,  order.getSpreadUserName() );
+
                 pres.add(p);
             }
             if(!StringUtils.isEmpty(order.getGoodsName())){

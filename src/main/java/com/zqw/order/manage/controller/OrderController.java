@@ -1,15 +1,15 @@
 package com.zqw.order.manage.controller;
 
 import com.zqw.order.manage.domain.p.Order;
+import com.zqw.order.manage.domain.p.Stock;
 import com.zqw.order.manage.entity.AjaxException;
 import com.zqw.order.manage.entity.BasePageResult;
 import com.zqw.order.manage.entity.PageException;
 import com.zqw.order.manage.entity.ResponseEntity;
+import com.zqw.order.manage.service.ExcelExportService;
 import com.zqw.order.manage.service.ExcelReadService;
-import com.zqw.order.manage.service.api.ClothSizeService;
-import com.zqw.order.manage.service.api.OrderService;
-import com.zqw.order.manage.service.api.SpreadService;
-import com.zqw.order.manage.service.api.StyleService;
+import com.zqw.order.manage.service.SpecialServiceImpl;
+import com.zqw.order.manage.service.api.*;
 import com.zqw.order.manage.util.EncodeUtils;
 import com.zqw.order.manage.util.JacksonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +20,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,6 +39,8 @@ import java.util.*;
 @SuppressWarnings("Duplicates")
 @Controller
 public class OrderController extends BaseController {
+    @Autowired
+    private StockService stockService;
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -46,8 +51,17 @@ public class OrderController extends BaseController {
     private ExcelReadService excelReadService;
     @Autowired
     private SpreadService spreadService;
+    @Autowired
+    private ExcelExportService excelExportService;
+    @Autowired
+    private GoodsService goodsService;
+    @Autowired
+    private SpecialServiceImpl specialServiceImpl;
+
     @Value("${usr_pwd}")
     private String usrPwd;
+    @Value("${cookie_timeout}")
+    private int cookieTimeout;
     private Map<String,Map<String,String>> usrPwdMap = new HashMap<String,Map<String,String>>();
 
 
@@ -119,7 +133,52 @@ public class OrderController extends BaseController {
 
     }
 
+    @RequestMapping(value="/orderExport",method = RequestMethod.GET)
+    public void  orderExport1(HttpServletRequest request,HttpServletResponse response,
+                                                    Order order) throws Exception {
+//        Order order = null;
+//
+//        order = JacksonUtils.parse(data, Order.class);
+
+//        ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(), "导出成功");
+        if (order.getDirection() == null) {
+            order.setDirection("asc");
+        }
+        if (order.getField() == null) {
+            order.setField("id");
+        }
+        Sort sort = new Sort(order.getDirection(), order.getField());
+        Pageable pageable = new PageRequest(0, Integer.MAX_VALUE, sort);
+//            Page<Order> page = orderService.findUsePage(pageable);
+        Page<Order> page = orderService.findByPageAndParams(order, pageable);
+        excelExportService.exportOrder(response,page.getContent());
+//        return re;
+    }
+
+    @RequestMapping(value="/orderExport",method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity orderExport(HttpServletRequest request,HttpServletResponse response,
+                                                    @RequestParam(name="order") String data) throws Exception {
+        Order order = null;
+
+        order = JacksonUtils.parse(data, Order.class);
+
+        ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(), "导出成功");
+        if (order.getDirection() == null) {
+            order.setDirection("asc");
+        }
+        if (order.getField() == null) {
+            order.setField("id");
+        }
+        Sort sort = new Sort(order.getDirection(), order.getField());
+        Pageable pageable = new PageRequest(0, Integer.MAX_VALUE, sort);
+//            Page<Order> page = orderService.findUsePage(pageable);
+        Page<Order> page = orderService.findByPageAndParams(order, pageable);
+        excelExportService.exportOrder(response,page.getContent());
+        return re;
+    }
+
     //处理文件上传
+    @Transactional
     @RequestMapping(value="/importOrder", method = RequestMethod.POST)
     public @ResponseBody Map<String,Object> uploadImg(HttpServletRequest request) {
         Map<String, Object> json = new HashMap<String, Object>();
@@ -150,7 +209,27 @@ public class OrderController extends BaseController {
 
                 List<Order> orderList = excelReadService.readExcel(multipartFile);
 //                tmpFile.delete();
-                orderService.save(orderList);
+                if(orderList != null){
+                    for (Order order: orderList) {
+                        ResponseEntity re = new ResponseEntity(200,"ok");
+                        re = this.check(request.getServletContext(),re,order);
+                        if(re.getStatus() != 200){
+                            json.put("newVersionName", null);
+                            json.put("fileMd5", null);
+                            json.put("message", "导入失败,请确保商品具有相应库存");
+                            json.put("status", false);
+                            json.put("filePath", null);
+                            return json;
+
+                        }
+                    }
+                    for (Order o:
+                         orderList) {
+                       this.handlerOrderString(o);
+                    }
+                    orderService.save(orderList);
+                }
+
 
             }
             json.put("newVersionName", null);
@@ -163,7 +242,7 @@ public class OrderController extends BaseController {
             e.printStackTrace();
             json.put("newVersionName", null);
             json.put("fileMd5", null);
-            json.put("message", "导入失败,请确保EXCEL数据格式正确，且单号与已录入的单号不重复");
+            json.put("message", "导入失败,请确保EXCEL数据格式正确");
             json.put("status", false);
             json.put("filePath", null);
         }
@@ -171,27 +250,142 @@ public class OrderController extends BaseController {
         return json;
     }
 
+    private ResponseEntity check(ServletContext sc, ResponseEntity re, Order order){
+        if(StringUtils.isEmpty(order.getClothSize())){
+            re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            re.setInfo("此尺码未在系统录入");
+            return re;
+        }
+        if(StringUtils.isEmpty(order.getStyle())){
+            re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            re.setInfo("此款式未在系统录入");
+            return re;
+        }
+        if(StringUtils.isEmpty(order.getGoodsName())){
+            re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            re.setInfo("此商品未在系统录入");
+            return re;
+        }
+        String sql = "select t1.sum,t1.id  from t_stock t1,t_cloth_size t2,t_style t3,t_goods t4 where t1.cloth_size_id =\n" +
+                "  t2.id and t1.style_id = t3.id and t1.goods_id = t4.id and t2.name = '@clothSizeName' and\n" +
+                "  t3.name = '@styleName' and t4.name = '@goodsName'";
+        sql = sql.replace("@clothSizeName", order.getClothSize());
+        sql = sql.replace("@styleName", order.getStyle());
+        sql = sql.replace("@goodsName", order.getGoodsName());
+        List<Map> maps = specialServiceImpl.nativeQueryToMapList(sql);
+        if(maps == null || maps.size() <= 0){
+            re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            re.setInfo("未查到此商品的库存");
+            return re;
+        }
+        Long id = Long.parseLong(maps.get(0).get("id") + "");
+        String key = (String) sc.getAttribute("stockKey" + id);
+        if(key == null){
+            key = "stockKey" + id;
+            sc.setAttribute(key, key);
+        }
+        synchronized (key){
+            Stock stock = stockService.findOne(id);
+            if(0 == stock.getSum()){
+                re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                re.setInfo("此商品没有库存");
+                return re;
+            }
+            stock.setSum(stock.getSum() - 1);
+            stockService.save(stock);
+            sc.removeAttribute("stockKey" + id);
+        }
+        return re;
+    }
 
+    private void handlerOrderString(Order order){
+        if(order.getOrderDate() != null && order.getOrderDate().indexOf(".") != -1){
+            order.setOrderDate(order.getOrderDate().substring(0,order.getOrderDate().indexOf(".")));
+        }
+        if(order.getGoodsName() != null && order.getGoodsName().indexOf(".") != -1){
+            order.setGoodsName(order.getGoodsName().substring(0,order.getGoodsName().indexOf(".")));
+        }
+        if(order.getSpreadUserName() != null && order.getSpreadUserName().indexOf(".") != -1){
+            order.setSpreadUserName(order.getSpreadUserName().substring(0,order.getSpreadUserName().indexOf(".")));
+        }
+        if(order.getAddress() != null && order.getAddress().indexOf(".") != -1){
+            order.setAddress(order.getAddress().substring(0,order.getAddress().indexOf(".")));
+        }
+        if(order.getCardType() != null && order.getCardType().indexOf(".") != -1){
+            order.setCardType(order.getCardType().substring(0,order.getCardType().indexOf(".")));
+        }
+        if(order.getClothSize() != null && order.getClothSize().indexOf(".") != -1){
+            order.setClothSize(order.getClothSize().substring(0,order.getClothSize().indexOf(".")));
+        }
+        if(order.getCourierNum() != null && order.getCourierNum().indexOf(".") != -1){
+            order.setCourierNum(order.getCourierNum().substring(0,order.getCourierNum().indexOf(".")));
+        }
+        if(order.getName() != null && order.getName().indexOf(".") != -1){
+            order.setName(order.getName().substring(0,order.getName().indexOf(".")));
+        }
+        if(order.getPhoneNum() != null && order.getPhoneNum().indexOf(".") != -1){
+            order.setPhoneNum(order.getPhoneNum().substring(0,order.getPhoneNum().indexOf(".")));
+        }
+        if(order.getStyle() != null && order.getStyle().indexOf(".") != -1){
+            order.setStyle(order.getStyle().substring(0,order.getStyle().indexOf(".")));
+        }
+    }
+
+    @Transactional
     @RequestMapping(value = "/order/save", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity saveOrder(HttpServletResponse response, Order  order){
+    public @ResponseBody ResponseEntity saveOrder(HttpServletRequest request,
+                                                  HttpServletResponse response, Order  order){
+        ServletContext sc = request.getServletContext();
         ResponseEntity re = new ResponseEntity(HttpStatus.OK.value(),"操作成功");
         try{
 //            List<Order> orders = JacksonUtils.parseList(data, Order.class);
-            Date date = new Date();
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            String recordDate = df.format(date);
+            if(order.getOrderDate() == null){
+                Date date = new Date();
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String orderDate = df.format(date);
+                order.setOrderDate(orderDate);
+            }
 
-            order.setOrderDate(recordDate);
             //处理推广人
             String userInfo = order.getUserINfo();
-            String spreadUserName = spreadService.getUsernameByPath(userInfo);
-            order.setSpreadUserName(spreadUserName);
+            if(!StringUtils.isEmpty(userInfo)){
+                String spreadUserName = spreadService.getUsernameByPath(userInfo);
+                order.setSpreadUserName(spreadUserName);
+            }
+
+            //减少库存
+//            Goods goods = goodsService.findByName(order.getGoodsName());
+//            if(goods == null){
+//                re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+//                re.setInfo("此商品未在系统录入");
+//                return re;
+//            }
+//            Style style = styleService.findByName(order.getClothSize());
+//            if(style == null){
+//                re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+//                re.setInfo("此款式未在系统录入");
+//                return re;
+//            }
+//            ClothSize clothSize = clothSizeService.findByName(order.getClothSize());
+//            if(clothSize == null){
+//                re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+//                re.setInfo("此尺码未在系统录入");
+//                return re;
+//            }
+            if(order.getId() == null){
+                re = this.check(sc, re, order);
+                if(200 != re.getStatus()){
+                    return re;
+                }
+            }
+            this.handlerOrderString(order);
             order = orderService.save(order);
             re.setData(order);
             Cookie cookie = new Cookie("shopping", "shopping");
-            cookie.setMaxAge(60*60*24*15);
+            cookie.setMaxAge(60*60*24*cookieTimeout);
             cookie.setPath("/");
             response.addCookie(cookie);
+
         }catch (Exception e){
             e.printStackTrace();
             re.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -308,7 +502,8 @@ public class OrderController extends BaseController {
                 }
                 data += "<strong>";
                 for (Order order: orders) {
-                    data += order.getCourierNum() + ",";
+                    data += StringUtils.isEmpty(order.getCourierNum()) || "".equals(order.getCourierNum())
+                            ? "未发货," : order.getCourierNum() + ",";
                 }
                 data = data.substring(0,data.length()-1);
                 data += "</strong>";

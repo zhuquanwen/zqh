@@ -22,13 +22,17 @@
         <script th:src="@{js/orderPage.js}"></script>
     <meta charset="utf-8" />
     </head>
-    <body style="overflow:hidden;">
+<body  style="overflow: hidden;" >
 
-    <div class="row base-margin" id="query" style="width: 95%">
-        <div th:include="menu :: html">
+    <!--<div   th:include="menu :: html">
 
-        </div>
-        <form class="form-inline" role="form" style="float: left; width: 100%;padding-left: 35px;" method="post" id="queryForm">
+    </div>-->
+    <div style="height:40px;" th:include="menu :: html">
+
+    </div>
+    <div class="row base-margin" id="query" style="width: 95%;">
+        <form class="form-inline" role="form" style="float: left; width: 100%;padding-left: 35px;" method="post" id="queryForm" onkeydown="if(event.keyCode==13){return false;}">
+
             <div class="form-group">
                 <label for="phoneNum">手机:</label>
                 <input type="text" class="form-control" name="phoneNum" id="phoneNum"  placeholder="请输入手机号码"/>
@@ -92,7 +96,7 @@
                 });
 
             </script>
-            <div style="padding-top: 18px;"></div>
+            <div style="height: 18px;"></div>
             <div class="form-group">
                 <label for="spreadUserName">推广人:</label>
                 <input type="text" class="form-control" name="spreadUserName" id="spreadUserName"  placeholder="请输入推广人"/>
@@ -110,14 +114,16 @@
             <div class="form-group btn-right">
                 <button type="button" class="btn btn-primary" id="importBtn" onclick="importOrder();">导入</button>
             </div>
-
+            <div class="form-group btn-right">
+                <button type="button" class="btn btn-primary" id="importBtn" onclick="exportOrder();">导出</button>
+            </div>
             <div class="form-group btn-right">
                 <button type="button" class="btn btn-warning" id="batchDelete" onclick="deleteInBatch();">批量删除</button>
             </div>
         </form>
     </div>
-    <div class="container" style="width: 98%">
-        <table id="result-table">
+    <div class="container" style="width: 98%;">
+        <table id="result-table" >
         </table>
     </div>
 
@@ -134,7 +140,7 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" role="form" id = "editForm">
+                    <form class="form-horizontal" role="form" id = "editForm" onkeydown="if(event.keyCode==13){return false;}">
                         <input style="display: none;" id = "id1"/>
                         <div class="form-group">
                             <label for="courierNum1" class="col-sm-2 control-label">单号</label>
@@ -158,6 +164,52 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="goodsName1" class="col-sm-2 control-label">商品名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="goodsName1" name="goodsName1"
+                                       placeholder="请输入商品名称"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="style1" class="col-sm-2 control-label">款式</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="style1" name="style1"
+                                       placeholder="请输入款式"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothSize1" class="col-sm-2 control-label">尺码</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="clothSize1" name="clothSize1"
+                                       placeholder="请输入尺码"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address1" class="col-sm-2 control-label">地址</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="address1" name="address1"
+                                       placeholder="请输入收货地址"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address1" class="col-sm-2 control-label">充值卡</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="cardType1" name="cardType1">
+                                    <option value="1">移动</option>
+                                    <option value="2">联通</option>
+                                    <option value="3">电信</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="spreadUserName1" class="col-sm-2 control-label">推广人</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="spreadUserName1" name="spreadUserName1"
+                                       placeholder="请输入推广人"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="orderDate" class="col-sm-2 control-label">下单时间</label>
                             <div class="col-sm-10">
                                 <!--<div id="orderDatePicker" class="input-append date form_datetime" data-date="2013-02-21 15:25:00">
@@ -173,6 +225,35 @@
                                 <input type="hidden" id="orderDate" value="" /><br/>
                                 <script type="text/javascript">
                                     $('#orderDateDiv').datetimepicker({
+                                        language:  'zh-CN',
+                                        weekStart: 1,
+                                        todayBtn:  1,
+                                        autoclose: 1,
+                                        todayHighlight: 1,
+                                        startView: 2,
+                                        forceParse: 0,
+                                        showMeridian: 1
+                                    });
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recordDate" class="col-sm-2 control-label">发货时间</label>
+                            <div class="col-sm-10">
+                                <!--<div id="orderDatePicker" class="input-append date form_datetime" data-date="2013-02-21 15:25:00">
+                                    <input  type="text" class="form-control"  readonly="readonly" id = "orderDate"/>
+                                    <span class="add-on"><i class="icon-remove"></i></span>
+                                    <span class="add-on"><i class="icon-calendar"></i></span>
+                                </div>-->
+                                <div id = "recordDateDiv" class="input-group date form_datetime "  data-date-format="yyyy-mm-dd hh:ii" data-link-field="recordDate">
+                                    <input class="form-control" size="20" type="text" value="" readonly="readonly"  id="recordDate1"/>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <input type="hidden" id="recordDate" value="" /><br/>
+                                <script type="text/javascript">
+                                    $('#recordDateDiv').datetimepicker({
                                         language:  'zh-CN',
                                         weekStart: 1,
                                         todayBtn:  1,
@@ -213,7 +294,7 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <a href="模板.xls" class="form-control" style="border:none;" target="_blank">下载导入模板</a>
+                    <a href="模板.xlsx" class="form-control" style="border:none;" target="_blank">下载导入模板(仅支持xlsx格式)</a>
                     <input type="file" name="txt_file" id="txt_file" multiple="multiple" class="file-loading" />
                 </div>
                <!-- <div class="modal-footer">

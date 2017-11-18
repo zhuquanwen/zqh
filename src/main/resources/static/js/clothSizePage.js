@@ -32,9 +32,9 @@ function initValidator(){
                         message: '尺码名称不能为空'
                     },
                     stringLength: {
-                        min: 2,
+                        min: 1,
                         max: 20,
-                        message: '尺码名称长度必须在2到20位之间'
+                        message: '尺码名称长度必须在1到20位之间'
                     }
                 }
             }
@@ -325,6 +325,10 @@ function save(){
     });
 }
 function deleteData(node){
+    var r=confirm("删除不可恢复,确定删除?")
+    if (r!=true){
+        return;
+    }
     var idNode= $(node).find("span");
     var id = idNode.text();
     $.ajax({
@@ -384,6 +388,10 @@ function importOrder(){
 }
 
 function deleteInBatch(){
+    var r=confirm("删除不可恢复,确定删除?")
+    if (r!=true){
+        return;
+    }
     var a= $("#result-table").bootstrapTable('getSelections');
     if(a.length<=0){
         alert("请选中一个复选框再进行删除操作");

@@ -23,12 +23,12 @@
     <meta charset="utf-8" />
     </head>
     <body style="overflow:hidden;">
+    <div style="height:40px;" th:include="menu :: html">
 
+    </div>
     <div class="row base-margin" id="query" style="width: 95%">
-        <div th:include="menu :: html">
 
-        </div>
-        <form class="form-inline" role="form" style="float: left; width: 100%;padding-left: 35px;" method="post" id="queryForm">
+        <form class="form-inline" role="form" style="float: left; width: 100%;padding-left: 35px;" method="post" id="queryForm" onkeydown="if(event.keyCode==13){return false;}">
             <div class="form-group">
                 <label for="name">款式:</label>
                 <input type="text" class="form-control" name="name" id="name"  placeholder="请输入款式名称"/>
