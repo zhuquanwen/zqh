@@ -237,31 +237,55 @@ function initTable(){
                 }
             },
             {
-                field : 'spreadUserName',
-                title : '推广人',
+                field : 'name',
+                title : '买家姓名',
+                align : 'center',
+                valign : 'middle',
+                sortable : true
+            },
+
+            {
+                field : 'sheng',
+                title : '买家收货省',
                 align : 'center',
                 valign : 'middle',
                 sortable : true
             },
             {
-                field : 'courierNum',
-                title : '单号',
+                field : 'shi',
+                title : '买家收货市',
                 align : 'center',
                 valign : 'middle',
                 sortable : true
-            }, {
-                field : 'name',
-                title : '姓名',
+            },
+            {
+                field : 'qu',
+                title : '买家收货区',
                 align : 'center',
                 valign : 'middle',
                 sortable : true
-            }, {
-                field : 'phoneNum',
-                title : '手机',
+            },
+
+            {
+                field : 'address',
+                title : '买家收货地址',
                 align : 'center',
                 valign : 'middle',
                 sortable : true
             },{
+                field : 'phoneNum',
+                title : '买家手机',
+                align : 'center',
+                valign : 'middle',
+                sortable : true
+            },{
+                field : 'spreadUserName',
+                title : '发件人',
+                align : 'center',
+                valign : 'middle',
+                sortable : true
+            },
+            {
                 field : 'goodsName',
                 title : '商品名称',
                 align : 'center',
@@ -280,12 +304,6 @@ function initTable(){
                 valign : 'middle',
                 sortable : true
             },{
-                field : 'address',
-                title : '地址',
-                align : 'center',
-                valign : 'middle',
-                sortable : true
-            },{
                 field : 'cardType',
                 title : '充值卡类型',
                 align : 'center',
@@ -300,6 +318,13 @@ function initTable(){
                         return "电信";
                     }
                 }
+            },
+            {
+                field : 'courierNum',
+                title : '单号',
+                align : 'center',
+                valign : 'middle',
+                sortable : true
             }, {
                 field : 'orderDate',
                 title : '下单时间',
@@ -454,6 +479,10 @@ function editData(node){
                 $("#spreadUserName1").val(result.data.spreadUserName);
                 $("#recordDate1").val(result.data.recordDate);
                 $("#recordDate").val(result.data.recordDate);
+                $("#cmbProvince").val(result.data.sheng);
+                $("#cmbCity").val(result.data.shi);
+                $("#cmbArea").val(result.data.qu);
+
                 $("#editWindow").modal('show');
             }
         }
@@ -476,6 +505,10 @@ function clearEditForm(){
     $("#spreadUserName1").val(null);
     $("#recordDate1").val(null);
     $("#recordDate").val(null);
+    $("#cmbProvince").val(null);
+    $("#cmbCity").val(null);
+    $("#cmbArea").val(null);
+
 
 }
 function add() {
@@ -501,8 +534,10 @@ function save(){
         address : $("#address1").val() != "" ? $("#address1").val() : null,
         cardType : $("#cardType1").val() != "" ? $("#cardType1").val() : null,
         recordDate :  $("#recordDate1").val() != "" ?  $("#recordDate1").val() : null,
-        spreadUserName : $("#spreadUserName1").val() != "" ?  $("#spreadUserName1").val() : null
-
+        spreadUserName : $("#spreadUserName1").val() != "" ?  $("#spreadUserName1").val() : null,
+        sheng : $("#cmbProvince").val() != "" ?  $("#cmbProvince").val() : null,
+        shi : $("#cmbCity").val() != "" ?  $("#cmbCity").val() : null,
+        qu : $("#cmbArea").val() != "" ?  $("#cmbArea").val() : null
     }
     if($("#id1").val() != null && $("#id1").val() != ""){
         param.id = $("#id1").val();
@@ -537,6 +572,10 @@ function save(){
                $("#spreadUserName1").val("");
                $("#recordDate1").val("");
                $("#recordDate").val("");
+               $("#cmbProvince").val("");
+               $("#cmbCity").val("");
+               $("#cmbArea").val("");
+
 
                $('#result-table').bootstrapTable("refresh");
            }
@@ -577,7 +616,11 @@ function deleteData(node){
                 $("#spreadUserName1").val("");
                 $("#recordDate1").val("");
                 $("#recordDate").val("");
+                $("#cmbProvince").val("");
+                $("#cmbCity").val("");
+                $("#cmbArea").val("");
                 $('#result-table').bootstrapTable("refresh");
+
             }
         }
     });
@@ -681,6 +724,9 @@ function deleteInBatch(){
                 $("#spreadUserName1").val("");
                 $("#recordDate1").val("");
                 $("#recordDate").val("");
+                $("#cmbProvince").val("");
+                $("#cmbCity").val("");
+                $("#cmbArea").val("");
                 $('#result-table').bootstrapTable("refresh");
                 searchFlag = false;
             },

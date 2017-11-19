@@ -41,32 +41,38 @@ public class ExcelExportService {
         XSSFRow headRow = sheet.createRow(0);
         XSSFCell cell = null;
 
-        for (int i = 0; i <= 11; i++) {
+        for (int i = 0; i <= 14; i++) {
             String value = "";
             if(i == 0){
-                value = "单号";
+                value = "买家姓名";
             }else if(i == 1){
-                value = "姓名";
+                value = "买家收货省";
             }else if(i == 2){
-                value = "手机";
+                value = "买家收货市";
             }else if(i == 3){
-                value = "下单时间";
+                value = "买家收货区";
             }else if(i == 4){
-                value = "商品名称";
+                value = "买家收货地址";
             }else if(i == 5){
-                value = "款式";
+                value = "买家手机";
             }else if(i == 6){
-                value = "尺码";
+                value = "发件人";
             }else if(i == 7){
-                value = "地址";
+                value = "商品名称";
             }else if(i == 8){
-                value = "充值卡类型";
+                value = "款式";
             }else if(i == 9){
-                value = "推广人";
+                value = "尺码";
             }else if(i == 10){
-                value = "发货时间";
+                value = "充值卡";
             }else if(i == 11 ){
-                value = "id(此列不可编辑)";
+                value = "单号";
+            }else if(i == 12 ){
+                value = "下单时间";
+            }else if(i == 13){
+                value = "发货时间";
+            }else if(i == 14 ){
+                value = "ID（此列不可编辑）";
             }
             cell = headRow.createCell(i);
             cell.setCellType(XSSFCell.CELL_TYPE_STRING);
@@ -78,25 +84,38 @@ public class ExcelExportService {
             for (int j = 0; j < orderList.size(); j++) {
                 Order order = orderList.get(j);
                 XSSFRow bodyRow = sheet.createRow(j+1);
-                for (int i = 0; i <= 11; i++) {
+                for (int i = 0; i <= 14; i++) {
                     String value = "";
                     if(i == 0){
-                        value = order.getCourierNum();
-                    }else if(i == 1){
                         value = order.getName();
+                    }else if(i == 1){
+                        value = order.getSheng();
                     }else if(i == 2){
-                        value = order.getPhoneNum();
+                        value = order.getShi();
                     }else if(i == 3){
-                        value = order.getOrderDate();
+                        value = order.getQu();
                     }else if(i == 4){
-                        value = order.getGoodsName();
-                    }else if(i == 5){
-                        value = order.getStyle();
-                    }else if(i == 6){
-                        value = order.getClothSize();
-                    }else if(i == 7){
                         value = order.getAddress();
+                    }else if(i == 5){
+                        value = order.getPhoneNum();
+                    }else if(i == 6){
+                        value = order.getSpreadUserName();
+                    }else if(i == 7){
+                        value = order.getGoodsName();
                     }else if(i == 8){
+                        value = order.getStyle();
+//                        String type = order.getCardType();
+//                        if("1".equals(type)){
+//                            value = "移动";
+//                        }else if ("2".equals(type)){
+//                            value = "联通";
+//                        }else if ("3".equals(type)){
+//                            value = "电信";
+//                        }
+//                        value = "充值卡类型";
+                    }else if(i == 9){
+                        value = order.getClothSize();
+                    }else if(i == 10){
                         String type = order.getCardType();
                         if("1".equals(type)){
                             value = "移动";
@@ -105,12 +124,13 @@ public class ExcelExportService {
                         }else if ("3".equals(type)){
                             value = "电信";
                         }
-//                        value = "充值卡类型";
-                    }else if(i == 9){
-                        value = order.getSpreadUserName();
-                    }else if(i == 10){
-                        value = order.getRecordDate();
                     }else if(i == 11 ){
+                        value = order.getCourierNum();
+                    }else if(i == 12 ){
+                        value = order.getOrderDate();
+                    }else if(i == 13 ){
+                        value = order.getRecordDate();
+                    }else if(i == 14 ){
                         value = order.getId().toString();
                     }
                     cell = bodyRow.createCell(i);

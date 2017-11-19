@@ -19,7 +19,9 @@
         <script th:src="@{bootstrap/fileinput/js/locales/zh.js}"></script>
         <script th:src="@{bootstrap/viladator/js/bootstrapValidator.js}"></script>
         <script th:src="@{bootstrap/viladator/js/language/zh_CN.js}"></script>
+        <script th:src="@{/shopping/jsAddress.js}"></script>
         <script th:src="@{js/orderPage.js}"></script>
+
     <meta charset="utf-8" />
     </head>
 <body  style="overflow: hidden;" >
@@ -98,8 +100,8 @@
             </script>
             <div style="height: 18px;"></div>
             <div class="form-group">
-                <label for="spreadUserName">推广人:</label>
-                <input type="text" class="form-control" name="spreadUserName" id="spreadUserName"  placeholder="请输入推广人"/>
+                <label for="spreadUserName">发件人:</label>
+                <input type="text" class="form-control" name="spreadUserName" id="spreadUserName"  placeholder="请输入发件人"/>
             </div>
             <div class="form-group">
                 <label for="goodsName">商品名称:</label>
@@ -185,10 +187,39 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="cmbProvince" class="col-sm-2 control-label">省</label>
+
+                            <div class="col-sm-10">
+                                <select id="cmbProvince" name="cmbProvince" class="form-control">
+                                    <!--<option value="-1">-省/自治区/直辖市-</option>-->
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cmbCity" class="col-sm-2 control-label">市</label>
+                            <div class="col-sm-10">
+                                <select id="cmbCity" name="cmbCity" class="form-control">
+                                    <!--<option value="-1">-市-</option>-->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cmbArea" class="col-sm-2 control-label">区</label>
+                            <div class="col-sm-10">
+                                <select id="cmbArea" name="cmbArea" class="form-control">
+                                    <!--<option>-区/县-</option>-->
+                                </select>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            addressInit('cmbProvince', 'cmbCity', 'cmbArea');
+                        </script>
+                        <div class="form-group">
                             <label for="address1" class="col-sm-2 control-label">地址</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="address1" name="address1"
-                                       placeholder="请输入收货地址"/>
+                                       placeholder="请输入收货详细地址"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -203,10 +234,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="spreadUserName1" class="col-sm-2 control-label">推广人</label>
+                            <label for="spreadUserName1" class="col-sm-2 control-label">发件人</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="spreadUserName1" name="spreadUserName1"
-                                       placeholder="请输入推广人"/>
+                                       placeholder="请输入发件人"/>
                             </div>
                         </div>
                         <div class="form-group">

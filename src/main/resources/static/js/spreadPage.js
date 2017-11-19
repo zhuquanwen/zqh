@@ -167,14 +167,14 @@ function initTable(){
         // },
         onLoadSuccess: function(){
             $.each($("img"),function (index, node) {
-                console.log(node.id);
+                // console.log(node.id);
                 var clipboard = new Clipboard(node);
                 clipboard.on('success', function(e) {
-                    console.log(e);
+                    // console.log(e);
                     alert("推广地址已经复制到剪切板！")
                 });
                 clipboard.on('error', function(e) {
-                    console.log(e);
+                    // console.log(e);
                     alert("推广地址复制失败，请手动复制")
                 });
             });
@@ -224,7 +224,10 @@ function initTable(){
                     return "<img  " +
                         "style='width:24px;height: 24px;' src='image/copy.png' " +
                         "data-clipboard-text='"+row.url+"'></img>" +
-                        "<span style='display: none;' >" + row.url + "</span> ";
+                        "<span style='display: none;' >" + row.url + "</span> " + "<a onclick='getQrcode(this)' href='javascript:void(0);'><img  " +
+                        "style='width:24px;height: 24px;' src='image/qrcode.png' " +
+                        "></img>" +
+                        "<span style='display: none;' >" + (row.url+","+row.goodsName) + "</span></a> ";
                 }
             }
         ]
@@ -233,6 +236,13 @@ function initTable(){
 
 function copyUrl() {
     
+}
+function getQrcode(node){
+    var idNode= $(node).find("span");
+    var str = idNode.text();
+
+    console.log(node);
+    window.open("downloadQrcode?goodsName=" + str.split(",")[1] + "&address=" + str.split(",")[0]);
 }
 
 
@@ -406,10 +416,10 @@ function deleteInBatch(){
         alert("请选中一个复选框再进行删除操作");
     }else{
        $.each(a,function(index,data){
-           console.log(data);
+           // console.log(data);
            delete data.checkbox;
        })
-        console.log(a);
+        // console.log(a);
         var json=JSON.stringify(a);
         var url="order/deleteInBatch";
         $.ajax({

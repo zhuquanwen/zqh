@@ -34,6 +34,13 @@ public class Order extends BasePage implements Serializable {
     @Column
     private String recordDate;
 
+    @Column(length = 30)
+    private String sheng;
+    @Column(length = 30)
+    private String shi;
+    @Column(length = 30)
+    private String qu;
+
     @Column(length = 100)
     private String address;
     @Column(length = 32)
@@ -172,5 +179,29 @@ public class Order extends BasePage implements Serializable {
 
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
+    }
+
+    public String getSheng() {
+        return sheng;
+    }
+
+    public void setSheng(String sheng) {
+        this.sheng = sheng;
+    }
+
+    public String getShi() {
+        return shi;
+    }
+
+    public void setShi(String shi) {
+        this.shi = shi;
+    }
+
+    public String getQu() {
+        return qu;
+    }
+
+    public void setQu(String qu) {
+        this.qu = qu;
     }
 }

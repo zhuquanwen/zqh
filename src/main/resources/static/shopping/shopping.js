@@ -80,7 +80,7 @@ $(function(){
             alert("请确认运费自理!");
             return false;
         }
-        address = postarea_prov + postarea_city + postarea_country + address;
+        // address = postarea_prov + postarea_city + postarea_country + address;
 
         var contextPath = $("#CONTEXT_PATH").html();
 
@@ -91,6 +91,9 @@ $(function(){
             data : {
                 phoneNum: tel,
                 name: name,
+                sheng: postarea_prov,
+                shi: postarea_city,
+                qu: postarea_country,
                 address: address,
                 cardType: teltype,
                 style: style,

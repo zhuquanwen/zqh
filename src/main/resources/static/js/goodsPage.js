@@ -192,6 +192,9 @@ function initTable(){
                         "<a href='javascript:void(0);' onclick='editSpread(this);'>" +
                         "<img  style='width:24px;height: 24px;' src='image/spread.png'/>" +
                         "<span style='display: none;'>" + row.id + "</span></a>" +
+                        "<a href='javascript:void(0);' onclick='qrcode(this);'>" +
+                        "<img  style='width:24px;height: 24px;' src='image/qrcode.png'/>" +
+                        "<span style='display: none;'>" + row.id + "</span></a>" +
                         "<a href='javascript:void(0);' onclick='deleteData(this);'>" +
                         "<img  style='width:24px;height: 24px;' src='image/delete.png'/>" +
                         "<span style='display: none;'>" + row.id + "</span></a>";
@@ -287,6 +290,12 @@ function editSpread(node){
     var id = idNode.text();
     window.open("shoppingEdit?id=" + id);
 
+}
+
+function qrcode(node){
+    var idNode= $(node).find("span");
+    var id = idNode.text();
+    window.open("qrcodeEdit?id=" + id);
 }
 
 function editData(node){
