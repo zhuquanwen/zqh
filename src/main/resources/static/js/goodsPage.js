@@ -192,9 +192,9 @@ function initTable(){
                         "<a href='javascript:void(0);' onclick='editSpread(this);'>" +
                         "<img  style='width:24px;height: 24px;' src='image/spread.png'/>" +
                         "<span style='display: none;'>" + row.id + "</span></a>" +
-                        "<a href='javascript:void(0);' onclick='qrcode(this);'>" +
-                        "<img  style='width:24px;height: 24px;' src='image/qrcode.png'/>" +
-                        "<span style='display: none;'>" + row.id + "</span></a>" +
+                        // "<a href='javascript:void(0);' onclick='qrcode(this);'>" +
+                        // "<img  style='width:24px;height: 24px;' src='image/qrcode.png'/>" +
+                        // "<span style='display: none;'>" + row.id + "</span></a>" +
                         "<a href='javascript:void(0);' onclick='deleteData(this);'>" +
                         "<img  style='width:24px;height: 24px;' src='image/delete.png'/>" +
                         "<span style='display: none;'>" + row.id + "</span></a>";

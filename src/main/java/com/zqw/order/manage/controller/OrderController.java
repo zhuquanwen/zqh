@@ -299,35 +299,35 @@ public class OrderController extends BaseController {
     }
 
     private void handlerOrderString(Order order){
-        if(order.getOrderDate() != null && order.getOrderDate().indexOf(".") != -1){
-            order.setOrderDate(order.getOrderDate().substring(0,order.getOrderDate().indexOf(".")));
+        if(order.getOrderDate() != null && order.getOrderDate().indexOf(".0") != -1){
+            order.setOrderDate(order.getOrderDate().substring(0,order.getOrderDate().indexOf(".0")));
         }
-        if(order.getGoodsName() != null && order.getGoodsName().indexOf(".") != -1){
-            order.setGoodsName(order.getGoodsName().substring(0,order.getGoodsName().indexOf(".")));
+        if(order.getGoodsName() != null && order.getGoodsName().indexOf(".0") != -1){
+            order.setGoodsName(order.getGoodsName().substring(0,order.getGoodsName().indexOf(".0")));
         }
-        if(order.getSpreadUserName() != null && order.getSpreadUserName().indexOf(".") != -1){
-            order.setSpreadUserName(order.getSpreadUserName().substring(0,order.getSpreadUserName().indexOf(".")));
+        if(order.getSpreadUserName() != null && order.getSpreadUserName().indexOf(".0") != -1){
+            order.setSpreadUserName(order.getSpreadUserName().substring(0,order.getSpreadUserName().indexOf(".0")));
         }
-        if(order.getAddress() != null && order.getAddress().indexOf(".") != -1){
-            order.setAddress(order.getAddress().substring(0,order.getAddress().indexOf(".")));
+        if(order.getAddress() != null && order.getAddress().indexOf(".0") != -1){
+            order.setAddress(order.getAddress().substring(0,order.getAddress().indexOf(".0")));
         }
-        if(order.getCardType() != null && order.getCardType().indexOf(".") != -1){
-            order.setCardType(order.getCardType().substring(0,order.getCardType().indexOf(".")));
+        if(order.getCardType() != null && order.getCardType().indexOf(".0") != -1){
+            order.setCardType(order.getCardType().substring(0,order.getCardType().indexOf(".0")));
         }
-        if(order.getClothSize() != null && order.getClothSize().indexOf(".") != -1){
-            order.setClothSize(order.getClothSize().substring(0,order.getClothSize().indexOf(".")));
+        if(order.getClothSize() != null && order.getClothSize().indexOf(".0") != -1){
+            order.setClothSize(order.getClothSize().substring(0,order.getClothSize().indexOf(".0")));
         }
-        if(order.getCourierNum() != null && order.getCourierNum().indexOf(".") != -1){
-            order.setCourierNum(order.getCourierNum().substring(0,order.getCourierNum().indexOf(".")));
+        if(order.getCourierNum() != null && order.getCourierNum().indexOf(".0") != -1){
+            order.setCourierNum(order.getCourierNum().substring(0,order.getCourierNum().indexOf(".0")));
         }
-        if(order.getName() != null && order.getName().indexOf(".") != -1){
-            order.setName(order.getName().substring(0,order.getName().indexOf(".")));
+        if(order.getName() != null && order.getName().indexOf(".0") != -1){
+            order.setName(order.getName().substring(0,order.getName().indexOf(".0")));
         }
-        if(order.getPhoneNum() != null && order.getPhoneNum().indexOf(".") != -1){
-            order.setPhoneNum(order.getPhoneNum().substring(0,order.getPhoneNum().indexOf(".")));
+        if(order.getPhoneNum() != null && order.getPhoneNum().indexOf(".0") != -1){
+            order.setPhoneNum(order.getPhoneNum().substring(0,order.getPhoneNum().indexOf(".0")));
         }
-        if(order.getStyle() != null && order.getStyle().indexOf(".") != -1){
-            order.setStyle(order.getStyle().substring(0,order.getStyle().indexOf(".")));
+        if(order.getStyle() != null && order.getStyle().indexOf(".0") != -1){
+            order.setStyle(order.getStyle().substring(0,order.getStyle().indexOf(".0")));
         }
     }
 

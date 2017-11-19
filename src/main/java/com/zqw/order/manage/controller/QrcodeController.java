@@ -61,7 +61,7 @@ public class QrcodeController {
             Goods goods = goodsService.findByName(goodsName);
             if(goods != null){
                 id = goods.getId();
-            }else if(id == null){
+            }else{
                 response.setCharacterEncoding("utf-8");
                 response.setHeader("Content-type", "text/html;charset=UTF-8");
                 PrintWriter pw = response.getWriter();
@@ -69,34 +69,44 @@ public class QrcodeController {
                 pw.close();
                 return;
             }
-            Qrcode qr = qrcodeService.findByGoodsId(id);
-            if(qr == null){
-                response.setCharacterEncoding("utf-8");
-                response.setHeader("Content-type", "text/html;charset=UTF-8");
-                PrintWriter pw = response.getWriter();
-                pw.print("该商品没有配置二维码信息，请联系管理员配置后再尝试");
-                pw.close();
-                return;
-            }
+//            else if(id == null){
+//                response.setCharacterEncoding("utf-8");
+//                response.setHeader("Content-type", "text/html;charset=UTF-8");
+//                PrintWriter pw = response.getWriter();
+//                pw.print("没有查到该商品信息，请联系管理员");
+//                pw.close();
+//                return;
+//            }
+//            Qrcode qr = qrcodeService.findByGoodsId(id);
+//            if(qr == null){
+//                response.setCharacterEncoding("utf-8");
+//                response.setHeader("Content-type", "text/html;charset=UTF-8");
+//                PrintWriter pw = response.getWriter();
+//                pw.print("该商品没有配置二维码信息，请联系管理员配置后再尝试");
+//                pw.close();
+//                return;
+//            }
             String imgPath = path + new Date().getTime() + ".png";
-            String logoPath = qr.getLogPath();
-            if(!StringUtils.isEmpty(logoPath)){
-                logoPath = picAddress + "/qrcode/" + id + "/" + logoPath;
-            }
+//            String logoPath = qr.getLogPath();
+//            if(!StringUtils.isEmpty(logoPath)){
+//                logoPath = picAddress + "/qrcode/" + id + "/" + logoPath;
+//            }
+            String logoPath = null;
             String encoderContent = address;
             Logo_Two_Code logo_Two_Code = new Logo_Two_Code();
             logo_Two_Code.createQRCode(encoderContent, imgPath, logoPath,8);
             String outputPath = path + new Date().getTime() + ".png";
             //绘制二维码
-            String topPath = qr.getTopPath();
-            if(!StringUtils.isEmpty(topPath)){
-                topPath = picAddress + "/qrcode/" + id + "/" + topPath;
-            }
-            logo_Two_Code.createImg(outputPath,imgPath,topPath,
-                        qr.getWord1(),qr.getWord2(),
-                        qr.getWord3(),qr.getWord4(),
-                        qr.getWord5());
-            FileDownload.download(response, new File(outputPath));
+//            String topPath = qr.getTopPath();
+//            if(!StringUtils.isEmpty(topPath)){
+//                topPath = picAddress + "/qrcode/" + id + "/" + topPath;
+//            }
+//            logo_Two_Code.createImg(outputPath,imgPath,topPath,
+//                        qr.getWord1(),qr.getWord2(),
+//                        qr.getWord3(),qr.getWord4(),
+//                        qr.getWord5());
+//            FileDownload.download(response, new File(outputPath));
+            FileDownload.download(response, new File(imgPath));
         }catch (Exception e){
             e.printStackTrace();
             throw new AjaxException();
