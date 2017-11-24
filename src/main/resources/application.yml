@@ -12,7 +12,7 @@ logging.config: classpath:logback.xml
 #管理员用户名密码
 usr_pwd: zqh,zqh;admin,admin
 #对外发布地址
-publish_url: http://localhost:8888/manage
+publish_url: http://localhost:80/manage
 #图片保存地址，暂时不做分布式，保存在服务本地
 pic_address: D:/managePic
 #cookie保存时间 天
@@ -82,6 +82,8 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       # 合并多个DruidDataSource的监控数据
       useGlobalDataSourceStat: true
+      removeAbandoned: true
+      removeAbandonedTimeout: 1800
       
     app:
       type: com.alibaba.druid.pool.DruidDataSource
@@ -113,6 +115,9 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       # 合并多个DruidDataSource的监控数据
       useGlobalDataSourceStat: true
+      removeAbandoned: true
+      removeAbandonedTimeout: 1800
+      useUnfairLock: true
 
 ---
   

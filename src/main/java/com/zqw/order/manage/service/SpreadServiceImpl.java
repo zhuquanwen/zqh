@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @Service
 //@DependsOn({"specialService"})
-public class SpreadServiceImpl extends SpecialServiceImpl implements SpreadService{
+public class SpreadServiceImpl /*extends SpecialServiceImpl*/ implements SpreadService{
     @Autowired
     private GoodsDao goodsDao;
     @Autowired
@@ -163,66 +163,66 @@ public class SpreadServiceImpl extends SpecialServiceImpl implements SpreadServi
         return bpr;
     }
 
-    @Override
-    public BasePageResult getSpread(Spread spread) throws Exception {
-        BasePageResult bpr = new BasePageResult();
-        List<Spread> spreadList = new ArrayList<Spread>();
-        Integer page = spread.getPage();
-        Integer size = spread.getSize();
-        Integer begin = page * size;
-        Integer end = size;
-        String sql = " select t3.name as userName, t3.real_name,t3.path as url,t4.name as goodsName, t4.id as goodsId " +
-                " from (select t1.name,t1.real_name,t2.path from " +
-                " t_employee t1 LEFT JOIN t_url_path t2 on t1.id = t2.employee_id" +
-                " where t2.use_flag = '1' @condition1 ) t3  join t_goods t4 where 1 =1 @condition2 " +
-                " order by t3.name  limit @begin,@end";
-        String sqlCount =  " select count(*) as count " +
-                " from (select t1.name,t1.real_name,t2.path from " +
-                " t_employee t1 LEFT JOIN t_url_path t2 on t1.id = t2.employee_id" +
-                " where t2.use_flag = '1' @condition1 ) t3  join t_goods t4 where 1 =1 @condition2 ";
-
-        BigInteger goodsId = spread.getGoodsId();
-        String userName = spread.getUserName();
-        if(StringUtils.isEmpty(goodsId) || goodsId.compareTo(BigInteger.valueOf(-1L)) == 0){
-            sql = sql.replace("@condition2", " ");
-            sqlCount = sqlCount.replace("@condition2", " ");
-        }else{
-            sql = sql.replace("@condition2", "and t4.id = " + goodsId.toString());
-            sqlCount = sqlCount.replace("@condition2", "and t4.id = " + goodsId.toString());
-        }
-        if(StringUtils.isEmpty(userName)){
-            sql = sql.replace("@condition1", " ");
-            sqlCount = sqlCount.replace("@condition1", " ");
-        }else {
-            sql = sql.replace("@condition1", "and t1.name = '" + userName + "'");
-            sqlCount = sqlCount.replace("@condition1", "and t1.name = '" + userName + "'");
-        }
-        sql = sql.replace("@begin", begin.toString());
-        sql = sql.replace("@end", end.toString());
-        List<Map> spreadMaps = this.nativeQueryToMapList(sql);
-        for (Map map: spreadMaps){
-            Spread spreadResult = BeanMapUtils.map2Bean(map,Spread.class);
-            spreadList.add(spreadResult);
-        }
-        List<Map> countMaps = this.nativeQueryToMapList(sqlCount);
-        Map countMap = countMaps.get(0);
-        Long totalElements = Long.parseLong(countMap.get("count").toString());
-        bpr.setTotalCount(totalElements);
-        bpr.setResult(spreadList);
-        return bpr;
-    }
-
-    @Override
-    public String getUsernameByPath(String path) throws Exception {
-        String username = null;
-        String sql ="select t2.name as username from t_url_path t1 left join t_employee t2 on t1.employee_id" +
-                "=t2.id where t1.path = '@path'";
-        sql = sql.replace("@path", path);
-        List<Map> maps = this.nativeQueryToMapList(sql);
-        if (maps != null && maps.size() > 0) {
-            username = (String) maps.get(0).get("username");
-        }
-        return username;
-    }
+//    @Override
+//    public BasePageResult getSpread(Spread spread) throws Exception {
+//        BasePageResult bpr = new BasePageResult();
+//        List<Spread> spreadList = new ArrayList<Spread>();
+//        Integer page = spread.getPage();
+//        Integer size = spread.getSize();
+//        Integer begin = page * size;
+//        Integer end = size;
+//        String sql = " select t3.name as userName, t3.real_name,t3.path as url,t4.name as goodsName, t4.id as goodsId " +
+//                " from (select t1.name,t1.real_name,t2.path from " +
+//                " t_employee t1 LEFT JOIN t_url_path t2 on t1.id = t2.employee_id" +
+//                " where t2.use_flag = '1' @condition1 ) t3  join t_goods t4 where 1 =1 @condition2 " +
+//                " order by t3.name  limit @begin,@end";
+//        String sqlCount =  " select count(*) as count " +
+//                " from (select t1.name,t1.real_name,t2.path from " +
+//                " t_employee t1 LEFT JOIN t_url_path t2 on t1.id = t2.employee_id" +
+//                " where t2.use_flag = '1' @condition1 ) t3  join t_goods t4 where 1 =1 @condition2 ";
+//
+//        BigInteger goodsId = spread.getGoodsId();
+//        String userName = spread.getUserName();
+//        if(StringUtils.isEmpty(goodsId) || goodsId.compareTo(BigInteger.valueOf(-1L)) == 0){
+//            sql = sql.replace("@condition2", " ");
+//            sqlCount = sqlCount.replace("@condition2", " ");
+//        }else{
+//            sql = sql.replace("@condition2", "and t4.id = " + goodsId.toString());
+//            sqlCount = sqlCount.replace("@condition2", "and t4.id = " + goodsId.toString());
+//        }
+//        if(StringUtils.isEmpty(userName)){
+//            sql = sql.replace("@condition1", " ");
+//            sqlCount = sqlCount.replace("@condition1", " ");
+//        }else {
+//            sql = sql.replace("@condition1", "and t1.name = '" + userName + "'");
+//            sqlCount = sqlCount.replace("@condition1", "and t1.name = '" + userName + "'");
+//        }
+//        sql = sql.replace("@begin", begin.toString());
+//        sql = sql.replace("@end", end.toString());
+//        List<Map> spreadMaps = this.nativeQueryToMapList(sql);
+//        for (Map map: spreadMaps){
+//            Spread spreadResult = BeanMapUtils.map2Bean(map,Spread.class);
+//            spreadList.add(spreadResult);
+//        }
+//        List<Map> countMaps = this.nativeQueryToMapList(sqlCount);
+//        Map countMap = countMaps.get(0);
+//        Long totalElements = Long.parseLong(countMap.get("count").toString());
+//        bpr.setTotalCount(totalElements);
+//        bpr.setResult(spreadList);
+//        return bpr;
+//    }
+//
+//    @Override
+//    public String getUsernameByPath(String path) throws Exception {
+//        String username = null;
+//        String sql ="select t2.name as username from t_url_path t1 left join t_employee t2 on t1.employee_id" +
+//                "=t2.id where t1.path = '@path'";
+//        sql = sql.replace("@path", path);
+//        List<Map> maps = this.nativeQueryToMapList(sql);
+//        if (maps != null && maps.size() > 0) {
+//            username = (String) maps.get(0).get("username");
+//        }
+//        return username;
+//    }
 
 }

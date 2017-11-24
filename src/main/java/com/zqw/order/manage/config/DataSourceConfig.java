@@ -58,8 +58,12 @@ public class DataSourceConfig {
 	@Value("${spring.datasource.permission.connectionProperties}")  
 	private String connectionProperties; 
 	@Value("${spring.datasource.permission.useGlobalDataSourceStat}")  
-	private Boolean useGlobalDataSourceStat; 
-	
+	private Boolean useGlobalDataSourceStat;
+	@Value("${spring.datasource.permission.removeAbandoned}")
+	private Boolean removeAbandoned;
+	@Value("${spring.datasource.permission.removeAbandonedTimeout}")
+	private Long removeAbandonedTimeout;
+
 	@Value("${spring.datasource.app.url}")  
 	private String url1; 
 	@Value("${spring.datasource.app.driver-class-name}")  
@@ -100,6 +104,12 @@ public class DataSourceConfig {
 	private String connectionProperties1; 
 	@Value("${spring.datasource.app.useGlobalDataSourceStat}")  
 	private Boolean useGlobalDataSourceStat1;
+	@Value("${spring.datasource.app.removeAbandoned}")
+	private Boolean removeAbandoned1;
+	@Value("${spring.datasource.app.removeAbandonedTimeout}")
+	private Long removeAbandonedTimeout1;
+	@Value("${spring.datasource.app.useUnfairLock}")
+	private boolean useUnfairLock1;
 	
 	@Bean(name="permissionDataSource")
 	@Qualifier("permissionDataSource")
@@ -133,6 +143,8 @@ public class DataSourceConfig {
 		dds.setFilters(filters);
 		dds.setConnectionProperties(connectionProperties);
 		dds.setUseGlobalDataSourceStat(useGlobalDataSourceStat);
+		dds.setRemoveAbandoned(removeAbandoned);
+		dds.setRemoveAbandonedTimeout(removeAbandonedTimeout.intValue());
 		return dds;
 	}
 	
@@ -162,6 +174,9 @@ public class DataSourceConfig {
 		dds.setFilters(filters1);
 		dds.setConnectionProperties(connectionProperties1);
 		dds.setUseGlobalDataSourceStat(useGlobalDataSourceStat1);
+		dds.setUseUnfairLock(useUnfairLock1);
+		dds.setRemoveAbandoned(removeAbandoned1);
+		dds.setRemoveAbandonedTimeout(removeAbandonedTimeout1.intValue());
 		return dds;
 	}
 }
