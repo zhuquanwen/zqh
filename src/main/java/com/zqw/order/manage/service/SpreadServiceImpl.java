@@ -1,8 +1,8 @@
 package com.zqw.order.manage.service;
 
+import com.zqw.order.manage.domain.p.*;
 import com.zqw.order.manage.entity.BasePageResult;
 import com.zqw.order.manage.model.Spread;
-import com.zqw.order.manage.service.api.GoodsService;
 import com.zqw.order.manage.service.api.SpreadService;
 import com.zqw.order.manage.util.BeanMapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,146 @@ import java.util.Map;
 //@DependsOn({"specialService"})
 public class SpreadServiceImpl extends SpecialServiceImpl implements SpreadService{
     @Autowired
-    private GoodsService goodsService;
+    private GoodsDao goodsDao;
+    @Autowired
+    private EmployeeDao employeeDao;
 //    @Autowired()
 //    @Qualifier(value="entityManagerPrimary")
 //    private EntityManager entityManager;
+
+    public BasePageResult getSpread(Spread spread, String publishUrl) throws Exception{
+        BasePageResult bpr = new BasePageResult();
+        Integer page = spread.getPage();
+        Integer size = spread.getSize();
+        BigInteger goodsId = spread.getGoodsId();
+        List<Goods> goodsList = goodsDao.findAll();
+        List<Employee> employeeList = employeeDao.findAll();
+        String userName = spread.getUserName();
+        List<Spread> spreadList  = new ArrayList<Spread>();
+        if(StringUtils.isEmpty(userName) && (BigInteger.valueOf(-1).compareTo(goodsId) == 0)){
+            for (int i = 0 ; i< employeeList.size(); i++){
+                Employee employee = employeeList.get(i);
+                String username = employee.getName();
+                String path = username;
+                List<UrlPath> urlPathList = employee.getUrlPathList();
+                for (UrlPath urlPath:
+                     urlPathList) {
+                    String flag = urlPath.getUseFlag();
+                    if("1".equals(flag)){
+                        path = urlPath.getPath();
+                        break;
+                    }
+                }
+                for (int j =0;j< goodsList.size();j++){
+                    Goods goods = goodsList.get(j);
+                    String goodsName = goods.getName();
+                    BigInteger id = BigInteger.valueOf(goods.getId());
+                    Spread spread1 = new Spread();
+                    spread1.setGoodsId(id);
+                    spread1.setGoodsName(goodsName);
+                    spread1.setUserName(username);
+                    String urlPath = publishUrl +
+                            "/toShopping/" + path + "/" + id;
+                    spread1.setUrl(urlPath);
+                    spreadList.add(spread1);
+                }
+            }
+        }else if(StringUtils.isEmpty(userName) && !(BigInteger.valueOf(-1).compareTo(goodsId) == 0)){
+
+            long id = goodsId.longValue();
+            Goods goods = goodsDao.findOne(id);
+            for (int i = 0 ; i< employeeList.size(); i++) {
+                Employee employee = employeeList.get(i);
+                String username = employee.getName();
+                String path = username;
+                List<UrlPath> urlPathList = employee.getUrlPathList();
+                for (UrlPath urlPath :
+                        urlPathList) {
+                    String flag = urlPath.getUseFlag();
+                    if ("1".equals(flag)) {
+                        path = urlPath.getPath();
+                        break;
+                    }
+                }
+                String goodsName = goods.getName();
+                Spread spread1 = new Spread();
+                spread1.setGoodsId(goodsId);
+                spread1.setGoodsName(goodsName);
+                spread1.setUserName(username);
+                String urlPath = publishUrl +
+                        "/toShopping/" + path + "/" + id;
+                spread1.setUrl(urlPath);
+                spreadList.add(spread1);
+
+            }
+
+        }else if(!StringUtils.isEmpty(userName) && !(BigInteger.valueOf(-1).compareTo(goodsId) == 0)){
+            Goods goods = goodsDao.findOne(goodsId.longValue());
+            Employee employee = employeeDao.findByName(userName);
+
+            if(employee != null){
+                List<UrlPath> urlPathList = employee.getUrlPathList();
+                String path = userName;
+                for (UrlPath urlPath :
+                        urlPathList) {
+                    String flag = urlPath.getUseFlag();
+                    if ("1".equals(flag)) {
+                        path = urlPath.getPath();
+                        break;
+                    }
+                }
+                String goodsName = goods.getName();
+                Spread spread1 = new Spread();
+                spread1.setGoodsId(goodsId);
+                spread1.setGoodsName(goodsName);
+                spread1.setUserName(employee.getName());
+                String urlPath = publishUrl +
+                        "/toShopping/" + path + "/" + goodsId;
+                spread1.setUrl(urlPath);
+                spreadList.add(spread1);
+            }
+        }else if(!StringUtils.isEmpty(userName) && (BigInteger.valueOf(-1).compareTo(goodsId) == 0)){
+            Employee employee = employeeDao.findByName(userName);
+
+            if(employee != null){
+                List<UrlPath> urlPathList = employee.getUrlPathList();
+                String path = userName;
+                for (UrlPath urlPath :
+                        urlPathList) {
+                    String flag = urlPath.getUseFlag();
+                    if ("1".equals(flag)) {
+                        path = urlPath.getPath();
+                        break;
+                    }
+                }
+                for (int i = 0; i < goodsList.size(); i++) {
+                    Goods goods = goodsList.get(i);
+                    String goodsName = goods.getName();
+                    BigInteger id = BigInteger.valueOf(goods.getId());
+                    Spread spread1 = new Spread();
+                    spread1.setGoodsId(id);
+                    spread1.setGoodsName(goodsName);
+                    spread1.setUserName(employee.getName());
+                    String urlPath = publishUrl +
+                            "/toShopping/" + path + "/" + id;
+                    spread1.setUrl(urlPath);
+                    spreadList.add(spread1);
+                }
+
+
+            }
+        }
+        Integer begin = page * size;
+        Integer end = (page+1) * size - 1 ;
+        List<Spread> spreadList1 = new ArrayList<Spread>();
+        for (int i = begin ; i <= end && i< spreadList.size(); i++){
+            spreadList1.add(spreadList.get(i));
+        }
+        bpr.setResult(spreadList1);
+        bpr.setTotalCount(Long.valueOf(spreadList.size()));
+        return bpr;
+    }
+
     @Override
     public BasePageResult getSpread(Spread spread) throws Exception {
         BasePageResult bpr = new BasePageResult();

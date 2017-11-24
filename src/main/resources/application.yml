@@ -17,6 +17,8 @@ publish_url: http://localhost:8888/manage
 pic_address: D:/managePic
 #cookie保存时间 天
 cookie_timeout: 15
+#微信
+weixin: weixinhao
 
 #应用实体类所在的位置
 entityLocation: com.zqw.order.manage.domain.s
@@ -53,23 +55,24 @@ spring:
     permission:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/order
+      url: jdbc:mysql://127.0.0.1:3306/order?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
       username: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA== 
       password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA== 
       #password: lNW86aJhyGeKSP8+ZJLuUR6nCGZjPLEzEudapBC8VOT5PCE7Pt3A4XLfg8QzXI2uhjR+9VU4Rin6U0VIyeCgNg== 
        # 使用druid数据源
-      maxActive: 20
-      initialSize: 1
+      maxActive: 300
+      initialSize: 30
       maxWait: 60000
-      minIdle: 1
+      useUnfairLock: true
+      minIdle: 30
       timeBetweenEvictionRunsMillis: 60000
       minEvictableIdleTimeMillis: 300000
-      validationQuery: select 'x'
+      validationQuery: select 1
       testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
+      testOnBorrow: true
+      testOnReturn: true
       # 打开PSCache，并且指定每个连接上PSCache的大小 
-      poolPreparedStatements: true
+      poolPreparedStatements: false
       maxOpenPreparedStatements: 20
      
       maxPoolPreparedStatementPerConnectionSize: 20

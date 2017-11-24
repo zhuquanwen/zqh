@@ -1,7 +1,6 @@
 package com.zqw.order.manage.config;
 
-import javax.sql.DataSource;
-
+import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -9,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import javax.sql.DataSource;
 /**
 *@auhor:zhuquanwen
 *@date:2016年12月1日
@@ -18,6 +17,8 @@ import com.alibaba.druid.pool.DruidDataSource;
 @SuppressWarnings("Duplicates")
 @Configuration
 public class DataSourceConfig {
+	@Value("${spring.datasource.permission.useUnfairLock}")
+	private boolean useUnfairLock;
 	@Value("${spring.datasource.permission.url}")  
 	private String url; 
 	@Value("${spring.datasource.permission.driver-class-name}")  
@@ -118,6 +119,7 @@ public class DataSourceConfig {
 		dds.setMaxActive(maxActive);
 		dds.setInitialSize(initialSize);
 		dds.setMaxWait(maxWait);
+		dds.setUseUnfairLock(useUnfairLock);
 		dds.setMinIdle(minIdle);
 		dds.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
 		dds.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);

@@ -9,6 +9,7 @@ import com.zqw.order.manage.model.Spread;
  * @desc:
  */
 public interface SpreadService {
+    BasePageResult getSpread(Spread spread, String publishUrl) throws Exception;
     BasePageResult getSpread(Spread spread) throws Exception;
     String getUsernameByPath(String path) throws Exception;
 }

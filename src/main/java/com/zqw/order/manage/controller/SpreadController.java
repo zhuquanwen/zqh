@@ -37,13 +37,14 @@ public class SpreadController extends BaseController {
     public BasePageResult<List<Spread>> spread(HttpSession session, Spread spread) throws AjaxException {
         BasePageResult<List<Spread>> bpr = null;
         try{
-            bpr = spreadService.getSpread(spread);
-            List<Spread> spreadList = bpr.getResult();
-            spreadList.forEach(spread1 -> {
-                String path = publishUrl;
-                path += "/toShopping/" + spread1.getUrl() + "/" + spread1.getGoodsId();
-                spread1.setUrl(path);
-            });
+//            bpr = spreadService.getSpread(spread);
+//            List<Spread> spreadList = bpr.getResult();
+//            spreadList.forEach(spread1 -> {
+//                String path = publishUrl;
+//                path += "/toShopping/" + spread1.getUrl() + "/" + spread1.getGoodsId();
+//                spread1.setUrl(path);
+//            });
+            bpr = spreadService.getSpread(spread, publishUrl);
         }catch (Exception e){
             e.printStackTrace();
             throw new AjaxException();

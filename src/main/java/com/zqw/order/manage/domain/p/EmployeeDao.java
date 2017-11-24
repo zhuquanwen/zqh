@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @desc:
  */
 public interface EmployeeDao extends JpaRepository<Employee,Long>, JpaSpecificationExecutor<Employee>{
+    Employee findByName(String name);
 }

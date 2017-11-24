@@ -40,6 +40,8 @@ public class ShoppingController extends BaseController {
     private String picAddress;
     @Value("${server.context-path")
     private String contextPath;
+    @Value("${weixin}")
+    private String weixin;
     private static String GOODS_DESCRIPTOR = "GOODS_DESCRIPTOR";
     private static String USER_INFO = "USER_INFO";
     private static String GOODS_ID = "GOODS_ID";
@@ -48,6 +50,7 @@ public class ShoppingController extends BaseController {
     private static String CLOTH_SIZE_COMBOBOX = "CLOTH_SIZE_COMBOBOX";
     private static String STYLE_COMBOBOX = "STYLE_COMBOBOX";
     private static String CONTEXT_PATH = "CONTEXT_PATH";
+    private static final String WEIXIN = "WEIXIN";
     @Autowired
     private GoodsService goodsService;
     @Autowired
@@ -115,6 +118,7 @@ public class ShoppingController extends BaseController {
             mav.addObject(VIEW_IMGS, imgs);
             mav.addObject(GOODS_NAME, goods.getName());
             mav.addObject(USER_INFO, userInfo);
+            mav.addObject(WEIXIN, weixin);
 //            List<ClothSize> clothSizeList = clothSizeService.findAll();
             String sql = "select t1.sum,t1.goods_id,t4.name,t2.name as clothSize,t2.id  from t_stock t1,t_cloth_size t2,t_goods t4 where t1.cloth_size_id =" +
                     "  t2.id  and t1.goods_id = t4.id and t4.id= @id";
