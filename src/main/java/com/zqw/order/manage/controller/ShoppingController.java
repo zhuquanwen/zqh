@@ -248,7 +248,7 @@ public class ShoppingController extends BaseController {
             e.printStackTrace();
             throw new PageException();
         }
-        mav.setViewName("redirect:shoppingEdit?id=" + id);
+        mav.setViewName("redirect:shoppingEdit?id=" + id + "&random=" + String.valueOf(Math.random()));
         return mav;
     }
 }

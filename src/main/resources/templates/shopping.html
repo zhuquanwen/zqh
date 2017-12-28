@@ -73,7 +73,7 @@
             </div>
             <div class="b1">
                 <p>电话卡充值类型</p>
-                <div class="niu">
+                <div class="niu" style="border: 1px solid;padding: 5px;">
                     <p><input type="radio" name="cardType" value="2"></input>联通充值卡</p>
                     <p><input type="radio" name="cardType" value="1" checked="checked"></input>移动充值卡</p>
                     <p><input type="radio" name="cardType" value="3"></input>电信充值卡</p>
@@ -82,7 +82,7 @@
             </div>
             <div class="b1">
                 <p>地址 务必填写正确的收货地址如有缺少不予发货&nbsp;<span style="color:#F00;">*</span></p>
-                <div class="add">
+                <div class="add" >
                     <div>
                         <select id="cmbProvince" name="cmbProvince">
                             <!--<option value="-1">-省/自治区/直辖市-</option>-->
@@ -117,7 +117,7 @@
             </div>
             <div class="b1 gai">
                 <p class="xiug">选择款式 <span style="color:#F00;">*</span> </p>
-                <input type="hidden" class="attid" value="41"/>
+                <input type="hidden" class="attid" value="41" />
                 <select size="1" class="attr" id="style" >
                     <div th:each="style : ${STYLE_COMBOBOX}">
                         <option th:value="${style.name}" th:text="${style.name}"></option>
@@ -140,7 +140,7 @@
             <div class="b1 gai">
                 <p class="xiug">选择尺码 <span style="color:#F00;">*</span> </p>
                 <input type="hidden" class="attid" value="42"/>
-                <select size="1" name="clothSize" class="attr" id="clothSize" >
+                <select size="1" name="clothSize" class="attr" id="clothSize"  >
                     <div th:each="clothSize : ${CLOTH_SIZE_COMBOBOX}">
                         <option th:value="${clothSize.name}" th:text="${clothSize.name}"></option>
                     </div>
@@ -167,8 +167,8 @@
             </div>
             <div class="b1">
                 <p>邮费自理&nbsp;<span style="color:#F00;">*</span></p>
-                <div class="niu">
-                    <p><input type="radio" name="items" value="1"/> <strong>请接受运费自理（运费在19-29元之间，收到货支付给快递员即可，超过29元可拒收，不接受运费不予发货！）</strong></p>
+                <div class="niu" style="border: 1px solid;padding: 5px;">
+                    <p><input type="radio" name="items" value="1"/> <strong>请接受运费自理（运费在19-33元之间，收到货支付给快递员即可，超过33元可拒收，不接受运费不予发货！）</strong></p>
                 </div>
             </div>
 

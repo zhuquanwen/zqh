@@ -5,7 +5,6 @@ package com.zqw.order.manage.util;
  * @date: 2017/11/3 14:33
  * @desc:
  */
-import com.alibaba.druid.filter.config.ConfigTools;
 import org.springframework.util.StringUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -36,21 +35,21 @@ import java.security.SecureRandom;
  */
 public class EncodeUtils {
 
-    public static void main(String[] args) throws Exception {
-        String content = "我爱你";
-        System.out.println("加密前：" + content);
-
-        String key = "123456";
-        System.out.println("加密密钥和解密密钥：" + key);
-
-        String encrypt = aesEncrypt(content, key);
-        System.out.println("加密后：" + encrypt);
-
-        String decrypt = aesDecrypt(encrypt, key);
-        System.out.println("解密后：" + decrypt);
-
-        System.out.println(ConfigTools.encrypt("ROOT"));
-    }
+//    public static void main(String[] args) throws Exception {
+//        String content = "我爱你";
+//        System.out.println("加密前：" + content);
+//
+//        String key = "123456";
+//        System.out.println("加密密钥和解密密钥：" + key);
+//
+//        String encrypt = aesEncrypt(content, key);
+//        System.out.println("加密后：" + encrypt);
+//
+//        String decrypt = aesDecrypt(encrypt, key);
+//        System.out.println("解密后：" + decrypt);
+//
+//        System.out.println(ConfigTools.encrypt("root123"));
+//    }
 
     /**
      * 将byte[]转为各种进制的字符串

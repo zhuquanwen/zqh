@@ -1,9 +1,6 @@
 package com.zqw.order.manage.util;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
@@ -43,7 +40,7 @@ public class JacksonUtils {
     public static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
         return om.getTypeFactory().constructParametricType(collectionClass, elementClasses);
         }
-    public static void main(String[] args){
-        System.out.print(11111);
-    }
+//    public static void main(String[] args){
+//        System.out.print(11111);
+//    }
 }

@@ -12,9 +12,9 @@ logging.config: classpath:logback.xml
 #管理员用户名密码
 usr_pwd: zqh,zqh;admin,admin
 #对外发布地址
-publish_url: http://localhost:80/manage
+publish_url: http://www.nordicage.com/manage
 #图片保存地址，暂时不做分布式，保存在服务本地
-pic_address: D:/managePic
+pic_address: /mydata/managePic
 #cookie保存时间 天
 cookie_timeout: 15
 #微信
@@ -55,10 +55,12 @@ spring:
     permission:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/order?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+      url: jdbc:mysql://127.0.0.1:3306/zqh?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+#      url: jdbc:mysql://aesnwunpdxst.mysql.sae.sina.com.cn:10403/zqh?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
       username: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA== 
-      password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA== 
-      #password: lNW86aJhyGeKSP8+ZJLuUR6nCGZjPLEzEudapBC8VOT5PCE7Pt3A4XLfg8QzXI2uhjR+9VU4Rin6U0VIyeCgNg== 
+#      password: QayZvYFf8j1k6qISOAwo7kraRGwz0ds1hqkO+92tM37XOyZ+Naiu8lqmc6QWvI7G5sCo8UIAApqLD6pNsFjuSQ==
+#      password: lNW86aJhyGeKSP8+ZJLuUR6nCGZjPLEzEudapBC8VOT5PCE7Pt3A4XLfg8QzXI2uhjR+9VU4Rin6U0VIyeCgNg==
+      password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
        # 使用druid数据源
       maxActive: 300
       initialSize: 30
@@ -88,9 +90,11 @@ spring:
     app:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/order
-      username: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA== 
-      password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA== 
+      url: jdbc:mysql://127.0.0.1:3306/zqh
+#      url: jdbc:mysql://aesnwunpdxst.mysql.sae.sina.com.cn:10403/zqh?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+      username: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
+      password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
+#      password: QayZvYFf8j1k6qISOAwo7kraRGwz0ds1hqkO+92tM37XOyZ+Naiu8lqmc6QWvI7G5sCo8UIAApqLD6pNsFjuSQ==
       #password: lNW86aJhyGeKSP8+ZJLuUR6nCGZjPLEzEudapBC8VOT5PCE7Pt3A4XLfg8QzXI2uhjR+9VU4Rin6U0VIyeCgNg== 
        # 使用druid数据源
      

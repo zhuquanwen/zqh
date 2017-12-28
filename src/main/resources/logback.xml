@@ -19,7 +19,7 @@
            stdout将日志信息输出到控制上，为方便开发测试使用
     -->
     <contextName>SpringBootDemo</contextName>
-    <property name="LOG_PATH" value="D:/testLog" />
+    <property name="LOG_PATH" value="/mydata/testLog" />
     <!--设置系统日志目录-->
     <property name="APPDIR" value="appLog" />
 

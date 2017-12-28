@@ -1,6 +1,7 @@
 
 $(function(){
     $("#tijiao").click(function(){
+        $("#tijiao").attr("disabled",true);
         var arrPerson=new Array();
         var id      = $("#id").val();
         var typeid  = $("#typeid").val();
@@ -104,7 +105,7 @@ $(function(){
 
             success:function(data){
                 if(200 == data.status){
-                    alert("提交成功");
+                    // alert("提交成功");
                     /*window.location.href = contextPath + "/search";*/
                     $("#page").css("display","none");
                     $("#page2").css("display","block");

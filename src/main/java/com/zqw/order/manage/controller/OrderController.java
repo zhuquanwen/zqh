@@ -10,7 +10,6 @@ import com.zqw.order.manage.service.ExcelExportService;
 import com.zqw.order.manage.service.ExcelReadService;
 import com.zqw.order.manage.service.SpecialServiceImpl;
 import com.zqw.order.manage.service.api.*;
-import com.zqw.order.manage.util.EncodeUtils;
 import com.zqw.order.manage.util.JacksonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -92,7 +91,7 @@ public class OrderController extends BaseController {
                     mav.setViewName("login");
                 }else{
                     //记录session
-                    session.setAttribute(USER_SESSION, EncodeUtils.aesEncrypt(username,encodeKey));
+                    session.setAttribute(USER_SESSION, username /*EncodeUtils.aesEncrypt(username,encodeKey)*/);
 
                     //跳转到刚才点击的页面上去
                     String uri = (String) session.getAttribute(TARGET_URL);

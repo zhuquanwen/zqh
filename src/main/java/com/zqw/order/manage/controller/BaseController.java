@@ -5,7 +5,6 @@ import com.zqw.order.manage.domain.p.Style;
 import com.zqw.order.manage.entity.PageException;
 import com.zqw.order.manage.service.api.ClothSizeService;
 import com.zqw.order.manage.service.api.StyleService;
-import com.zqw.order.manage.util.EncodeUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletContext;
@@ -60,7 +59,7 @@ public class BaseController {
                 session.setAttribute(TARGET_URL, url);
                 return "redirect:login";
             }
-            String username = EncodeUtils.aesDecrypt(desUsername, encodeKey);
+            String username = desUsername/*EncodeUtils.aesDecrypt(desUsername, encodeKey)*/;
             if(username == null){
                 session.setAttribute(TARGET_URL, url);
                 return "redirect:login";
